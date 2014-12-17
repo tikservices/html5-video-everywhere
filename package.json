@@ -1,0 +1,69 @@
+{
+  "name": "html5-video-everywhere",
+  "title": "HTML5 Video Everywhere!",
+  "id": "html5-video-everywhere@lejenome.me",
+  "description": "Replace video player with Firefox native video player",
+  "author": "Moez Bouhlel <bmoez.j@gmail.com> (http://lejenome.github.io/",
+  "homepage": "https://github.com/lejenome/html5-video-everywhere",
+  "license": "MPL 2.0",
+  "version": "0.1",
+  "permissions": {
+    "private-browsing": true
+  },
+  "preferences": [
+    {
+      "name": "preferredCodec",
+      "title": "Preferred Codec",
+      "type": "menulist",
+      "value": 0,
+      "options": [
+        {
+          "label": "WebM",
+          "value": "0"
+        },
+        {
+          "label": "Mp4",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "name": "preferredQuality",
+      "title": "Preferred Quality",
+      "type": "menulist",
+      "value": 0,
+      "options": [
+        {
+          "label": "360p",
+          "value": "0"
+        },
+        {
+          "label": "720p",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "name": "volume",
+      "title": "Volume",
+      "type": "integer",
+      "value": 100
+    },
+    {
+      "name": "disableEmbed",
+      "title": "Disable for Embed Youtube",
+      "description": "Use default youtube video player for embed videos",
+      "type": "bool",
+      "value": false,
+      "hidden": true
+    },
+    {
+      "name": "dontPlayNext",
+      "title": "Do not play next Item",
+      "description": "Do not tell youtube that video reached the end, so it will no play the next Video on playlist mode",
+      "type": "bool",
+      "value": false,
+      "hidden": true
+    }
+  ]
+}
