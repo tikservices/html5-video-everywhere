@@ -1,19 +1,14 @@
 /* jshint esnext: true */
-/* globals self */
-//This Addons Preferences
-var OPTIONS = {};
+/* globals self , onPrefChange, OPTIONS*/
 //Youtube video formats sorted as preferred
 var PREF_FORMATS = [];
-// will be defined on youtube.js later
-var prefChangeHandler = function() {};
 (function() {
     "use strict";
-    self.port.on("preferences", function(prefs) {
-        OPTIONS = prefs;
-        generatePrefFormats();
-    });
+    onPrefChange.push(generatePrefFormats);
 
-    function generatePrefFormats() {
+    function generatePrefFormats(pref) {
+        if (pref && pref !== "preferredCodec" && pref !== "preferredQuality")
+            return;
         var FORMT = [
             [
                 "43",
@@ -46,12 +41,6 @@ var prefChangeHandler = function() {};
         PREF_FORMATS.push(FORMT[x.i][y.i + y.n]);
         PREF_FORMATS.push(FORMT[x.i + x.n][y.i + y.n]);
     }
-    self.port.on("prefChanged", function(pref) {
-        OPTIONS[pref.name] = pref.value;
-        if (pref.name === "preferredCodec" || pref.name === "preferredQuality")
-            generatePrefFormats();
-        prefChangeHandler(pref);
-    });
 }());
 var FORMATS = {
     "18": {

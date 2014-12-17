@@ -1,4 +1,4 @@
-/*globals videojs, PREF_FORMATS, FORMATS, OPTIONS*/
+/*globals videojs, PREF_FORMATS, FORMATS, OPTIONS, asyncGet, createNode, onPrefChange*/
 (function() {
     "use strict";
     var player, player_container;
@@ -13,17 +13,16 @@
         window.addEventListener("spfdone", function() {
             changePlayer();
         });
-        window.prefChangeHandler = function(pref) {
-            if (player && pref.name === "volume") {
-                player[pref.name] = pref.value / 100;
+        onPrefChange.push(function(pref) {
+            if (player && pref === "volume") {
+                player[name] = OPTIONS[pref] / 100;
             }
-        };
+        });
     }
 
     function changePlayer() {
         getConfig()
             .then(getVideoInfo)
-            .then(processInfo)
             .then(function(conf) {
                 try {
                     if (player_container)
@@ -92,8 +91,9 @@
         });
     }
 
-    function processInfo([conf, data]) {
-        return new Promise(function(resolve, reject) {
+    function getVideoInfo(conf) {
+        var INFO_URL = "https://www.youtube.com/get_video_info?hl=en_US&el=detailpage&video_id=";
+        return asyncGet(INFO_URL + conf.id, {}, "text/plain").then(function(data) {
             var poster = data.match(/iurlhq=([^&]*)/);
             if (poster)
                 conf.poster = decodeURIComponent(poster[1]);
@@ -117,32 +117,12 @@
                 if (formats[PREF_FORMATS[i]]) {
                     conf.url = formats[PREF_FORMATS[i]].url;
                     conf.type = formats[PREF_FORMATS[i]].type;
-                    resolve(conf);
+                    return Promise.resolve(conf);
                     break;
                 }
         });
     }
 
-    function getVideoInfo(conf) {
-        return new Promise(function(resolve, reject) {
-            var INFO_URL = "https://www.youtube.com/get_video_info?hl=en_US&el=detailpage&video_id=";
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", INFO_URL + conf.id, true);
-            if (xhr.overrideMimeType)
-                xhr.overrideMimeType("text/plain");
-            xhr.onload = function() {
-                if (this.status !== 200) {
-                    reject(this.status);
-                    return;
-                }
-                resolve([conf, this.responseText]);
-            };
-            xhr.onerror = function() {
-                reject();
-            };
-            xhr.send();
-        });
-    }
     try {
         if (document.readyState !== "loading")
             main();
