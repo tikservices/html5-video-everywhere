@@ -1,4 +1,7 @@
+(function() {
     "use strict";
+
+    onReady(main);
 
     function main() {
 
@@ -39,4 +42,4 @@
         document.body.innerHTML = "";
         document.body.appendChild(player);
     }
-    onReady(main);
+}());
