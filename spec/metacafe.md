@@ -3,7 +3,7 @@
 
 **URL:**
 - [x] `metacafe.com/watch/<VIDEO_ID>/<TITLE>`
-- [ ] `metacafe.com/<CHANNEL_NAME>`
+- [ ] `metacafe.com/<CHANNEL_NAME>` #6
 
 **SWF:**
 - [ ] `s.mcstatic.com/Flash/vp/mc/Portal_4.0.2.5.swf`
