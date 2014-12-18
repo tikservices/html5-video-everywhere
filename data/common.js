@@ -16,6 +16,7 @@ self.port.on("prefChanged", function(pref) {
 });
 
 function createNode(type, obj, data, style) {
+    logify("createNode", type, obj);
     var node = document.createElement(type);
     if (obj)
         for (var opt in obj)
@@ -33,6 +34,7 @@ function createNode(type, obj, data, style) {
 }
 
 function asyncGet(url, headers, mimetype) {
+    logify("asyncGet", url);
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);

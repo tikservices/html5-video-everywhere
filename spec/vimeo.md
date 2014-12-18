@@ -1,6 +1,6 @@
 **URL:**
-- [ ] `vimeo.com/channels/<CHANNEL_NAME>`
-- [ ] `player.vimeo.com/video/<VIDEO_ID>`
+- [x] `vimeo.com/channels/<CHANNEL_NAME>`
+- [x] `player.vimeo.com/video/<VIDEO_ID>`
 - [x] `vimeo.com/<VIDEO_ID>`
 
 **API:**
