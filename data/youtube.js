@@ -1,4 +1,4 @@
-/*globals videojs, PREF_FORMATS, FORMATS, OPTIONS, asyncGet, createNode, onPrefChange*/
+/*globals PREF_FORMATS, FORMATS*/
 (function() {
     "use strict";
     var player, player_container;

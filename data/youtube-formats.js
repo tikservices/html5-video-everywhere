@@ -1,5 +1,3 @@
-/* jshint esnext: true */
-/* globals self , onPrefChange, OPTIONS*/
 //Youtube video formats sorted as preferred
 var PREF_FORMATS = [];
 (function() {

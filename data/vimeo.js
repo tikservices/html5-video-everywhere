@@ -1,4 +1,3 @@
-/*globals videojs, PREF_FORMATS, FORMATS, OPTIONS, createNode, asyncGet, logify*/
 (function() {
     "use strict";
 
@@ -8,11 +7,8 @@
     }
 
     function injectPlayer(conf) {
-        logify("injectPlayer", conf);
         try {
             var player_container, player;
-            //                    if (player_container )
-            //                        player_container.innerHTML = "";
             if (conf.isEmbed) {
                 player_container = document.body;
                 player_container.innerHTML = "";
@@ -28,6 +24,7 @@
             var player_opt = {
                 className: conf.className,
                 controls: true,
+                poster: conf.poster,
                 volume: OPTIONS.volume / 100
             };
             player = createNode("video", player_opt);
@@ -74,7 +71,7 @@
         function processData(conf) {
             return function(data) {
                 data = JSON.parse(data);
-                conf.poster = data.video.thumbs.base + ".jpg";
+                conf.poster = data.video.thumbs.base;
                 conf.url = data.request.files.h264.sd.url;
                 return Promise.resolve(conf);
             };

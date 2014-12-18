@@ -1,4 +1,4 @@
-/* global self */
+/* global OPTIONS:true, onPrefChange:true */
 // common functions
 "use strict";
 

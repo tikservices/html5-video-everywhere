@@ -5,7 +5,7 @@
   "curly": false,
   "eqeqeq": true,
   "freeze": true,
-  "forin": true,
+  "forin": false,
   "immed": true,
   "indent": 4,
   "latedef": "nofunc",
@@ -51,5 +51,13 @@
   "validthis": false,
   "browser": true,
   "devel": true,
-  "node": true
+  "node": true,
+  "predef": [
+    "OPTIONS",
+    "logify",
+    "onPrefChange",
+    "self",
+    "createNode",
+    "asyncGet"
+  ]
 }
