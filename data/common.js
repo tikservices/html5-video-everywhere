@@ -61,3 +61,14 @@ function asyncGet(url, headers, mimetype) {
 function logify(...args) {
     console.log.apply(console, args.map(s => JSON.stringify(s, null, 2)));
 }
+
+function onReady(f) {
+    try {
+        if (document.readyState !== "loading")
+            f();
+        else
+            document.addEventListener("DOMContentLoaded", f);
+    } catch (e) {
+        console.error("Exception", e.lineNumber, e.columnNumber, e.message, e.stack);
+    }
+}

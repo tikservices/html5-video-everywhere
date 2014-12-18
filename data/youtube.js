@@ -19,6 +19,7 @@
             }
         });
     }
+    onReady(main);
 
     function changePlayer() {
         getConfig()
@@ -121,14 +122,5 @@
                     break;
                 }
         });
-    }
-
-    try {
-        if (document.readyState !== "loading")
-            main();
-        else
-            document.addEventListener("DOMContentLoaded", main);
-    } catch (e) {
-        console.error("Exception on main()", e.lineNumber, e.columnNumber, e.message, e.stack);
     }
 }());

@@ -5,6 +5,7 @@
         getConfig()
             .then(getVideoInfo);
     }
+    onReady(main);
 
     function injectPlayer(conf) {
         try {
@@ -89,13 +90,5 @@
         } else {
             return asyncGet(INFO_URL + conf.id + "/config").then(processData(conf)).then(injectPlayer);
         }
-    }
-    try {
-        if (document.readyState !== "loading")
-            main();
-        else
-            document.addEventListener("DOMContentLoaded", main);
-    } catch (e) {
-        console.error("Exception on main()", e.lineNumber, e.columnNumber, e.message, e.stack);
     }
 }());

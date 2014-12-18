@@ -6,8 +6,8 @@ list of sites to support:
   - Vimeo
     [[status](https://github.com/lejenome/html5-video-everywhere/milestones/Vimeo Support)]
   - Yahoo screen
-  - DailyMontion
-    [[status](https://github.com/lejenome/html5-video-everywhere/milestones/DailyMontion Support)]
+  - Dailymotion
+    [[status](https://github.com/lejenome/html5-video-everywhere/milestones/Dailymotion Support)]
   - liveleak
   - Vine
   - ustream

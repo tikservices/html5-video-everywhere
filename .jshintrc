@@ -58,6 +58,7 @@
     "onPrefChange",
     "self",
     "createNode",
+    "onReady",
     "asyncGet"
   ]
 }
