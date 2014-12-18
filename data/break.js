@@ -7,7 +7,7 @@
 
         var url_r = /"videoUri":\s*"([^"]*)"/;
         var url = (document.head.innerHTML.match(url_r) || ["", ""])[1];
-        if (url === undefined)
+        if (url === "")
             return;
         var player = createNode("video", {
             //	preload: true,

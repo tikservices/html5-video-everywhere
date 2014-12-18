@@ -7,12 +7,14 @@ A wichlist of Sites to support:
     [[status](https://github.com/lejenome/html5-video-everywhere/milestones/Vimeo Support)]
   - Dailymotion
     [[status](https://github.com/lejenome/html5-video-everywhere/milestones/Dailymotion Support)]
-  - break
+  - Break
     [[status](https://github.com/lejenome/html5-video-everywhere/milestones/Break Support)]
+  - Metacafe
+    [[status](https://github.com/lejenome/html5-video-everywhere/milestones/Metacafe Support)]
   - Yahoo screen
+  - Youku
   - Vine
-  - metacafe
-  - liveleak
+  - Liveleak
   - ustream
 
 For current status of sites in progress, view [spec/](spec/) folder.
