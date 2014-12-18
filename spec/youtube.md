@@ -1,4 +1,4 @@
-URL:
+**URL:**
 - [x] `www.youtube.com/v/<VIDEO_ID>`
 - [x] `www.youtube.com/watch?v=<VIDEO_ID>`
 - [x] `www.youtube.com/embed/<VIDEO_ID>`
@@ -7,7 +7,7 @@ URL:
 - [ ] `www.youtube.com/embed?listType=user_uploads&list=<USERNAME>`
 - [ ] `www.youtube.com/embed?listType=search&list=<QUERY>`
 
-QUERY:
+**QUERY:**
 - autoplay 1,0
 - autohide 0,1,2
 - color
@@ -18,5 +18,6 @@ QUERY:
 - loop 0,1
 - playlist
 - start
-API:
+
+**API:**
 more @ https://developers.google.com/youtube/player_parameters
