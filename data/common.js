@@ -13,12 +13,12 @@ var Qlt = ["higher",
 var Cdc = ["webm", "mp4"];
 self.port.on("preferences", function(prefs) {
     OPTIONS = prefs;
-    onPrefChange.map(f => f());
+    onPrefChange.forEach(f => f());
 });
 
 self.port.on("prefChanged", function(pref) {
     OPTIONS[pref.name] = pref.value;
-    onPrefChange.map(f => f(pref.name));
+    onPrefChange.forEach(f => f(pref.name));
 });
 
 function getPreferredFmt(fmts, wrapper = {}) {
