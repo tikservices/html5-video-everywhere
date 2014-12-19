@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    onReady(main);
+    onInit(main);
 
     function main() {
         var params = document.body.innerHTML.match(/\"params\",(\"[^\"]*\")/)[1];

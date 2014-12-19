@@ -91,11 +91,23 @@ function onReady(f) {
     //TODO: document readyState is "loading" (and DOMECotentLoaded) even DOM elements are
     //accessible
     try {
-        if (document.readyState !== "loading")
+        if (document.readyState !== "loading") {
             f();
-        else
+        } else {
             document.addEventListener("DOMContentLoaded", f);
+        }
     } catch (e) {
         console.error("Exception", e.lineNumber, e.columnNumber, e.message, e.stack);
     }
+}
+
+function onInit(f) {
+    // code running on when="ready" mode or does not need until onReady
+    // execc but depend on preferences, need to wrapped to this funct.
+    // need
+    function F() {
+        document.onafterscriptexecute = undefined;
+        f();
+    }
+    document.onafterscriptexecute = F;
 }
