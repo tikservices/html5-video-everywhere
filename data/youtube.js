@@ -95,29 +95,35 @@
     function getVideoInfo(conf) {
         var INFO_URL = "https://www.youtube.com/get_video_info?hl=en_US&el=detailpage&video_id=";
         return asyncGet(INFO_URL + conf.id, {}, "text/plain").then(function(data) {
+            // get the poster url
             var poster = data.match(/iurlhq=([^&]*)/);
             if (poster)
                 conf.poster = decodeURIComponent(poster[1]);
+            // extract avalable formats to fmts object
             var info = data.match(/url_encoded_fmt_stream_map=([^&]*)/)[1];
             info = decodeURIComponent(info);
-            var formats = {};
-            info.split(",").forEach(function(f, i) {
-                var itag = f.match(/itag=([^&]*)/)[1];
-                var url = decodeURIComponent(f.match(/url=([^&]*)/)[1]);
-                var type = decodeURIComponent(f.match(/type=([^&]*)/)[1]);
-                type = type.replace("+", " ", "g");
-                if (player.canPlayType(type) === "probably")
-                    formats[itag] = {
-                        url: url,
-                        type: type
-                    };
-            });
+            var fmts = {};
+            info.split(",")
+                .map(it1 => {
+                    var oo = {};
+                    it1.split("&")
+                        .map(it2 => it2.split("="))
+                        .map(it3 => [it3[0], decodeURIComponent(it3[1])])
+                        .forEach(it4 => oo[it4[0]] = it4[1]);
+                    return oo;
+                })
+                .filter(it5 => (player.canPlayType(
+                    (it5.type = it5.type.replace("+", " ", "g"))
+                ) === "probably"))
+                .forEach(fmt => fmts[fmt.itag] = fmt);
+            logify(fmts);
+            // choose best format from fmts onject
             if (Object.keys(FORMATS).length < 1)
                 return Promise.reject();
             for (var i = 0; i < PREF_FORMATS.length; i++)
-                if (formats[PREF_FORMATS[i]]) {
-                    conf.url = formats[PREF_FORMATS[i]].url;
-                    conf.type = formats[PREF_FORMATS[i]].type;
+                if (fmts[PREF_FORMATS[i]]) {
+                    conf.url = fmts[PREF_FORMATS[i]].url;
+                    conf.type = fmts[PREF_FORMATS[i]].type;
                     return Promise.resolve(conf);
                     break;
                 }
