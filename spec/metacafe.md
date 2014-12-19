@@ -7,3 +7,4 @@
 
 **SWF:**
 - [ ] `s.mcstatic.com/Flash/vp/mc/Portal_4.0.2.5.swf`
+- [ ] `metacafe.com/fplayer/<VIDEO_ID>/<TITLE>.swf`

@@ -4,12 +4,12 @@
     onReady(main);
 
     function main() {
-        //JSON.parse(decodeURIComponent(flashVarsCache.mediaData)).MP4.mediaURL
-        var mediaData_r = /"mediaData":\s*"([^"]*)"/;
-        var mediaData = decodeURIComponent((document.body.innerHTML.match(mediaData_r) || ["", ""])[1]);
-        if (mediaData === "")
+        var ob = document.getElementById("flashVars");
+        if (!ob)
             return;
-        var url = JSON.parse(mediaData).MP4.mediaURL;
+        var data = decodeURIComponent(ob.value.match(/&mediaData=([^&]*)&/)[1]);
+
+        var url = JSON.parse(data).MP4.mediaURL;
         var player = createNode("video", {
             //	preload: true,
             controls: true,
