@@ -29,15 +29,17 @@ function getPreferredFmt(fmts, wrapper = {}) {
         Cdc[(OPTIONS.prefCdc + 1 % 2)]
     ];
     i = OPTIONS.prefQlt;
-    do {
+    while (i > -1) {
         for (j = 0; j < 2; j++) {
             slct = Qlt[i] + "/" + _cdc[j];
             slct = wrapper[slct] || slct;
             if (fmts[slct])
                 return fmts[slct];
         }
-        i = (i + 1) % 4;
-    } while (i !== OPTIONS.prefQlt);
+        i = (i >= OPTIONS.prefQlt) ? i + 1 : i - 1;
+        if (i > 3)
+            i = OPTIONS.prefQlt - 1;
+    }
 }
 
 function createNode(type, obj, data, style) {
