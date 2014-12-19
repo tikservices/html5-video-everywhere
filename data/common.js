@@ -5,6 +5,12 @@
 //This Addons Preferences
 var OPTIONS = {};
 var onPrefChange = [];
+var Qlt = ["higher",
+    "high",
+    "medium",
+    "low"
+];
+var Cdc = ["webm", "mp4"];
 self.port.on("preferences", function(prefs) {
     OPTIONS = prefs;
     onPrefChange.map(f => f());
@@ -14,6 +20,25 @@ self.port.on("prefChanged", function(pref) {
     OPTIONS[pref.name] = pref.value;
     onPrefChange.map(f => f(pref.name));
 });
+
+function getPreferredFmt(fmts, wrapper = {}) {
+    // for example of the optional wrapper, see data/youtube-formats.js
+    var i, j, slct;
+    var _cdc = [
+        Cdc[OPTIONS.prefCdc],
+        Cdc[(OPTIONS.prefCdc + 1 % 2)]
+    ];
+    i = OPTIONS.prefQlt;
+    do {
+        for (j = 0; j < 2; j++) {
+            slct = Qlt[i] + "/" + _cdc[j];
+            slct = wrapper[slct] || slct;
+            if (fmts[slct])
+                return fmts[slct];
+        }
+        i = (i + 1) % 4;
+    } while (i !== OPTIONS.prefQlt);
+}
 
 function createNode(type, obj, data, style) {
     logify("createNode", type, obj);

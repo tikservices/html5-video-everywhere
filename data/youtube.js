@@ -1,4 +1,4 @@
-/*globals PREF_FORMATS, FORMATS*/
+/*globals FMT_WRAPPER*/
 (function() {
     "use strict";
     var player, player_container;
@@ -102,7 +102,7 @@
             // extract avalable formats to fmts object
             var info = data.match(/url_encoded_fmt_stream_map=([^&]*)/)[1];
             info = decodeURIComponent(info);
-            var fmts = {};
+            var fmt, fmts = {};
             info.split(",")
                 .map(it1 => {
                     var oo = {};
@@ -116,17 +116,15 @@
                     (it5.type = it5.type.replace("+", " ", "g"))
                 ) === "probably"))
                 .forEach(fmt => fmts[fmt.itag] = fmt);
-            logify(fmts);
             // choose best format from fmts onject
-            if (Object.keys(FORMATS).length < 1)
+            fmt = getPreferredFmt(fmts, FMT_WRAPPER);
+            if (fmt === undefined) {
                 return Promise.reject();
-            for (var i = 0; i < PREF_FORMATS.length; i++)
-                if (fmts[PREF_FORMATS[i]]) {
-                    conf.url = fmts[PREF_FORMATS[i]].url;
-                    conf.type = fmts[PREF_FORMATS[i]].type;
-                    return Promise.resolve(conf);
-                    break;
-                }
+            } else {
+                conf.url = fmt.url;
+                conf.type = fmt.type;
+                return Promise.resolve(conf);
+            }
         });
     }
 }());

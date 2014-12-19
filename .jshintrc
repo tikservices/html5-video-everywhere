@@ -59,6 +59,7 @@
     "self",
     "createNode",
     "onReady",
+    "getPreferredFmt",
     "asyncGet"
   ]
 }

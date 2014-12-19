@@ -12,7 +12,7 @@
   },
   "preferences": [
     {
-      "name": "preferredCodec",
+      "name": "prefCdc",
       "title": "Preferred Codec",
       "type": "menulist",
       "value": 0,
@@ -28,18 +28,26 @@
       ]
     },
     {
-      "name": "preferredQuality",
+      "name": "prefQlt",
       "title": "Preferred Quality",
       "type": "menulist",
-      "value": 0,
+      "value": 2,
       "options": [
         {
-          "label": "360p",
+          "label": "Higher",
           "value": "0"
         },
         {
-          "label": "720p",
+          "label": "High",
           "value": "1"
+        },
+        {
+          "label": "Medium",
+          "value": "2"
+        },
+        {
+          "label": "Low",
+          "value": "3"
         }
       ]
     },
