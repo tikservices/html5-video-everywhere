@@ -105,9 +105,8 @@ function onInit(f) {
     // code running on when="ready" mode or does not need until onReady
     // execc but depend on preferences, need to wrapped to this funct.
     // need
-    function F() {
+    document.onafterscriptexecute = function() {
         document.onafterscriptexecute = undefined;
         f();
-    }
-    document.onafterscriptexecute = F;
+    };
 }
