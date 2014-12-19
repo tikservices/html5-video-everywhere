@@ -63,6 +63,8 @@ function logify(...args) {
 }
 
 function onReady(f) {
+    //TODO: document readyState is "loading" (and DOMECotentLoaded) even DOM elements are
+    //accessible
     try {
         if (document.readyState !== "loading")
             f();
