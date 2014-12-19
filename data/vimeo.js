@@ -72,8 +72,15 @@
         function processData(conf) {
             return function(data) {
                 data = JSON.parse(data);
+                var fmt = getPreferredFmt(data.request.files.h264, {
+                    "high/mp4": "hd",
+                    "medium/mp4": "sd",
+                    "low/mp4": "mobile"
+                });
+                if (fmt === undefined)
+                    return Promise.reject();
                 conf.poster = data.video.thumbs.base;
-                conf.url = data.request.files.h264.sd.url;
+                conf.url = fmt.url;
                 return Promise.resolve(conf);
             };
         }
