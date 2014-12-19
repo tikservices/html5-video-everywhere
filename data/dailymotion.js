@@ -13,18 +13,13 @@
             var r = u.match(url_r);
             urls[r[1]] = r[2].replace("\\/", "/", "g");
         });
-        var types = [
-            "stream_h264_url", // H264 512x384
-            "stream_h264_hq_url", // H264 848x480
-            "stream_h264_hd_url", // H264 1280x720
-            "stream_h264_ld_url" // H264 320x240
-        ];
-        for (var i = 0; i < types.length; i++) {
-            if (urls[types[i]]) {
-                url = urls[types[i]];
-                break;
-            }
-        }
+        var types = [];
+        url = getPreferredFmt(urls, {
+            "higher/mp4": "stream_h264_hd_url", // H264 1280x720
+            "high/mp4": "stream_h264_hq_url", // H264 848x480
+            "medium/mp4": "stream_h264_url", // H264 512x384
+            "low/mp4": "stream_h264_ld_url" // H264 320x240
+        });
         if (url === undefined)
             return;
         var poster = (document.body.innerHTML.match(/"thumbnail_url":"([^"]*)"/) || ["", ""])[1].replace("\\/", "/", "g");
