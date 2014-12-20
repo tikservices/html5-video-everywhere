@@ -55,11 +55,6 @@ const createNode = (type, prprt, data, style) => {
         Object.keys(data).forEach(d => node.dataset[d] = data[d]);
     if (style)
         Object.keys(style).forEach(s => node.style[s] = style[s]);
-    // Debugging Video elements errors.
-    if (type === "video") {
-        node.addEventListener("error", e => logify("Error on video element", e));
-        node.addEventListener("stalled", e => logify("Fetching Stoped on video element", e));
-    }
     return node;
 };
 
