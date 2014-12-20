@@ -5,6 +5,7 @@
 - [x] `vimeo.com/channels/<CHANNEL_NAME>`
 - [x] `player.vimeo.com/video/<VIDEO_ID>`
 - [x] `vimeo.com/<VIDEO_ID>`
+- [x] `vimeo.com/<USER>`
 - [ ] `vimeo.com/couchmode/user<USER_ID>/videos/sort:<SORT_TYPE>/<VIDEO_ID>`	#4
 
 **SWF:**

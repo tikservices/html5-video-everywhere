@@ -9,7 +9,7 @@
 
     function injectPlayer(conf) {
         try {
-            var player_container, player;
+            let player_container, player;
             if (conf.isEmbed) {
                 player_container = document.body;
                 player_container.innerHTML = "";
@@ -34,6 +34,11 @@
                     //                        type: conf.type
             }));
             player_container.appendChild(player);
+            onPrefChange.push(function(pref) {
+                if (player && pref === "volume") {
+                    player.volume = OPTIONS[pref] / 100;
+                }
+            });
         } catch (e) {
             console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
         }
@@ -43,7 +48,7 @@
         return new Promise(function(resolve, reject) {
             var isWatch = /https?:\/\/vimeo.com\/[\d]+/.test(location.href);
             var isEmbed = /https?:\/\/player.vimeo.com\/video/.test(location.href);
-            var isChannel = /https?:\/\/vimeo.com\/channels\/\w+/.test(location.href);
+            var isChannel = /https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href);
             if (!isWatch && !isChannel && !isEmbed)
                 reject();
             var player_id, player_class;
