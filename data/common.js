@@ -1,9 +1,9 @@
 /* global OPTIONS:true, onPrefChange:true */
-// common functions
 "use strict";
 
 //This Addons Preferences
 var OPTIONS = {};
+// push your prefernces change listner function to this table, yah the old way
 var onPrefChange = [];
 var Qlt = ["higher",
     "high",
@@ -40,6 +40,7 @@ function getPreferredFmt(fmts, wrapper = {}) {
         if (i > 3)
             i = OPTIONS.prefQlt - 1;
     }
+    logify("Error on getPreferredFmt", fmts, wrapper);
 }
 
 function createNode(type, obj, data, style) {
@@ -74,6 +75,7 @@ function asyncGet(url, headers, mimetype) {
         xhr.onload = function() {
             if (this.status !== 200) {
                 reject(this.status);
+                logify("Error on asyncGet", url, headers, this.status);
                 return;
             }
             resolve(this.responseText);
