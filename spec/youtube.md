@@ -11,16 +11,16 @@
 - [ ] `www.youtube.com/embed?listType=search&list=<QUERY>`		#3
 
 **QUERY:**
-- autoplay 1,0
-- autohide 0,1,2
-- color
-- controls 0,1,2
-- enablejsapi 0,1
-- end
-- fs 0,1
-- loop 0,1
-- playlist
-- start
+- [ ] autoplay 1,0
+- [ ] autohide 0,1,2
+- [ ] color
+- [ ] controls 0,1,2
+- [ ] enablejsapi 0,1
+- [ ] end
+- [ ] fs 0,1
+- [ ] loop 0,1
+- [ ] playlist
+- [ ] start
 
 **API:**
 more @ https://developers.google.com/youtube/player_parameters

@@ -5,3 +5,6 @@
 - [x] `facebook.com/video?v=<VIDEO_ID>`
 - [x] `www.facebook.com/video?v=<VIDEO_ID>`
 - [x] `beta.facebook.com/video?v=<VIDEO_ID>`
+
+**IN PAGE EVENTS:**
+- [ ] showing a video on the PhotoViewer dialog
