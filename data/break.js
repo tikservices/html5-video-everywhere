@@ -40,6 +40,11 @@
         document.body.innerHTML = "";
         document.head.innerHTML = "";
         document.body.appendChild(player);
+        onPrefChange.push(function(pref) {
+            if (player && pref === "volume") {
+                player.volume = OPTIONS[pref] / 100;
+            }
+        });
     }
 
     function fallback() {

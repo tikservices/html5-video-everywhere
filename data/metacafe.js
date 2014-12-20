@@ -26,6 +26,11 @@
             return;
         container.innerHTML = "";
         container.appendChild(player);
+        onPrefChange.push(function(pref) {
+            if (player && pref === "volume") {
+                player.volume = OPTIONS[pref] / 100;
+            }
+        });
     }
 
     function channelPage() {

@@ -23,5 +23,10 @@
 
         document.getElementsByClassName("_53j5")[0].innerHTML = "";
         document.getElementsByClassName("_53j5")[0].appendChild(player);
+        onPrefChange.push(function(pref) {
+            if (player && pref === "volume") {
+                player.volume = OPTIONS[pref] / 100;
+            }
+        });
     }
 }());
