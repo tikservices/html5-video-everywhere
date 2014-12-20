@@ -1,16 +1,19 @@
-/* global OPTIONS:true, onPrefChange:true */
+/* global OPTIONS:true, onPrefChange:true, getPreferredFmt:true, createNode:true, asyncGet:true, onReady:true, onInit:true, handleVolChange:true, logify:true */
+// the following jshint global rule is only because jshint support for ES6 arrow
+// functions is limited
+/* global wrapper:true, args:true */
 "use strict";
 
 //This Addons Preferences
 var OPTIONS = {};
 // push your prefernces change listner function to this table, yah the old way
-var onPrefChange = [];
-var Qlt = ["higher",
+const onPrefChange = [];
+const Qlt = ["higher",
     "high",
     "medium",
     "low"
 ];
-var Cdc = ["webm", "mp4"];
+const Cdc = ["webm", "mp4"];
 self.port.on("preferences", function(prefs) {
     OPTIONS = prefs;
     onPrefChange.forEach(f => f());
@@ -21,7 +24,7 @@ self.port.on("prefChanged", function(pref) {
     onPrefChange.forEach(f => f(pref.name));
 });
 
-function getPreferredFmt(fmts, wrapper = {}) {
+const getPreferredFmt = (fmts, wrapper = {}) => {
     // for example of the optional wrapper, see data/youtube-formats.js
     var i, j, slct;
     var _cdc = [
@@ -41,35 +44,32 @@ function getPreferredFmt(fmts, wrapper = {}) {
             i = OPTIONS.prefQlt - 1;
     }
     logify("Error on getPreferredFmt", fmts, wrapper);
-}
+};
 
-function createNode(type, obj, data, style) {
-    logify("createNode", type, obj);
+const createNode = (type, prprt, data, style) => {
+    logify("createNode", type, prprt);
     var node = document.createElement(type);
-    if (obj)
-        for (var opt in obj)
-            if (obj.hasOwnProperty(opt))
-                node[opt] = obj[opt];
+    if (prprt)
+        Object.keys(prprt).forEach(p => node[p] = prprt[p]);
     if (data)
-        for (var el in data)
-            if (data.hasOwnProperty(el))
-                node.dataset[el] = data[el];
+        Object.keys(data).forEach(d => node.dataset[d] = data[d]);
     if (style)
-        for (var st in style)
-            if (style.hasOwnProperty(st))
-                node.style[st] = style[st];
+        Object.keys(style).forEach(s => node.style[s] = style[s]);
+    // Debugging Video elements errors.
+    if (type === "video") {
+        node.addEventListener("error", e => logify("Error on video element", e));
+        node.addEventListener("stalled", e => logify("Fetching Stoped on video element", e));
+    }
     return node;
-}
+};
 
-function asyncGet(url, headers, mimetype) {
+const asyncGet = (url, headers, mimetype) => {
     logify("asyncGet", url);
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
-        /* jshint forin:false */
         if (headers)
-            for (var header in headers)
-                xhr.setRequestHeader(header, headers[header]);
+            Object.keys(headers).forEach(h => xhr.setRequestHeader(h, headers[h]));
         if (mimetype && xhr.overrideMimeType)
             xhr.overrideMimeType(mimetype);
         xhr.onload = function() {
@@ -85,21 +85,20 @@ function asyncGet(url, headers, mimetype) {
         };
         xhr.send();
     });
-}
+};
 
-function logify(...args) {
+const logify = (...args) =>
     console.log.apply(console, args.map(s => JSON.stringify(s, null, 2)));
-}
 
-function handleVolChange(player) {
+const handleVolChange = player => {
     onPrefChange.push(function(pref) {
         if (player && pref === "volume") {
             player.volume = OPTIONS[pref] / 100;
         }
     });
-}
+};
 
-function onReady(f) {
+const onReady = f => {
     //TODO: document readyState is "loading" (and DOMECotentLoaded) even DOM elements are
     //accessible
     try {
@@ -111,9 +110,9 @@ function onReady(f) {
     } catch (e) {
         console.error("Exception", e.lineNumber, e.columnNumber, e.message, e.stack);
     }
-}
+};
 
-function onInit(f) {
+const onInit = f => {
     // code running on when="ready" mode or does not need until onReady
     // execc but depend on preferences, need to wrapped to this funct.
     // need
@@ -121,4 +120,4 @@ function onInit(f) {
         document.onafterscriptexecute = undefined;
         f();
     };
-}
+};
