@@ -34,11 +34,7 @@
                     //                        type: conf.type
             }));
             player_container.appendChild(player);
-            onPrefChange.push(function(pref) {
-                if (player && pref === "volume") {
-                    player.volume = OPTIONS[pref] / 100;
-                }
-            });
+            handleVolChange(player);
         } catch (e) {
             console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
         }

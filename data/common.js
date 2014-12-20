@@ -91,6 +91,14 @@ function logify(...args) {
     console.log.apply(console, args.map(s => JSON.stringify(s, null, 2)));
 }
 
+function handleVolChange(player) {
+    onPrefChange.push(function(pref) {
+        if (player && pref === "volume") {
+            player.volume = OPTIONS[pref] / 100;
+        }
+    });
+}
+
 function onReady(f) {
     //TODO: document readyState is "loading" (and DOMECotentLoaded) even DOM elements are
     //accessible

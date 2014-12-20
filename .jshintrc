@@ -61,6 +61,7 @@
     "onReady",
     "onInit",
     "getPreferredFmt",
+    "handleVolChange",
     "asyncGet"
   ]
 }

@@ -13,11 +13,7 @@
         window.addEventListener("spfdone", function() {
             changePlayer();
         });
-        onPrefChange.push(function(pref) {
-            if (player && pref === "volume") {
-                player.volume = OPTIONS[pref] / 100;
-            }
-        });
+        handleVolChange(player);
     }
     onReady(main);
 

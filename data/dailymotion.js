@@ -36,10 +36,6 @@
 
         document.body.innerHTML = "";
         document.body.appendChild(player);
-        onPrefChange.push(function(pref) {
-            if (player && pref === "volume") {
-                player.volume = OPTIONS[pref] / 100;
-            }
-        });
+        handleVolChange(player);
     }
 }());
