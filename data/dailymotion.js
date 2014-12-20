@@ -15,6 +15,7 @@
         });
         var types = [];
         url = getPreferredFmt(urls, {
+            // stream_h264_hd1080_url
             "higher/mp4": "stream_h264_hd_url", // H264 1280x720
             "high/mp4": "stream_h264_hq_url", // H264 848x480
             "medium/mp4": "stream_h264_url", // H264 512x384

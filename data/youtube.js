@@ -111,6 +111,12 @@
                 .filter(it5 => (player.canPlayType(
                     (it5.type = it5.type.replace("+", " ", "g"))
                 ) === "probably"))
+                .filter(it6 => {
+                    if (it6.url.search("signature=") > 0)
+                        return true;
+                    logify("Url without signature!!", it6);
+                    return false;
+                })
                 .forEach(fmt => fmts[fmt.itag] = fmt);
             // choose best format from fmts onject
             fmt = getPreferredFmt(fmts, FMT_WRAPPER);
