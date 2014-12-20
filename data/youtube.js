@@ -15,7 +15,7 @@
         });
         onPrefChange.push(function(pref) {
             if (player && pref === "volume") {
-                player[name] = OPTIONS[pref] / 100;
+                player.volume = OPTIONS[pref] / 100;
             }
         });
     }
