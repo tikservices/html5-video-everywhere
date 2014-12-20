@@ -13,6 +13,7 @@ A wichlist of Sites to support:
     [[status](https://github.com/lejenome/html5-video-everywhere/milestones/Metacafe Support)]
   - Yahoo screen
   - Youku
+  - Blip
   - Vine
   - Liveleak
   - ustream
