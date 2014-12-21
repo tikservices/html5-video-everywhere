@@ -2,9 +2,15 @@
 
 Not just an other HTML5 player extension.
 This extension, unlike other extensions, will replace some video streaming sites
-video player by Firefox native player. No just replaceing Flash player by the
+video player by Firefox native player. No just replacing Flash player by the
 site HTML5 player version, but, booth the site HTML5 and Flash player with Firefox
 native player.
+
+**NOTE:**
+This extension will change the page content of the supported video streaming
+sites, as a result, many extensions that depends on this content will no longer
+work as expected.
+
 
 ## Licence
 
