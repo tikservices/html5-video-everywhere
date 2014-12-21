@@ -1,9 +1,7 @@
 (function() {
     "use strict";
 
-    onReady(main);
-
-    function main() {
+    onReady(() => {
         var url_r = /"uri":\s*"([^"]*)"/;
         var width_r = /"width":\s*([^\s,]*),/;
         var height_r = /"height":\s*([^\s,]*),/;
@@ -24,7 +22,7 @@
         if (url === undefined && !(url = fallback()))
             return;
         injectPlayer(url);
-    }
+    });
 
     function injectPlayer(url) {
         var player = createNode("video", {
@@ -32,7 +30,7 @@
             autoplay: autoPlay(true),
             preload: preLoad(),
             src: url
-        }, {}, {
+        }, {
             width: "100%",
             heigth: "100%"
         });

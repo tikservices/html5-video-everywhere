@@ -1,14 +1,12 @@
 (function() {
     "use strict";
 
-    onReady(main);
-
-    function main() {
+    onReady(() => {
         if (/watch\/\d+\/.*/.test(location.pathname))
             watchPage();
         else if (/[^\/]+\/?$/.test(location.pathname))
             channelPage();
-    }
+    });
 
     function watchPage() {
         var ob = document.getElementById("flashVars");
@@ -37,7 +35,7 @@
         embed = embed[0];
         var page = embed.src;
         page = page.replace("/fplayer/", "/watch/").replace(/.swf$/, "");
-        asyncGet(page).then(function(data) {
+        asyncGet(page).then((data) => {
             var url = getURL(data);
             var player = createNode("video", {
                 autoplay: autoPlay(false),

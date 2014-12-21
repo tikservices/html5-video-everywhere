@@ -8,7 +8,8 @@
 var OPTIONS = {};
 // push your prefernces change listner function to this table, yah the old way
 const onPrefChange = [];
-const Qlt = ["higher",
+const Qlt = [
+    "higher",
     "high",
     "medium",
     "low"
@@ -46,15 +47,15 @@ const getPreferredFmt = (fmts, wrapper = {}) => {
     logify("Error on getPreferredFmt", fmts, wrapper);
 };
 
-const createNode = (type, prprt, data, style) => {
+const createNode = (type, prprt, style, data) => {
     logify("createNode", type, prprt);
     var node = document.createElement(type);
     if (prprt)
         Object.keys(prprt).forEach(p => node[p] = prprt[p]);
-    if (data)
-        Object.keys(data).forEach(d => node.dataset[d] = data[d]);
     if (style)
         Object.keys(style).forEach(s => node.style[s] = style[s]);
+    if (data)
+        Object.keys(data).forEach(d => node.dataset[d] = data[d]);
     return node;
 };
 
@@ -85,10 +86,12 @@ const asyncGet = (url, headers, mimetype) => {
 const logify = (...args) =>
     console.log.apply(console, args.map(s => JSON.stringify(s, null, 2)));
 
-const handleVolChange = player => {
-    onPrefChange.push(function(pref) {
-        if (player && pref === "volume") {
-            player.volume = OPTIONS[pref] / 100;
+const handleVolChange = () => {
+    onPrefChange.push(pref => {
+        if (pref === "volume") {
+            Array.forEach(document.getElementsByTagName("video"), el => {
+                el.volume = OPTIONS.volume / 100;
+            });
         }
     });
 };

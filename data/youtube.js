@@ -3,7 +3,7 @@
     "use strict";
     var player, player_container;
 
-    function main() {
+    onReady(() => {
         player = createNode("video");
         changePlayer();
         window.addEventListener("spfrequest", function() {
@@ -14,13 +14,12 @@
             changePlayer();
         });
         handleVolChange(player);
-    }
-    onReady(main);
+    });
 
     function changePlayer() {
         getConfig()
             .then(getVideoInfo)
-            .then(function(conf) {
+            .then((conf) => {
                 try {
                     if (player_container)
                         player_container.innerHTML = "";
@@ -32,22 +31,19 @@
                     if (!player_container)
                         return;
                     player_container.innerHTML = "";
-                    var player_opt = {
+                    player = createNode("video", {
                         id: "video_player",
-                        className: "video-js vjs-default-skin " + conf.className,
+                        className: conf.className || "",
                         autoplay: autoPlay(!conf.isEmbed),
                         preload: preLoad(),
                         controls: true,
+                        poster: conf.poster || "",
                         volume: OPTIONS.volume / 100
-                    };
-                    if (conf.isEmbed)
-                        player_opt.poster = conf.poster ? conf.poster : "";
-                    player = createNode("video", player_opt);
+                    });
                     player.appendChild(createNode("source", {
                         src: conf.url,
                         type: conf.type
                     }));
-                    //videojs(player); //TODO: use video-js custom video player
                     player_container.appendChild(player);
                 } catch (e) {
                     console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
@@ -56,7 +52,7 @@
     }
 
     function getConfig() {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             var isEmbed = location.href.search("youtube.com/embed/") > -1;
             var isWatch = location.href.search("youtube.com/watch?") > -1;
             var isChannel = location.href.search("youtube.com/channel/") > -1 || location.href.search("youtube.com/user/") > -1;
@@ -90,7 +86,7 @@
 
     function getVideoInfo(conf) {
         var INFO_URL = "https://www.youtube.com/get_video_info?hl=en_US&el=detailpage&video_id=";
-        return asyncGet(INFO_URL + conf.id, {}, "text/plain").then(function(data) {
+        return asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
             // get the poster url
             var poster = data.match(/iurlhq=([^&]*)/);
             if (poster)

@@ -1,9 +1,7 @@
 (function() {
     "use strict";
 
-    onReady(main);
-
-    function main() {
+    onReady(() => {
 
         // VIDEO_ID = location.pathname.match(/\/embed\/video\/([^_]+)/)[1];
         // asyncGet http://www.dailymotion.com/json/video/<VIDEO_ID>?fields=stream_audio_url,stream_h264_hd1080_url,stream_h264_hd_url,stream_h264_hq_url,stream_h264_ld_url,stream_h264_url,stream_hls_url,stream_live_hls_url,thumbnail_120_url,thumbnail_240_url,thumbnail_url
@@ -33,7 +31,7 @@
             preload: preLoad(),
             poster: poster,
             src: url
-        }, {}, {
+        }, {
             width: "100%",
             heigth: "100%"
         });
@@ -41,5 +39,5 @@
         document.body.innerHTML = "";
         document.body.appendChild(player);
         handleVolChange(player);
-    }
+    });
 }());

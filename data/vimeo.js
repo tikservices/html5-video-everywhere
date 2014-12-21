@@ -1,11 +1,9 @@
 (function() {
     "use strict";
 
-    function main() {
-        getConfig()
-            .then(getVideoInfo);
-    }
-    onReady(main);
+    onReady(() =>
+        getConfig().then(getVideoInfo)
+    );
 
     function injectPlayer(conf) {
         try {
@@ -22,18 +20,16 @@
             }
             if (!player_container)
                 return;
-            var player_opt = {
+            player = createNode("video", {
                 className: conf.className,
                 autoplay: autoPlay(),
                 preload: preLoad(),
                 controls: true,
                 poster: conf.poster,
                 volume: OPTIONS.volume / 100
-            };
-            player = createNode("video", player_opt);
+            });
             player.appendChild(createNode("source", {
                 src: conf.url
-                    //                        type: conf.type
             }));
             player_container.appendChild(player);
             handleVolChange(player);
@@ -43,7 +39,7 @@
     }
 
     function getConfig() {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             var isWatch = /https?:\/\/vimeo.com\/[\d]+/.test(location.href);
             var isEmbed = /https?:\/\/player.vimeo.com\/video/.test(location.href);
             var isChannel = /https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href);
@@ -72,33 +68,32 @@
     }
 
     function getVideoInfo(conf) {
-        function processData(conf) {
-            return function(data) {
-                data = JSON.parse(data);
-                var fmt = getPreferredFmt(data.request.files.h264, {
-                    "high/mp4": "hd",
-                    "medium/mp4": "sd",
-                    "low/mp4": "mobile"
-                });
-                if (fmt === undefined)
-                    return Promise.reject();
-                conf.poster = data.video.thumbs.base;
-                conf.url = fmt.url;
-                return Promise.resolve(conf);
-            };
-        }
-        var INFO_URL = "https://player.vimeo.com/video/";
+        const processData = (conf) => (data) => {
+            data = JSON.parse(data);
+            var fmt = getPreferredFmt(data.request.files.h264, {
+                "high/mp4": "hd",
+                "medium/mp4": "sd",
+                "low/mp4": "mobile"
+            });
+            if (fmt === undefined)
+                return Promise.reject();
+            conf.poster = data.video.thumbs.base;
+            conf.url = fmt.url;
+            return Promise.resolve(conf);
+        };
+        const INFO_URL = "https://player.vimeo.com/video/";
         if (conf.isChannel) {
-            return Array.map(document.getElementsByClassName("player_container"),
-                function(el) {
-                    var _conf = {};
-                    for (var va in conf)
-                        _conf[va] = conf[va];
-                    _conf.id = el.id.replace("clip_", "");
-                    return asyncGet(INFO_URL + _conf.id + "/config").then(processData(_conf)).then(injectPlayer);
-                });
+            return Array.map(document.getElementsByClassName("player_container"), (el) => {
+                var _conf = {};
+                for (var va in conf)
+                    _conf[va] = conf[va];
+                _conf.id = el.id.replace("clip_", "");
+                return asyncGet(INFO_URL + _conf.id + "/config").then(processData(_conf))
+                    .then(injectPlayer);
+            });
         } else {
-            return asyncGet(INFO_URL + conf.id + "/config").then(processData(conf)).then(injectPlayer);
+            return asyncGet(INFO_URL + conf.id + "/config").then(processData(conf))
+                .then(injectPlayer);
         }
     }
 }());
