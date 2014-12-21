@@ -28,10 +28,10 @@
             return;
         var poster = (document.body.innerHTML.match(/"thumbnail_url":"([^"]*)"/) || ["", ""])[1].replace("\\/", "/", "g");
         var player = createNode("video", {
-            //	preload: true,
             controls: true,
+            autoplay: autoPlay(),
+            preload: preLoad(),
             poster: poster,
-            //      autoplay: true,
             src: url
         }, {}, {
             width: "100%",

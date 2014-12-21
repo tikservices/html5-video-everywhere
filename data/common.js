@@ -1,7 +1,7 @@
 /* global OPTIONS:true, onPrefChange:true, getPreferredFmt:true, createNode:true, asyncGet:true, onReady:true, onInit:true, handleVolChange:true, logify:true, preLoad: true, autoPlay:true */
 // the following jshint global rule is only because jshint support for ES6 arrow
 // functions is limited
-/* global wrapper:true, args:true */
+/* global wrapper:true, args:true, auto:true */
 "use strict";
 
 //This Addons Preferences
@@ -116,7 +116,7 @@ const onInit = f => {
         f();
     };
 };
-const autoPlay = auto => ((OPTIONS.autoplay === 1 || auto === true) &&
+const autoPlay = (auto = false) => ((OPTIONS.autoplay === 1 || auto === true) &&
     OPTIONS.autoplay !== 0);
-const preLoad = auto => ((OPTIONS.preload === 1 || auto === true) &&
+const preLoad = (auto = false) => ((OPTIONS.preload === 1 || auto === true) &&
     OPTIONS.preload !== 0) ? "auto" : "metadata";

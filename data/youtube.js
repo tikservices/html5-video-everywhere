@@ -35,9 +35,9 @@
                     var player_opt = {
                         id: "video_player",
                         className: "video-js vjs-default-skin " + conf.className,
-                        controls: true,
                         autoplay: autoPlay(!conf.isEmbed),
                         preload: preLoad(),
+                        controls: true,
                         volume: OPTIONS.volume / 100
                     };
                     if (conf.isEmbed)

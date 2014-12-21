@@ -14,7 +14,8 @@
         var player = createNode("video", {
             //		preload: true,
             controls: true,
-            autoplay: true,
+            autoplay: autoPlay(true),
+            preload: preLoad(),
             src: url
         }, {}, {
             width: "100%",

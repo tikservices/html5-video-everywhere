@@ -16,8 +16,9 @@
             return;
         var url = getURL(ob.value);
         var player = createNode("video", {
+            autoplay: autoPlay(true),
+            preload: preLoad(),
             controls: true,
-            autoplay: true,
             src: url
         });
 
@@ -39,8 +40,9 @@
         asyncGet(page).then(function(data) {
             var url = getURL(data);
             var player = createNode("video", {
+                autoplay: autoPlay(false),
+                preload: preLoad(),
                 controls: true,
-                autoplay: false,
                 src: url
             });
             var container = embed.parentElement;

@@ -24,6 +24,8 @@
                 return;
             var player_opt = {
                 className: conf.className,
+                autoplay: autoPlay(),
+                preload: preLoad(),
                 controls: true,
                 poster: conf.poster,
                 volume: OPTIONS.volume / 100
