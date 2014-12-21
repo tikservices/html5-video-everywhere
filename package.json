@@ -52,6 +52,48 @@
       ]
     },
     {
+      "name": "autoplay",
+      "title": "Auto Play Video",
+      "description": "Change default behaviour of the video player of the website",
+      "type": "menulist",
+      "value": 2,
+      "options": [
+        {
+          "label": "Default",
+          "value": "2"
+        },
+        {
+          "label": "Enabled",
+          "value": "1"
+        },
+        {
+          "label": "Disabled",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "name": "preload",
+      "title": "Preload Video",
+      "description": "Change default behaviour of the video player of the website in case it does not auto play the video",
+      "type": "menulist",
+      "value": 2,
+      "options": [
+        {
+          "label": "Default",
+          "value": "2"
+        },
+        {
+          "label": "Enabled",
+          "value": "1"
+        },
+        {
+          "label": "Disabled",
+          "value": "0"
+        }
+      ]
+    },
+    {
       "name": "volume",
       "title": "Volume",
       "type": "integer",

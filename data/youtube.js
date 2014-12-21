@@ -36,12 +36,12 @@
                         id: "video_player",
                         className: "video-js vjs-default-skin " + conf.className,
                         controls: true,
+                        autoplay: autoPlay(!conf.isEmbed),
+                        preload: preLoad(),
                         volume: OPTIONS.volume / 100
                     };
                     if (conf.isEmbed)
                         player_opt.poster = conf.poster ? conf.poster : "";
-                    else
-                        player_opt.autoplay = true;
                     player = createNode("video", player_opt);
                     player.appendChild(createNode("source", {
                         src: conf.url,

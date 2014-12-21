@@ -62,6 +62,8 @@
     "onInit",
     "getPreferredFmt",
     "handleVolChange",
+    "autoPlay",
+    "preLoad",
     "asyncGet"
   ]
 }
