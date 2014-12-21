@@ -38,6 +38,5 @@
 
         document.body.innerHTML = "";
         document.body.appendChild(player);
-        handleVolChange(player);
     });
 }());

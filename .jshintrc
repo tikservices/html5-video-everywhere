@@ -61,7 +61,7 @@
     "onReady",
     "onInit",
     "getPreferredFmt",
-    "handleVolChange",
+    "HANDLE_VOL_PREF_CHANGE",
     "autoPlay",
     "preLoad",
     "asyncGet"

@@ -13,7 +13,6 @@
         window.addEventListener("spfdone", function() {
             changePlayer();
         });
-        handleVolChange(player);
     });
 
     function changePlayer() {

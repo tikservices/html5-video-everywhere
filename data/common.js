@@ -1,4 +1,6 @@
-/* global OPTIONS:true, onPrefChange:true, getPreferredFmt:true, createNode:true, asyncGet:true, onReady:true, onInit:true, handleVolChange:true, logify:true, preLoad: true, autoPlay:true */
+/* global OPTIONS:true, onPrefChange:true, getPreferredFmt:true */
+/* global createNode:true, asyncGet:true, onReady:true, onInit:true, logify:true */
+/* global preLoad:true, autoPlay:true, HANDLE_VOL_PREF_CHANGE:true */
 // the following jshint global rule is only because jshint support for ES6 arrow
 // functions is limited
 /* global wrapper:true, args:true, auto:true */
@@ -14,6 +16,8 @@ const Qlt = [
     "medium",
     "low"
 ];
+// set it to false if the module uses custom listener
+var HANDLE_VOL_PREF_CHANGE = true;
 const Cdc = ["webm", "mp4"];
 self.port.on("preferences", function(prefs) {
     OPTIONS = prefs;
@@ -22,6 +26,10 @@ self.port.on("preferences", function(prefs) {
 
 self.port.on("prefChanged", function(pref) {
     OPTIONS[pref.name] = pref.value;
+    if (pref.name === "volume" && HANDLE_VOL_PREF_CHANGE === true)
+        Array.forEach(document.getElementsByTagName("video"), el => {
+            el.volume = OPTIONS.volume / 100;
+        });
     onPrefChange.forEach(f => f(pref.name));
 });
 
@@ -85,16 +93,6 @@ const asyncGet = (url, headers, mimetype) => {
 
 const logify = (...args) =>
     console.log.apply(console, args.map(s => JSON.stringify(s, null, 2)));
-
-const handleVolChange = () => {
-    onPrefChange.push(pref => {
-        if (pref === "volume") {
-            Array.forEach(document.getElementsByTagName("video"), el => {
-                el.volume = OPTIONS.volume / 100;
-            });
-        }
-    });
-};
 
 const onReady = f => {
     //TODO: document readyState is "loading" (and DOMECotentLoaded) even DOM elements are

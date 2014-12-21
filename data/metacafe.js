@@ -25,7 +25,6 @@
             return;
         container.innerHTML = "";
         container.appendChild(player);
-        handleVolChange(player);
     }
 
     function channelPage() {

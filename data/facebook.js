@@ -27,6 +27,5 @@
 
         document.getElementsByClassName("_53j5")[0].innerHTML = "";
         document.getElementsByClassName("_53j5")[0].appendChild(player);
-        handleVolChange(player);
     });
 }());

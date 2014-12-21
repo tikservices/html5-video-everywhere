@@ -32,7 +32,6 @@
                 src: conf.url
             }));
             player_container.appendChild(player);
-            handleVolChange(player);
         } catch (e) {
             console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
         }
