@@ -16,7 +16,9 @@ A wichlist of Sites to support:
   - Liveleak
   - Vine
 
-Live Streaming sites (require support of DASH and HLS : #9 & #10)
+Live Streaming sites (require support of DASH and HLS : [#9](
+https://github.com/lejenome/html5-video-everywhere/issues/9) and [#10](
+https://github.com/lejenome/html5-video-everywhere/issues/10))
   - Yahoo screen
   - ustream
 
