@@ -84,7 +84,7 @@
     }
 
     function getVideoInfo(conf) {
-        var INFO_URL = "https://www.youtube.com/get_video_info?hl=en_US&el=detailpage&video_id=";
+        var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
         return asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
             // get the poster url
             var poster = data.match(/iurlhq=([^&]*)/);

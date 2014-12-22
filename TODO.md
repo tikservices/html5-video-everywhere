@@ -11,11 +11,13 @@ A wichlist of Sites to support:
     [[status](https://github.com/lejenome/html5-video-everywhere/milestones/Break Support)]
   - Metacafe
     [[status](https://github.com/lejenome/html5-video-everywhere/milestones/Metacafe Support)]
-  - Yahoo screen
   - Youku
   - Blip
-  - Vine
   - Liveleak
+  - Vine
+
+Live Streaming sites (require support of DASH and HLS : #9 & #10)
+  - Yahoo screen
   - ustream
 
 For current status of sites in progress, view [spec/](spec/) folder.
