@@ -30,6 +30,7 @@
                     if (!player_container)
                         return;
                     player_container.innerHTML = "";
+                    player_container.className = conf.className || "";
                     player = createNode("video", {
                         id: "video_player",
                         className: conf.className || "",
@@ -47,7 +48,34 @@
                 } catch (e) {
                     console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
                 }
+            })
+            .catch((rej) => {
+                if (rej && rej.error === "VIDEO_URL_UNACCESSIBLE") {
+                    var error = rej.data.match(/reason=([^&]*)&/);
+                    if (error)
+                        errorMessage("Failed to load video url with the following error message: " +
+                            error[1].replace("+", " ", "g"));
+                }
             });
+    }
+
+    function errorMessage(msg) {
+        var error_container = player_container || document.getElementById("player-unavailable");
+        if (!error_container)
+            return;
+        error_container.style.background = "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626";
+        error_container.innerHTML = "";
+        error_container.appendChild(createNode("p", {
+            textContent: "Ooops! :("
+        }, {
+            padding: "15px",
+            fontSize: "20px"
+        }));
+        error_container.appendChild(createNode("p", {
+            textContent: msg
+        }, {
+            fontSize: "20px"
+        }));
     }
 
     function getConfig() {
@@ -72,7 +100,9 @@
                 player_class = "player-width player-height";
             }
             if (!player_id)
-                reject();
+                reject({
+                    error: "PLAYER_ID_NOT_FOUND"
+                });
             resolve({
                 isEmbed: isEmbed,
                 isWatch: isWatch,
@@ -86,6 +116,16 @@
     function getVideoInfo(conf) {
         var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
         return asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
+            if (data.endsWith("="))
+                try {
+                    data = atob(data);
+                } catch (_) {}
+            if (/status=fail/.test(data)) {
+                return Promise.reject({
+                    error: "VIDEO_URL_UNACCESSIBLE",
+                    data: data
+                });
+            }
             // get the poster url
             var poster = data.match(/iurlhq=([^&]*)/);
             if (poster)
