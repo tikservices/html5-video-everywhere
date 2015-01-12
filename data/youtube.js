@@ -22,11 +22,7 @@
                 try {
                     if (player_container)
                         player_container.innerHTML = "";
-                    player_container = document.getElementById("player-mole-container");
-                    if (conf.isEmbed)
-                        player_container = document.body;
-                    if (conf.isChannel)
-                        player_container = document.getElementsByClassName("c4-player-container")[0];
+                    player_container = getPlayerContainer(conf);
                     if (!player_container)
                         return;
                     player_container.innerHTML = "";
@@ -39,6 +35,8 @@
                         controls: true,
                         poster: conf.poster || "",
                         volume: OPTIONS.volume / 100
+                    }, {
+                        position: "relative"
                     });
                     player.appendChild(createNode("source", {
                         src: conf.url,
@@ -50,17 +48,29 @@
                 }
             })
             .catch((rej) => {
-                if (rej && rej.error === "VIDEO_URL_UNACCESSIBLE") {
-                    var error = rej.data.match(/reason=([^&]*)&/);
-                    if (error)
-                        errorMessage("Failed to load video url with the following error message: " +
-                            error[1].replace("+", " ", "g"));
+                if (rej === undefined)
+                    return;
+                switch (rej.error) {
+                    case "VIDEO_URL_UNACCESSIBLE":
+                        var error = rej.data.match(/reason=([^&]*)&/);
+                        if (error)
+                            errorMessage("Failed to load video url with the following error message: " +
+                                error[1].replace("+", " ", "g"));
+                        break;
+                    case "NO_SUPPORTED_VIDEO_FOUND":
+                        errorMessage("Failed to find any playable video url." +
+                            (rej.unsig ? " All urls are not signed" : ""));
+                        break;
                 }
             });
     }
 
-    function errorMessage(msg) {
-        var error_container = player_container || document.getElementById("player-unavailable");
+    function errorMessage(msg, conf) {
+        var error_container;
+        if (conf)
+            error_container = getPlayerContainer(conf);
+        if (!error_container)
+            error_container = document.getElementById("player-unavailable") || document.getElementById("player");
         if (!error_container)
             return;
         error_container.style.background = "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626";
@@ -76,6 +86,15 @@
         }, {
             fontSize: "20px"
         }));
+    }
+
+    function getPlayerContainer(conf) {
+        var container = document.getElementById("player-mole-container");
+        if (conf.isEmbed)
+            container = document.body;
+        if (conf.isChannel)
+            container = document.getElementsByClassName("c4-player-container")[0];
+        return container;
     }
 
     function getConfig() {
@@ -133,7 +152,8 @@
             // extract avalable formats to fmts object
             var info = data.match(/url_encoded_fmt_stream_map=([^&]*)/)[1];
             info = decodeURIComponent(info);
-            var fmt, fmts = {};
+            var fmt, fmts = {},
+                unsignedVideos;
             info.split(",")
                 .map(it1 => {
                     var oo = {};
@@ -149,14 +169,19 @@
                 .filter(it6 => {
                     if (it6.url.search("signature=") > 0)
                         return true;
-                    logify("Url without signature!!", it6);
+                    unsignedVideos = true;
+                    logify("Url without signature!!", it6.itag);
                     return false;
                 })
                 .forEach(fmt => fmts[fmt.itag] = fmt);
             // choose best format from fmts onject
             fmt = getPreferredFmt(fmts, FMT_WRAPPER);
             if (fmt === undefined) {
-                return Promise.reject();
+                return Promise.reject({
+                    error: "NO_SUPPORTED_VIDEO_FOUND",
+                    unsig: unsignedVideos,
+                    conf: conf
+                });
             } else {
                 conf.url = fmt.url;
                 conf.type = fmt.type;
