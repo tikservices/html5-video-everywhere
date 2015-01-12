@@ -59,13 +59,14 @@
                         break;
                     case "NO_SUPPORTED_VIDEO_FOUND":
                         errorMessage("Failed to find any playable video url." +
-                            (rej.unsig ? " All urls are not signed" : ""));
+                            (rej.unsig ? " All urls are not signed" : ""), rej.conf);
                         break;
                 }
             });
     }
 
     function errorMessage(msg, conf) {
+        logify("errorMessage", msg, conf);
         var error_container;
         if (conf)
             error_container = getPlayerContainer(conf);
@@ -73,6 +74,13 @@
             error_container = document.getElementById("player-unavailable") || document.getElementById("player");
         if (!error_container)
             return;
+        if (conf && conf.isWatch)
+            error_container.className += " player-height player-width";
+        if (conf && conf.isChannel)
+            error_container.className += " html5-main-video";
+        if (conf && conf.isEmbed) {
+            error_container.className += " full-frame";
+        }
         error_container.style.background = "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626";
         error_container.innerHTML = "";
         error_container.appendChild(createNode("p", {
@@ -89,12 +97,12 @@
     }
 
     function getPlayerContainer(conf) {
-        var container = document.getElementById("player-mole-container");
+        if (conf.isWatch)
+            return document.getElementById("player-mole-container");
         if (conf.isEmbed)
-            container = document.body;
+            return document.body;
         if (conf.isChannel)
-            container = document.getElementsByClassName("c4-player-container")[0];
-        return container;
+            return document.getElementsByClassName("c4-player-container")[0];
     }
 
     function getConfig() {
