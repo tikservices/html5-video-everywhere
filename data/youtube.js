@@ -43,6 +43,8 @@
                         type: conf.type
                     }));
                     player_container.appendChild(player);
+                    if (conf.isWatch)
+                        playNextOnFinish();
                 } catch (e) {
                     console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
                 }
@@ -196,5 +198,26 @@
                 return Promise.resolve(conf);
             }
         });
+    }
+
+    function playNextOnFinish() {
+        //Credits to @durazell github.com/lejenome/youtube-html5-player/issues/9
+        if (document.getElementsByClassName("playlist-header").length > 0) {
+            player.onended = function(e) {
+                if (OPTIONS.autoNext === false)
+                    return;
+                var cur = document.getElementById("playlist-current-index").textContent;
+                var len = document.getElementById("playlist-length").textContent;
+
+                if (isNaN(parseInt(cur)) === true || isNaN(parseInt(len)) === true) {
+                    logify("Cannot find location in playlist, autoplay failed");
+                    return;
+                }
+
+                if (parseInt(cur) < parseInt(len)) {
+                    window.location.href = document.getElementsByClassName("yt-uix-scroller-scroll-unit")[cur].getElementsByTagName("a")[0].href;
+                }
+            };
+        }
     }
 }());
