@@ -12,6 +12,13 @@
   },
   "preferences": [
     {
+      "name": "autoNext",
+      "title": "Auto play next",
+      "description": "Auto play the next Video on playlist",
+      "type": "bool",
+      "value": true
+    },
+    {
       "name": "prefCdc",
       "title": "Preferred Codec",
       "type": "menulist",
@@ -102,15 +109,7 @@
     {
       "name": "disableEmbed",
       "title": "Disable for Embed Youtube",
-      "description": "Use default youtube video player for embed videos",
-      "type": "bool",
-      "value": false,
-      "hidden": true
-    },
-    {
-      "name": "dontPlayNext",
-      "title": "Do not play next Item",
-      "description": "Do not tell youtube that video reached the end, so it will no play the next Video on playlist mode",
+      "description": "Use default video player for embed videos",
       "type": "bool",
       "value": false,
       "hidden": true
