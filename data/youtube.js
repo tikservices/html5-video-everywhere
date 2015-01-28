@@ -123,7 +123,7 @@
                 if (!upsell)
                     reject();
                 player_id = upsell.dataset["videoId"];
-                player_class = "html5-main-video";
+                player_class = "html5-main-video c4-player-container";
             } else {
                 player_id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
                 player_class = "player-width player-height";
