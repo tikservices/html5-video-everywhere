@@ -3,10 +3,10 @@
   "title": "HTML5 Video Everywhere!",
   "id": "html5-video-everywhere@lejenome.me",
   "description": "Replace video player with Firefox native video player",
-  "author": "Moez Bouhlel <bmoez.j@gmail.com> (http://lejenome.github.io/",
+  "author": "Moez Bouhlel <bmoez.j@gmail.com> (http://lejenome.github.io/)",
   "homepage": "https://github.com/lejenome/html5-video-everywhere",
   "license": "MPL 2.0",
-  "version": "0.1.5",
+  "version": "0.2.5",
   "permissions": {
     "private-browsing": true
   },
