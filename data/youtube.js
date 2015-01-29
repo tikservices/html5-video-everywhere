@@ -4,6 +4,7 @@
     var player, player_container;
 
     onReady(() => {
+        // onInit does not works on channel/user page videos
         player = createNode("video");
         changePlayer();
         window.addEventListener("spfrequest", function() {
@@ -82,7 +83,7 @@
         if (conf && conf.isWatch)
             error_container.className += " player-height player-width";
         if (conf && conf.isChannel)
-            error_container.className += " html5-main-video";
+            error_container.className += " c4-player-container"; //" html5-main-video";
         if (conf && conf.isEmbed) {
             error_container.className += " full-frame";
         }
@@ -126,7 +127,7 @@
                 if (!upsell)
                     reject();
                 player_id = upsell.dataset["videoId"];
-                player_class = "html5-main-video c4-player-container";
+                player_class = "c4-player-container"; //+ " html5-main-video"
             } else {
                 player_id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
                 player_class = "player-width player-height";
@@ -207,17 +208,28 @@
         //Credits to @durazell github.com/lejenome/youtube-html5-player/issues/9
         if (document.getElementsByClassName("playlist-header").length > 0) {
             player.onended = function(e) {
-                if (OPTIONS.autoNext === false)
+                if (this.currentTime !== this.duration || OPTIONS.autoNext === false)
                     return;
-                var cur = document.getElementById("playlist-current-index").textContent;
-                var len = document.getElementById("playlist-length").textContent;
+                var cur = 0,
+                    len = 0;
+                var current, playlist;
+                if ((current = document.getElementsByClassName("currently-playing")).length > 0) {
+                    cur = parseInt(current[0].dataset["index"]) + 1;
+                } else if ((current = document.getElementById("playlist-current-index"))) {
+                    cur = parseInt(current.textContent);
+                }
+                if ((playlist = document.getElementsByClassName("playlist-videos-list")).length > 0) {
+                    len = playlist[0].childElementCount;
+                } else if ((playlist = document.getElementById("playlist-length"))) {
+                    len = parseInt(playlist.textContent);
+                }
 
-                if (isNaN(parseInt(cur)) === true || isNaN(parseInt(len)) === true) {
+                if (isNaN(cur) === true || isNaN(len) === true) {
                     logify("Cannot find location in playlist, autoplay failed");
                     return;
                 }
 
-                if (parseInt(cur) < parseInt(len)) {
+                if (cur < len) {
                     window.location.href = document.getElementsByClassName("yt-uix-scroller-scroll-unit")[cur].getElementsByTagName("a")[0].href;
                 }
             };
