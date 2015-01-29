@@ -7,8 +7,11 @@
         player = createNode("video");
         changePlayer();
         window.addEventListener("spfrequest", function() {
-            if (player)
-                player.src = "";
+            if (player) {
+                //                player.pause();
+                //                player.src = undefined;
+                player.currentTime = player.duration;
+            }
         });
         window.addEventListener("spfdone", function() {
             changePlayer();
