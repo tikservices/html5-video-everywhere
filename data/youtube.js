@@ -11,6 +11,7 @@
             if (player) {
                 //                player.pause();
                 //                player.src = undefined;
+                player.onended = undefined;
                 player.currentTime = player.duration;
             }
         });
@@ -208,7 +209,7 @@
         //Credits to @durazell github.com/lejenome/youtube-html5-player/issues/9
         if (document.getElementsByClassName("playlist-header").length > 0) {
             player.onended = function(e) {
-                if (this.currentTime !== this.duration || OPTIONS.autoNext === false)
+                if (player.currentTime !== player.duration || OPTIONS.autoNext === false)
                     return;
                 var cur = 0,
                     len = 0;
