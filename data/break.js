@@ -35,8 +35,8 @@
             heigth: "100%"
         });
 
-        document.body.innerHTML = "";
-        document.head.innerHTML = "";
+        rmChildren(document.body);
+        rmChildren(document.head);
         document.body.appendChild(player);
     }
 

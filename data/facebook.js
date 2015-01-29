@@ -25,7 +25,7 @@
             heigth: "100%"
         });
 
-        document.getElementsByClassName("_53j5")[0].innerHTML = "";
+        rmChildren(document.getElementsByClassName("_53j5")[0]);
         document.getElementsByClassName("_53j5")[0].appendChild(player);
     });
 }());

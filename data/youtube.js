@@ -24,11 +24,11 @@
             .then((conf) => {
                 try {
                     if (player_container)
-                        player_container.innerHTML = "";
+                        rmChildren(player_container);
                     player_container = getPlayerContainer(conf);
                     if (!player_container)
                         return;
-                    player_container.innerHTML = "";
+                    rmChildren(player_container);
                     player_container.className = conf.className || "";
                     player = createNode("video", {
                         id: "video_player",
@@ -87,7 +87,7 @@
             error_container.className += " full-frame";
         }
         error_container.style.background = "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626";
-        error_container.innerHTML = "";
+        rmChildren(error_container);
         error_container.appendChild(createNode("p", {
             textContent: "Ooops! :("
         }, {

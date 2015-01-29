@@ -36,7 +36,7 @@
             heigth: "100%"
         });
 
-        document.body.innerHTML = "";
+        rmChildren(document.body);
         document.body.appendChild(player);
     });
 }());

@@ -1,6 +1,7 @@
 /* global OPTIONS:true, onPrefChange:true, getPreferredFmt:true */
 /* global createNode:true, asyncGet:true, onReady:true, onInit:true, logify:true */
 /* global preLoad:true, autoPlay:true, HANDLE_VOL_PREF_CHANGE:true */
+/* global rmChildren:true */
 // the following jshint global rule is only because jshint support for ES6 arrow
 // functions is limited
 /* global wrapper:true, args:true, auto:true */
@@ -121,3 +122,8 @@ const autoPlay = (auto = false) => ((OPTIONS.autoplay === 1 || auto === true) &&
     OPTIONS.autoplay !== 0);
 const preLoad = (auto = false) => ((OPTIONS.preload === 1 || auto === true) &&
     OPTIONS.preload !== 0) ? "auto" : "metadata";
+
+const rmChildren = (prnt) => {
+    while (prnt && prnt.firstChild)
+        prnt.removeChild(prnt.firstChild);
+};

@@ -23,7 +23,7 @@
         var container = document.getElementById("ItemContainer");
         if (!container)
             return;
-        container.innerHTML = "";
+        rmChildren(container);
         container.appendChild(player);
     }
 
@@ -43,7 +43,7 @@
                 src: url
             });
             var container = embed.parentElement;
-            container.innerHTML = "";
+            rmChildren(container);
             container.appendChild(player);
 
         });

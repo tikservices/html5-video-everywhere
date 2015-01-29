@@ -10,13 +10,13 @@
             let player_container, player;
             if (conf.isEmbed) {
                 player_container = document.body;
-                player_container.innerHTML = "";
+                rmChildren(player_container);
             } else if (conf.isWatch) {
                 player_container = document.getElementById("video");
                 player_container.children[1].remove();
             } else {
                 player_container = document.getElementById("clip_" + conf.id);
-                player_container.innerHTML = "";
+                rmChildren(player_container);
             }
             if (!player_container)
                 return;
