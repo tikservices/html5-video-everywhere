@@ -9,10 +9,16 @@
     });
 
     function watchPage() {
-        var ob = document.getElementById("flashVars");
-        if (!ob)
+        var ob, url;
+        if ((ob = document.getElementById("flashVars"))) {
+            url = getURL(ob.value);
+        } else if ((ob = document.getElementById("FlashWrap").getElementsByTagName("video")).length) {
+            url = ob[0].src;
+            ob[0].pause();
+            ob[0].remove();
+        }
+        if (!url)
             return;
-        var url = getURL(ob.value);
         var player = createNode("video", {
             autoplay: autoPlay(true),
             preload: preLoad(),
