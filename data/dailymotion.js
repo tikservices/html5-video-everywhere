@@ -33,7 +33,7 @@
             src: url
         }, {
             width: "100%",
-            heigth: "100%"
+            height: "100%"
         });
 
         rmChildren(document.body);
