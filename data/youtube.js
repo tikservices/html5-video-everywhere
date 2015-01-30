@@ -32,6 +32,7 @@
                         return;
                     rmChildren(player_container);
                     player_container.className = conf.className || "";
+                    player_container.className += " leanback-player-video";
                     player = createNode("video", {
                         id: "video_player",
                         className: conf.className || "",
@@ -48,6 +49,12 @@
                         type: conf.type
                     }));
                     player_container.appendChild(player);
+                    LBP.setup();
+                    player.style = "";
+                    player_container.style = "";
+                    player.style.position = "relative";
+                    player.style.height = "inherit";
+                    player_container.style.marginLeft = "0px";
                     if (conf.isWatch)
                         playNextOnFinish();
                 } catch (e) {
