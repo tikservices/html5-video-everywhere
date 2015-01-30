@@ -65,6 +65,7 @@
     "autoPlay",
     "preLoad",
     "asyncGet",
-    "rmChildren"
+    "rmChildren",
+    "LBP"
   ]
 }
