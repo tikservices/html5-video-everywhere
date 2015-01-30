@@ -9,7 +9,7 @@
     "HTML5 Video Everywhere Contributors (https://github.com/lejenome/html5-video-everywhere/graphs/contributors)"
   ],
   "license": "MPL 2.0",
-  "version": "0.2.8.1",
+  "version": "0.2.8.2",
   "permissions": {
     "private-browsing": true
   },

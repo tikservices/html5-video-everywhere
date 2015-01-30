@@ -18,15 +18,25 @@
             //		preload: true,
             controls: true,
             autoplay: autoPlay(true),
-            preload: preLoad(),
-            src: url
+            preload: preLoad()
         }, {
             width: "100%",
             heigth: "100%"
         });
+        player.appendChild(createNode("source", {
+            src: url,
+            type: "video/mp4"
+        }));
 
-        rmChildren(document.getElementsByClassName("_53j5")[0]);
-        document.getElementsByClassName("_53j5")[0].appendChild(player);
-        LBP.setup();
+        //	var container = document.getElementsByClassName("_53j5")[0];
+        var container = document.getElementsByClassName("stageContainer")[0];
+        rmChildren(container);
+        container.appendChild(player);
+        container.className += " leanback-player-video";
+        LBP.init();
+        container.style = "";
+        player.style = "";
+        player.style.width = "inherit";
+        player.style.height = "inherit";
     });
 }());

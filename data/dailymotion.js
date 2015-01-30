@@ -29,15 +29,23 @@
             controls: true,
             autoplay: autoPlay(),
             preload: preLoad(),
-            poster: poster,
-            src: url
+            poster: poster
         }, {
             width: "100%",
             height: "100%"
         });
+        player.appendChild(createNode("source", {
+            src: url,
+            type: "video/mp4"
+        }));
 
         rmChildren(document.body);
         document.body.appendChild(player);
+        document.body.className += " leanback-player-video";
         LBP.setup();
+        document.body.style = "";
+        player.style = "";
+        player.style.width = "inherit";
+        player.style.height = "inherit";
     });
 }());
