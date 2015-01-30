@@ -38,6 +38,7 @@
         rmChildren(document.body);
         rmChildren(document.head);
         document.body.appendChild(player);
+        LBP.setup();
     }
 
     function fallback() {

@@ -38,5 +38,6 @@
 
         rmChildren(document.body);
         document.body.appendChild(player);
+        LBP.setup();
     });
 }());
