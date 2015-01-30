@@ -32,7 +32,7 @@
                         return;
                     rmChildren(player_container);
                     player_container.className = conf.className || "";
-                    player_container.className += " leanback-player-video";
+                    player_container.className += " video-js vjs-default-skin";
                     player = createNode("video", {
                         id: "video_player",
                         className: conf.className || "",
@@ -49,7 +49,7 @@
                         type: conf.type
                     }));
                     player_container.appendChild(player);
-                    LBP.setup();
+                    videojs(player);
                     player.style = "";
                     player_container.style = "";
                     player.style.position = "relative";
