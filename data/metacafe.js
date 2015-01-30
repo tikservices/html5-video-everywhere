@@ -31,6 +31,7 @@
             return;
         rmChildren(container);
         container.appendChild(player);
+        LBP.setup();
     }
 
     function channelPage() {
@@ -51,6 +52,7 @@
             var container = embed.parentElement;
             rmChildren(container);
             container.appendChild(player);
+            LBP.setup();
 
         });
     }

@@ -32,6 +32,7 @@
                 src: conf.url
             }));
             player_container.appendChild(player);
+            LBP.setup();
         } catch (e) {
             console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
         }
