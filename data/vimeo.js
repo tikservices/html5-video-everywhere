@@ -29,10 +29,16 @@
                 volume: OPTIONS.volume / 100
             });
             player.appendChild(createNode("source", {
-                src: conf.url
+                src: conf.url,
+                type: "video/mp4"
             }));
             player_container.appendChild(player);
+            player_container.className += " leanback-player-video";
             LBP.setup();
+            player_container.style = "";
+            player.style = "";
+            player.style.width = "inherit";
+            player.style.height = "inherit";
         } catch (e) {
             console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
         }

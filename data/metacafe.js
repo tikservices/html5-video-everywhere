@@ -16,16 +16,24 @@
         var player = createNode("video", {
             autoplay: autoPlay(true),
             preload: preLoad(),
-            controls: true,
-            src: url
+            controls: true
         });
+        player.appendChild(createNode("source", {
+            src: url,
+            type: "video/mp4"
+        }));
 
         var container = document.getElementById("ItemContainer");
         if (!container)
             return;
         rmChildren(container);
         container.appendChild(player);
+        container.className += " leanback-player-video";
         LBP.setup();
+        container.style = "";
+        player.style = "";
+        player.style.width = "inherit";
+        player.style.height = "inherit";
     }
 
     function channelPage() {
@@ -40,13 +48,22 @@
             var player = createNode("video", {
                 autoplay: autoPlay(false),
                 preload: preLoad(),
-                controls: true,
-                src: url
+                controls: true
             });
-            var container = embed.parentElement;
+            player.appendChild(createNode("source", {
+                src: url,
+                type: "video/mp4"
+            }));
+            //            var container = embed.parentElement;
+            var container = document.getElementById("ItemContainer");
             rmChildren(container);
             container.appendChild(player);
+            container.className += " leanback-player-video";
             LBP.setup();
+            container.style = "";
+            player.style = "";
+            player.style.width = "inherit";
+            player.style.height = "inherit";
 
         });
     }

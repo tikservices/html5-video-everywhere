@@ -28,17 +28,25 @@
         var player = createNode("video", {
             controls: true,
             autoplay: autoPlay(true),
-            preload: preLoad(),
-            src: url
+            preload: preLoad()
         }, {
             width: "100%",
             heigth: "100%"
         });
+        player.appendChild(createNode("source", {
+            src: url,
+            type: "video/mp4"
+        }));
 
         rmChildren(document.body);
         rmChildren(document.head);
         document.body.appendChild(player);
+        document.body.className += " leanback-player-video";
         LBP.setup();
+        document.body.style = "";
+        player.style = "";
+        player.style.width = "inherit";
+        player.style.height = "inherit";
     }
 
     function fallback() {
