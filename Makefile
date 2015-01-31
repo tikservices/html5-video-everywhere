@@ -1,5 +1,6 @@
 YTARGS = --static-args='{"drivers":["youtube"]}' --manifest-overload=package-youtube-video-player.json
 
+.NOTPARALLEL : all
 all: lint beautify build
 build: build-generic build-yt
 lint:
