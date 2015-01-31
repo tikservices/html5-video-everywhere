@@ -1,0 +1,5 @@
+#!/bin/bash
+make
+git diff --cached --name-only HEAD | while read F; do
+	git add "$F"
+done
