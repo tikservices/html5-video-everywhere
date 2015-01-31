@@ -12,7 +12,8 @@
         var ob, url;
         if ((ob = document.getElementById("flashVars"))) {
             url = getURL(ob.value);
-        } else if ((ob = document.getElementById("FlashWrap").getElementsByTagName("video")).length) {
+        } else if ((ob = document.getElementById("FlashWrap")) &&
+            (ob = ob.getElementsByTagName("video")).length) {
             url = ob[0].src;
             ob[0].pause();
             ob[0].remove();
