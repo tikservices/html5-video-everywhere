@@ -1,4 +1,5 @@
 #!/bin/bash
+# INSTALL: ln -s $(pwd)/post-commit.hook .git/hooks/post-commit
 version=$(git diff HEAD^..HEAD -- "$(git rev-parse --show-toplevel)"/package.json \
 	| grep '^\+\s*"version"' \
 	| sed -s 's/[^0-9\.]//g')
