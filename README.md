@@ -16,5 +16,5 @@ work as expected.
 
 This extension is free software; it is distributed under the MPL 2.0 Licence.
 
-Copyright (c) 2014, Moez Bouhlel (bmoez.j@gmail.com) & [The
+Copyright (c) 2014-2015, Moez Bouhlel (bmoez.j@gmail.com) & [The
 Contributors](https://github.com/lejenome/html5-video-everywhere/graphs/contributors)
