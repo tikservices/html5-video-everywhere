@@ -11,6 +11,17 @@ This extension will change the page content of the supported video streaming
 sites, as a result, many extensions that depends on this content will no longer
 work as expected.
 
+## Build
+
+To build either HTML5-Video-EveryWhere with full features or Youtube-video-player:
+```shell
+make
+```
+To Build a custom HTML5-Video-EveryWhere with specific drivers, specific them
+to DRIVER var on comma-seprated format, e.g:
+```shell
+make DRIVER=facebook,vimeo
+```
 
 ## Licence
 
