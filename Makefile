@@ -8,9 +8,10 @@ ARGS   += --static-args='{"drivers":["$(shell echo $(DRIVERS) | sed 's/,/","/g')
 all: lint beautify build
 build: build-generic build-yt
 lint:
-	jshint */*.js
+	jshint --verbose */*.js
 beautify:
-	js-beautify -r */*.js
+	find . -maxdepth 2 -name "*.js" -a ! -name "flashgot-*.js" \
+		| xargs js-beautify -r
 	find . -name "*.json" | xargs -n 1 jsonlint -i
 build-generic:
 	cfx xpi $(ARGS)
