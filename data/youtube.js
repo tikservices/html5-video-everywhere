@@ -167,8 +167,8 @@
             // extract avalable formats to fmts object
             var info = data.match(/url_encoded_fmt_stream_map=([^&]*)/)[1];
             info = decodeURIComponent(info);
-            var fmt, fmts = {},
-                unsignedVideos;
+            var fmts = {};
+            //    unsignedVideos = false;
             info.split(",")
                 .map(it1 => {
                     var oo = {};
@@ -181,28 +181,43 @@
                 .filter(it5 => (player.canPlayType(
                     (it5.type = it5.type.replace("+", " ", "g"))
                 ) === "probably"))
-                .filter(it6 => {
-                    if (it6.url.search("signature=") > 0)
-                        return true;
-                    unsignedVideos = true;
-                    logify("Url without signature!!", it6.itag);
-                    return false;
-                })
+                /*                .filter(it6 => {
+                                    if (it6.url.search("signature=") > 0)
+                                        return true;
+                                    unsignedVideos = true;
+                                    logify("Url without signature!!", it6.itag);
+                                    return false;
+                                })
+                */
                 .forEach(fmt => fmts[fmt.itag] = fmt);
             // choose best format from fmts onject
-            fmt = getPreferredFmt(fmts, FMT_WRAPPER);
-            if (fmt === undefined) {
-                return Promise.reject({
-                    error: "NO_SUPPORTED_VIDEO_FOUND",
-                    unsig: unsignedVideos,
-                    conf: conf
-                });
-            } else {
-                conf.url = fmt.url;
-                conf.type = fmt.type;
-                return Promise.resolve(conf);
-            }
+            return new Promise(fixSignature(conf, fmts));
         });
+    }
+
+    function fixSignature(conf, fmts) {
+        return (resolve, reject) => {
+            self.port.emit("fix_signature", {
+                fmts: fmts,
+                data: {}
+            });
+            self.port.on("fixed_signature", (fmts) => {
+                logify("fixed Signature");
+                var fmt;
+                fmt = getPreferredFmt(fmts, FMT_WRAPPER);
+                if (fmt === undefined) {
+                    reject({
+                        error: "NO_SUPPORTED_VIDEO_FOUND",
+                        //                        unsig: unsignedVideos,
+                        conf: conf
+                    });
+                } else {
+                    conf.url = fmt.url;
+                    conf.type = fmt.type;
+                    resolve(conf);
+                }
+            });
+        };
     }
 
     function playNextOnFinish() {
