@@ -23,6 +23,14 @@ to DRIVER var on comma-seprated format, e.g:
 make DRIVER=facebook,vimeo
 ```
 
+## Credit
+
+YouTube signature decoder code (data/flashgot-YouTubeSwf.js,
+lib/flashgot-YouTube.js) was copied from the [GPL](
+http://www.gnu.org/copyleft/gpl.html) licenced
+[flashgot](https://flashgot.net/) extension with some code removed and
+other added code under the same licence.
+
 ## Licence
 
 This extension is free software; it is distributed under the MPL 2.0 Licence.
