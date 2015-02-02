@@ -14,9 +14,9 @@ beautify:
 		| xargs js-beautify -r
 	find . -name "*.json" | xargs -n 1 jsonlint -i
 build-generic:
-	cfx xpi $(ARGS)
+	cfx xpi --force-mobile $(ARGS)
 build-yt:
-	cfx xpi $(YTARGS)
+	cfx xpi --force-mobile $(YTARGS)
 run:
 	cfx run $(ARGS)
 run-yt:
