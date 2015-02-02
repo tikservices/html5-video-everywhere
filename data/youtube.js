@@ -193,18 +193,23 @@
                         .forEach(it4 => oo[it4[0]] = it4[1]);
                     return oo;
                 })
-                .filter(it5 => (player.canPlayType(
-                    (it5.type = it5.type.replace("+", " ", "g"))
-                ) === "probably"))
+                .filter(it5 => {
+                    if (player.canPlayType((it5.type = it5.type.replace("+", " ", "g"))) !== "probably")
+                        return false;
+                    if (it5.url.search("signature=") === -1) {
+                        unsignedVideos = true;
+                        if (!OPTIONS.genYTSign)
+                            return false;
+                    }
+                    return true;
+                })
                 .forEach(fmt => {
                     conf.fmts[fmt.itag] = fmt;
-                    if (fmt.url.search("signature=") === -1)
-                        unsignedVideos = true;
                 });
-            if (unsignedVideos) {
+            if (unsignedVideos && OPTIONS.genYTSign) {
                 return fixSignature(conf);
             } else {
-                return selectVideo(conf);
+                return selectVideo(conf, unsignedVideos);
             }
         });
     }
