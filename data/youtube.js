@@ -1,7 +1,7 @@
 /*globals FMT_WRAPPER*/
 (function() {
     "use strict";
-    var player, player_container;
+    var player, player_container, swf_url;
 
     onReady(() => {
         // onInit does not works on channel/user page videos
@@ -155,28 +155,43 @@
     }
 
     function getVideoInfo(conf) {
-        var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
-        return asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
-            if (data.endsWith("="))
-                try {
-                    data = atob(data);
-                } catch (_) {}
-            if (/status=fail/.test(data)) {
-                return Promise.reject({
-                    error: "VIDEO_URL_UNACCESSIBLE",
-                    data: data
+        return new Promise((resolve, reject) => {
+            var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
+            var YTCONFIG_REG = /ytplayer.config\s*=\s*({.*});\s*ytplayer/;
+            var ytc, ob;
+            if ((ob = document.body.innerHTML.match(YTCONFIG_REG)) && (ob = ob[1])) {
+                ytc = JSON.parse(ob);
+                conf.poster = ytc.args.iurlhq;
+                conf.info = ytc.args.url_encoded_fmt_stream_map;
+                if (ytc.url)
+                    swf_url = ytc.url;
+                resolve(conf);
+            } else {
+                asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
+                    if (data.endsWith("="))
+                        try {
+                            data = atob(data);
+                        } catch (_) {}
+                    if (/status=fail/.test(data)) {
+                        return reject({
+                            error: "VIDEO_URL_UNACCESSIBLE",
+                            data: data
+                        });
+                    }
+                    // get the poster url
+                    var poster = data.match(/iurlhq=([^&]*)/);
+                    if (poster)
+                        conf.poster = decodeURIComponent(poster[1]);
+                    // extract avalable formats to fmts object
+                    var info = data.match(/url_encoded_fmt_stream_map=([^&]*)/)[1];
+                    conf.info = decodeURIComponent(info);
+                    resolve(conf);
                 });
             }
-            // get the poster url
-            var poster = data.match(/iurlhq=([^&]*)/);
-            if (poster)
-                conf.poster = decodeURIComponent(poster[1]);
-            // extract avalable formats to fmts object
-            var info = data.match(/url_encoded_fmt_stream_map=([^&]*)/)[1];
-            info = decodeURIComponent(info);
-            var fmt, fmts = {},
-                unsignedVideos;
-            info.split(",")
+        }).then((conf) => {
+            var unsignedVideos = false;
+            conf.fmts = {};
+            conf.info.split(",")
                 .map(it1 => {
                     var oo = {};
                     it1.split("&")
@@ -185,21 +200,47 @@
                         .forEach(it4 => oo[it4[0]] = it4[1]);
                     return oo;
                 })
-                .filter(it5 => (player.canPlayType(
-                    (it5.type = it5.type.replace("+", " ", "g"))
-                ) === "probably"))
-                .filter(it6 => {
-                    if (it6.url.search("signature=") > 0)
-                        return true;
-                    unsignedVideos = true;
-                    logify("Url without signature!!", it6.itag);
-                    return false;
+                .filter(it5 => {
+                    if (player.canPlayType((it5.type = it5.type.replace("+", " ", "g"))) !== "probably")
+                        return false;
+                    if (it5.url.search("signature=") === -1) {
+                        unsignedVideos = true;
+                        if (!OPTIONS.genYTSign)
+                            return false;
+                    }
+                    return true;
                 })
-                .forEach(fmt => fmts[fmt.itag] = fmt);
-            // choose best format from fmts onject
-            fmt = getPreferredFmt(fmts, FMT_WRAPPER);
+                .forEach(fmt => {
+                    conf.fmts[fmt.itag] = fmt;
+                });
+            if (unsignedVideos && OPTIONS.genYTSign) {
+                return fixSignature(conf);
+            } else {
+                return selectVideo(conf, unsignedVideos);
+            }
+        });
+    }
+
+    function fixSignature(conf) {
+        return new Promise((resolve, reject) => {
+            self.port.emit("fix_signature", {
+                fmts: conf.fmts,
+                swf_url: swf_url
+            });
+            self.port.on("fixed_signature", (fmts) => {
+                conf.fmts = fmts;
+                logify("fixed Signature");
+                resolve(selectVideo(conf, true));
+            });
+        });
+    }
+
+    function selectVideo(conf, unsignedVideos) {
+        return new Promise((resolve, reject) => {
+            var fmt;
+            fmt = getPreferredFmt(conf.fmts, FMT_WRAPPER);
             if (fmt === undefined) {
-                return Promise.reject({
+                reject({
                     error: "NO_SUPPORTED_VIDEO_FOUND",
                     unsig: unsignedVideos,
                     conf: conf
@@ -207,7 +248,7 @@
             } else {
                 conf.url = fmt.url;
                 conf.type = fmt.type;
-                return Promise.resolve(conf);
+                resolve(conf);
             }
         });
     }

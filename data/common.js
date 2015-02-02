@@ -92,8 +92,11 @@ const asyncGet = (url, headers, mimetype) => {
     });
 };
 
-const logify = (...args) =>
-    console.log.apply(console, args.map(s => JSON.stringify(s, null, 2)));
+const logify = (...args) => {
+    args = args.map(s => JSON.stringify(s, null, 2));
+    args.unshift("[DRIVER]");
+    console.log.apply(console, args);
+};
 
 const onReady = f => {
     //TODO: document readyState is "loading" (and DOMECotentLoaded) even DOM elements are

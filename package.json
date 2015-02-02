@@ -8,7 +8,7 @@
   "contributors": [
     "HTML5 Video Everywhere Contributors (https://github.com/lejenome/html5-video-everywhere/graphs/contributors)"
   ],
-  "version": "0.2.10.1",
+  "version": "0.2.12",
   "license": "MPL 2.0",
   "permissions": {
     "private-browsing": true
@@ -18,6 +18,13 @@
       "name": "autoNext",
       "title": "Auto play next",
       "description": "Auto play the next Video on playlist",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "genYTSign",
+      "title": "Decode YouTube Signature",
+      "description": "Extract YouTube signature decoder from their video player, and use it to decode signatures",
       "type": "bool",
       "value": true
     },
