@@ -29,6 +29,7 @@ VP.prototype.setMainSrc = function(url, type) {
     };
 };
 VP.prototype.setup = function() {
+    this.clean();
     if (!this.player) {
         this.player = createNode("video", this._props, this._style);
     }
@@ -41,7 +42,6 @@ VP.prototype.setup = function() {
         if (src.src !== this.src.src)
             this.player.appendChild(createNode("source", src));
     });
-    this.clean();
     this.container.appendChild(this.player);
     this.container.appendChild(this.styleEl);
     this.attached = true;
