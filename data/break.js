@@ -35,7 +35,7 @@
         });
         vp.style({
             width: "100%",
-            heigth: "100%"
+            height: "100%"
         });
         vp.setup();
     }

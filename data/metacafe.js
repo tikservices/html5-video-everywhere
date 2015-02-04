@@ -30,6 +30,9 @@
             preload: preLoad(),
             controls: true
         });
+        vp.style({
+            width: "100%"
+        });
         vp.setup();
     }
 
@@ -45,12 +48,15 @@
             var container = document.getElementById("ItemContainer");
             //var container = embed.parentElement;
             var vp = new VP(container);
+            vp.setMainSrc(url, "video/mp4");
             vp.props({
                 autoplay: autoPlay(false),
                 preload: preLoad(),
                 controls: true
             });
-            vp.setMainSrc(url, "video/mp4");
+            vp.style({
+                width: "100%"
+            });
             vp.setup();
         });
     }

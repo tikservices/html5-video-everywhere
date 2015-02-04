@@ -30,7 +30,7 @@ VP.prototype.setMainSrc = function(url, type) {
 };
 VP.prototype.setup = function() {
     if (!this.player) {
-        this.player = createNode("video", this._props, this.style);
+        this.player = createNode("video", this._props, this._style);
     }
     if (!this.styleEl)
         this.styleEl = createNode("style");

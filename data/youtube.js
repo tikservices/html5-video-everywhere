@@ -28,7 +28,7 @@
                         return;
                     vp = new VP(player_container);
                     vp.containerProps({
-                        className: (conf.className || "") + " leanback-player-video"
+                        className: conf.className || ""
                     });
                     vp.props({
                         id: "video_player",
@@ -148,10 +148,11 @@
             var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
             var YTCONFIG_REG = /ytplayer.config\s*=\s*({.*});\s*ytplayer/;
             var ytc, ob;
-            if ((ob = document.body.innerHTML.match(YTCONFIG_REG)) && (ob = ob[1])) {
-                ytc = JSON.parse(ob);
+            if ((ob = document.body.innerHTML.match(YTCONFIG_REG)) &&
+                (ob = ob[1]) &&
+                (ytc = JSON.parse(ob)) &&
+                (conf.info = ytc.args.url_encoded_fmt_stream_map)) {
                 conf.poster = ytc.args.iurlhq;
-                conf.info = ytc.args.url_encoded_fmt_stream_map;
                 if (ytc.url)
                     swf_url = ytc.url;
                 resolve(conf);
