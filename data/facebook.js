@@ -14,29 +14,20 @@
         });
         if (url === undefined)
             return;
-        var player = createNode("video", {
-            //		preload: true,
+        //	var container = document.getElementsByClassName("_53j5")[0];
+        var container = document.getElementsByClassName("stageContainer")[0];
+        var vp = new VP(container);
+        vp.setMainSrc(url, "video/mp4");
+        vp.props({
             controls: true,
             autoplay: autoPlay(true),
             preload: preLoad()
-        }, {
+        });
+        vp.style({
             width: "100%",
             heigth: "100%"
         });
-        player.appendChild(createNode("source", {
-            src: url,
-            type: "video/mp4"
-        }));
+        vp.setup();
 
-        //	var container = document.getElementsByClassName("_53j5")[0];
-        var container = document.getElementsByClassName("stageContainer")[0];
-        rmChildren(container);
-        container.appendChild(player);
-        container.className += " leanback-player-video";
-        LBP.init();
-        container.style = "";
-        player.style = "";
-        player.style.width = "inherit";
-        player.style.height = "inherit";
     });
 }());

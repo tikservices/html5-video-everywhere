@@ -1,19 +1,15 @@
 /*globals FMT_WRAPPER*/
 (function() {
     "use strict";
-    var player, player_container, swf_url;
+    var vp;
+    var swf_url;
 
     onReady(() => {
         // onInit does not works on channel/user page videos
-        player = createNode("video");
         changePlayer();
         window.addEventListener("spfrequest", function() {
-            if (player) {
-                //                player.pause();
-                //                player.src = undefined;
-                player.onended = undefined;
-                player.currentTime = player.duration;
-            }
+            if (vp)
+                vp.stop();
         });
         window.addEventListener("spfdone", function() {
             changePlayer();
@@ -25,15 +21,16 @@
             .then(getVideoInfo)
             .then((conf) => {
                 try {
-                    if (player_container)
-                        rmChildren(player_container);
-                    player_container = getPlayerContainer(conf);
+                    if (vp)
+                        vp.end();
+                    var player_container = getPlayerContainer(conf);
                     if (!player_container)
                         return;
-                    rmChildren(player_container);
-                    player_container.className = conf.className || "";
-                    player_container.className += " leanback-player-video";
-                    player = createNode("video", {
+                    vp = new VP(player_container);
+                    vp.containerProps({
+                        className: (conf.className || "") + " leanback-player-video"
+                    });
+                    vp.props({
                         id: "video_player",
                         className: conf.className || "",
                         autoplay: autoPlay(!conf.isEmbed),
@@ -41,20 +38,12 @@
                         controls: true,
                         poster: conf.poster || "",
                         volume: OPTIONS.volume / 100
-                    }, {
+                    });
+                    vp.style({
                         position: "relative"
                     });
-                    player.appendChild(createNode("source", {
-                        src: conf.url,
-                        type: conf.type
-                    }));
-                    player_container.appendChild(player);
-                    LBP.setup();
-                    player.style = "";
-                    player_container.style = "";
-                    player.style.position = "relative";
-                    player.style.height = "inherit";
-                    player_container.style.marginLeft = "0px";
+                    vp.setMainSrc(conf.url, conf.type);
+                    vp.setup();
                     if (conf.isWatch)
                         playNextOnFinish();
                 } catch (e) {
@@ -189,6 +178,7 @@
                 });
             }
         }).then((conf) => {
+            var player = createNode("video");
             var unsignedVideos = false;
             conf.fmts = {};
             conf.info.split(",")
@@ -256,8 +246,8 @@
     function playNextOnFinish() {
         //Credits to @durazell github.com/lejenome/youtube-html5-player/issues/9
         if (document.getElementsByClassName("playlist-header").length > 0) {
-            player.onended = function(e) {
-                if (player.currentTime !== player.duration || OPTIONS.autoNext === false)
+            vp.on("ended", function(e) {
+                if (this.currentTime !== this.duration || OPTIONS.autoNext === false)
                     return;
                 var cur = 0,
                     len = 0;
@@ -281,7 +271,7 @@
                 if (cur < len) {
                     window.location.href = document.getElementsByClassName("yt-uix-scroller-scroll-unit")[cur].getElementsByTagName("a")[0].href;
                 }
-            };
+            });
         }
     }
 }());

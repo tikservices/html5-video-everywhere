@@ -25,28 +25,19 @@
     });
 
     function injectPlayer(url) {
-        var player = createNode("video", {
+        rmChildren(document.head);
+        var vp = new VP(document.body);
+        vp.setMainSrc(url, "video/mp4");
+        vp.props({
             controls: true,
             autoplay: autoPlay(true),
             preload: preLoad()
-        }, {
+        });
+        vp.style({
             width: "100%",
             heigth: "100%"
         });
-        player.appendChild(createNode("source", {
-            src: url,
-            type: "video/mp4"
-        }));
-
-        rmChildren(document.body);
-        rmChildren(document.head);
-        document.body.appendChild(player);
-        document.body.className += " leanback-player-video";
-        LBP.setup();
-        document.body.style = "";
-        player.style = "";
-        player.style.width = "inherit";
-        player.style.height = "inherit";
+        vp.setup();
     }
 
     function fallback() {

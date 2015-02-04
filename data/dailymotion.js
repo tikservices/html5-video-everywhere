@@ -25,27 +25,18 @@
         if (url === undefined)
             return;
         var poster = (document.body.innerHTML.match(/"thumbnail_url":"([^"]*)"/) || ["", ""])[1].replace("\\/", "/", "g");
-        var player = createNode("video", {
+        var vp = new VP(document.body);
+        vp.setMainSrc(url, "video/mp4");
+        vp.props({
             controls: true,
             autoplay: autoPlay(),
             preload: preLoad(),
             poster: poster
-        }, {
+        });
+        vp.style({
             width: "100%",
             height: "100%"
         });
-        player.appendChild(createNode("source", {
-            src: url,
-            type: "video/mp4"
-        }));
-
-        rmChildren(document.body);
-        document.body.appendChild(player);
-        document.body.className += " leanback-player-video";
-        LBP.setup();
-        document.body.style = "";
-        player.style = "";
-        player.style.width = "inherit";
-        player.style.height = "inherit";
+        vp.setup();
     });
 }());

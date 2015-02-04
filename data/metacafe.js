@@ -20,27 +20,17 @@
         }
         if (!url)
             return;
-        var player = createNode("video", {
+        var container = document.getElementById("ItemContainer");
+        if (!container)
+            return;
+        var vp = new VP(container);
+        vp.setMainSrc(url, "video/mp4");
+        vp.props({
             autoplay: autoPlay(true),
             preload: preLoad(),
             controls: true
         });
-        player.appendChild(createNode("source", {
-            src: url,
-            type: "video/mp4"
-        }));
-
-        var container = document.getElementById("ItemContainer");
-        if (!container)
-            return;
-        rmChildren(container);
-        container.appendChild(player);
-        container.className += " leanback-player-video";
-        LBP.setup();
-        container.style = "";
-        player.style = "";
-        player.style.width = "inherit";
-        player.style.height = "inherit";
+        vp.setup();
     }
 
     function channelPage() {
@@ -52,26 +42,16 @@
         page = page.replace("/fplayer/", "/watch/").replace(/.swf$/, "");
         asyncGet(page).then((data) => {
             var url = getURL(data);
-            var player = createNode("video", {
+            var container = document.getElementById("ItemContainer");
+            //var container = embed.parentElement;
+            var vp = new VP(container);
+            vp.props({
                 autoplay: autoPlay(false),
                 preload: preLoad(),
                 controls: true
             });
-            player.appendChild(createNode("source", {
-                src: url,
-                type: "video/mp4"
-            }));
-            //            var container = embed.parentElement;
-            var container = document.getElementById("ItemContainer");
-            rmChildren(container);
-            container.appendChild(player);
-            container.className += " leanback-player-video";
-            LBP.setup();
-            container.style = "";
-            player.style = "";
-            player.style.width = "inherit";
-            player.style.height = "inherit";
-
+            vp.setMainSrc(url, "video/mp4");
+            vp.setup();
         });
     }
 
