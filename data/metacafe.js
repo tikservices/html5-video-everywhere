@@ -20,18 +20,20 @@
         }
         if (!url)
             return;
-        var player = createNode("video", {
-            autoplay: autoPlay(true),
-            preload: preLoad(),
-            controls: true,
-            src: url
-        });
-
         var container = document.getElementById("ItemContainer");
         if (!container)
             return;
-        rmChildren(container);
-        container.appendChild(player);
+        var vp = new VP(container);
+        vp.setMainSrc(url, "video/mp4");
+        vp.props({
+            autoplay: autoPlay(true),
+            preload: preLoad(),
+            controls: true
+        });
+        vp.style({
+            width: "100%"
+        });
+        vp.setup();
     }
 
     function channelPage() {
@@ -43,16 +45,19 @@
         page = page.replace("/fplayer/", "/watch/").replace(/.swf$/, "");
         asyncGet(page).then((data) => {
             var url = getURL(data);
-            var player = createNode("video", {
+            var container = document.getElementById("ItemContainer");
+            //var container = embed.parentElement;
+            var vp = new VP(container);
+            vp.setMainSrc(url, "video/mp4");
+            vp.props({
                 autoplay: autoPlay(false),
                 preload: preLoad(),
-                controls: true,
-                src: url
+                controls: true
             });
-            var container = embed.parentElement;
-            rmChildren(container);
-            container.appendChild(player);
-
+            vp.style({
+                width: "100%"
+            });
+            vp.setup();
         });
     }
 

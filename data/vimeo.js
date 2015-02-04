@@ -7,20 +7,25 @@
 
     function injectPlayer(conf) {
         try {
-            let player_container, player;
+            let player_container, player, stl;
             if (conf.isEmbed) {
                 player_container = document.body;
-                rmChildren(player_container);
             } else if (conf.isWatch) {
                 player_container = document.getElementById("video");
-                player_container.children[1].remove();
+                if ((stl = player_container.children[0]) &&
+                    (stl = stl.sheet) &&
+                    (stl.cssRules.length > 0)) {
+                    stl = stl.cssRules[0].cssText;
+                }
+                //player_container.children[1].remove();
             } else {
                 player_container = document.getElementById("clip_" + conf.id);
-                rmChildren(player_container);
             }
             if (!player_container)
                 return;
-            player = createNode("video", {
+            var vp = new VP(player_container);
+            vp.setMainSrc(conf.url, "video/mp4");
+            vp.props({
                 className: conf.className,
                 autoplay: autoPlay(),
                 preload: preLoad(),
@@ -28,10 +33,9 @@
                 poster: conf.poster,
                 volume: OPTIONS.volume / 100
             });
-            player.appendChild(createNode("source", {
-                src: conf.url
-            }));
-            player_container.appendChild(player);
+            if (stl)
+                vp.addCSSRule(stl);
+            vp.setup();
         } catch (e) {
             console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
         }

@@ -25,19 +25,19 @@
     });
 
     function injectPlayer(url) {
-        var player = createNode("video", {
+        rmChildren(document.head);
+        var vp = new VP(document.body);
+        vp.setMainSrc(url, "video/mp4");
+        vp.props({
             controls: true,
             autoplay: autoPlay(true),
-            preload: preLoad(),
-            src: url
-        }, {
-            width: "100%",
-            heigth: "100%"
+            preload: preLoad()
         });
-
-        rmChildren(document.body);
-        rmChildren(document.head);
-        document.body.appendChild(player);
+        vp.style({
+            width: "100%",
+            height: "100%"
+        });
+        vp.setup();
     }
 
     function fallback() {

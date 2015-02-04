@@ -117,6 +117,24 @@
       "value": 100
     },
     {
+      "name": "player",
+      "title": "Video Player",
+      "description": "Set video player to use",
+      "type": "menulist",
+      "value": 0,
+      "options": [
+        {
+          "label": "Firefox Video Player",
+          "value": "0"
+        },
+        {
+          "label": "Lean Back Player",
+          "value": "1"
+        }
+      ],
+      "hidden": true
+    },
+    {
       "name": "disableEmbed",
       "title": "Disable for Embed Youtube",
       "description": "Use default video player for embed videos",

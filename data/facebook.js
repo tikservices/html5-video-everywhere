@@ -14,18 +14,20 @@
         });
         if (url === undefined)
             return;
-        var player = createNode("video", {
-            //		preload: true,
+        //	var container = document.getElementsByClassName("_53j5")[0];
+        var container = document.getElementsByClassName("stageContainer")[0];
+        var vp = new VP(container);
+        vp.setMainSrc(url, "video/mp4");
+        vp.props({
             controls: true,
             autoplay: autoPlay(true),
-            preload: preLoad(),
-            src: url
-        }, {
+            preload: preLoad()
+        });
+        vp.style({
             width: "100%",
             heigth: "100%"
         });
+        vp.setup();
 
-        rmChildren(document.getElementsByClassName("_53j5")[0]);
-        document.getElementsByClassName("_53j5")[0].appendChild(player);
     });
 }());
