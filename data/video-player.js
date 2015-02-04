@@ -50,15 +50,8 @@ VP.prototype.setup = function() {
     this.patch(this.container, this._containerProps);
     this.patch(this.container, this._containerStyle, "style");
     this.log("setup");
-    /*
-        this.container.className += " leanback-player-video";
-        LBP.setup();
-        this.player.style = "";
-        this.player.style = "";
-        this.player.style.position = "relative";
-        this.player.style.height = "inherit";
-        this.container.style.marginLeft = "0px";
-    */
+    if (OPTIONS.player === 1)
+        this.setupLBP();
 };
 VP.prototype.on = function(evt, cb) {
     this.player["on" + evt] = cb; //TODO
@@ -109,6 +102,15 @@ VP.prototype.props = function(props) {
 };
 VP.prototype.containerProps = function(props) {
     this.apply(props, this.container, "_containerProps");
+};
+VP.prototype.setupLBP = function() {
+    this.container.className += " leanback-player-video";
+    LBP.setup();
+    this.player.style = "";
+    this.player.style = "";
+    this.player.style.position = "relative";
+    this.player.style.height = "inherit";
+    this.container.style.marginLeft = "0px";
 };
 VP.prototype.apply = function(props, el, obj, sub) {
     for (var prop in props) {
