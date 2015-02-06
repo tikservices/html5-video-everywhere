@@ -11,13 +11,13 @@
             if (conf.isEmbed) {
                 player_container = document.body;
             } else if (conf.isWatch) {
-                player_container = document.getElementById("video");
+                player_container = document.getElementById("video") ||
+                    document.getElementById("video_wrapper");
                 if ((stl = player_container.children[0]) &&
                     (stl = stl.sheet) &&
                     (stl.cssRules.length > 0)) {
                     stl = stl.cssRules[0].cssText;
                 }
-                //player_container.children[1].remove();
             } else {
                 player_container = document.getElementById("clip_" + conf.id);
             }
@@ -36,6 +36,8 @@
             if (stl)
                 vp.addCSSRule(stl);
             vp.setup();
+            if (conf.isWatch)
+                brozarEvents();
         } catch (e) {
             console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
         }
@@ -43,14 +45,16 @@
 
     function getConfig() {
         return new Promise((resolve, reject) => {
-            var isWatch = /https?:\/\/vimeo.com\/[\d]+/.test(location.href);
+            var isWatch = /https?:\/\/vimeo.com\/[\d]+/.test(location.href) ||
+                ogType().indexOf("video") > -1;
             var isEmbed = /https?:\/\/player.vimeo.com\/video/.test(location.href);
-            var isChannel = /https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href);
+            var isChannel = /https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href) ||
+                ogType().match(/channel|profile/) !== null;
             if (!isWatch && !isChannel && !isEmbed)
                 reject();
             var player_id, player_class;
             if (isWatch) {
-                player_id = location.pathname.match(/^\/([\d]+)/)[1];
+                player_id = location.pathname.match(/\/([\d]+)/)[1];
                 player_class = "player";
             } else if (isEmbed) {
                 player_id = location.pathname.match(/video\/([\d]+)/)[1];
@@ -84,7 +88,7 @@
             conf.url = fmt.url;
             return Promise.resolve(conf);
         };
-        const INFO_URL = "https://player.vimeo.com/video/";
+        const INFO_URL = "//player.vimeo.com/video/";
         if (conf.isChannel) {
             return Array.map(document.getElementsByClassName("player_container"), (el) => {
                 var _conf = {};
@@ -98,5 +102,30 @@
             return asyncGet(INFO_URL + conf.id + "/config").then(processData(conf))
                 .then(injectPlayer);
         }
+    }
+
+    function brozarEvents() {
+        // change Vimeo default click events of items on brozar element
+        var clips = document.getElementById("clips");
+        if (clips)
+            clips.onclick = function(e) {
+                if (e.target === e.currentTarget)
+                    return;
+                var li = e.target;
+                while (li.tagName !== "LI")
+                    li = li.parentElement;
+                window.location = "/" + li.id.replace("clip_", "");
+            };
+        var promos = document.getElementsByClassName("js-promo_link");
+        var promoClick = function(e) {
+            window.location = "/" + e.currentTarget.dataset.clipId;
+        };
+        for (var i = 0; promos && i < promos.length; i++)
+            promos[i].onclick = promoClick;
+    }
+
+    function ogType() {
+        var t = document.head.querySelector("meta[property=\"og:type\"]");
+        return (t) ? t.content : "";
     }
 }());
