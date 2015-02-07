@@ -1,3 +1,25 @@
+/***** BEGIN LICENSE BLOCK *****
+
+    FlashGot - a Firefox extension for external download managers integration
+    Copyright (C) 2004-2013 Giorgio Maone - g.maone@informaction.com
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+                             
+***** END LICENSE BLOCK *****/
+/* the following jshint rules are added by Moez Bouhlel to pass 
+ * HTML5-Video-EveryWhere build validation */
 /* jshint -W033, -W055, -W116, -W016, -W073, -W040, -W071, -W074, -W032, -W004, -W027, -W035, -W052, -W062, -W059, -W084*/
 /* jshint strict:false */
 /* global onmessage:true, postMessage */
