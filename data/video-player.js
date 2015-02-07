@@ -132,6 +132,7 @@ VP.prototype.patch = function(el, props, sub) {
                 el[prop] = props[prop];
 };
 VP.prototype.log = function(...args) {
+    if (OPTIONS.production) return;
     args.unshift("[DRIVER::VP]");
     console.log.apply(console, args);
 };

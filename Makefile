@@ -14,9 +14,11 @@ beautify:
 		| xargs js-beautify -r
 	find . -name "*.json" | xargs -n 1 jsonlint -i
 build-generic:
-	cfx xpi --force-mobile $(ARGS)
+	cfx xpi --force-mobile \
+		'$(shell echo $(ARGS) | sed 's/}$$/,"production":true}/')'
 build-yt:
-	cfx xpi --force-mobile $(YTARGS)
+	cfx xpi --force-mobile \
+		'$(shell echo $(ARGS) | sed 's/}$$/,"production":true}/')'
 run:
 	cfx run $(ARGS)
 run-yt:

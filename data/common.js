@@ -93,6 +93,7 @@ const asyncGet = (url, headers, mimetype) => {
 };
 
 const logify = (...args) => {
+    if (OPTIONS.production) return;
     args = args.map(s => JSON.stringify(s, null, 2));
     args.unshift("[DRIVER]");
     console.log.apply(console, args);
