@@ -1,8 +1,10 @@
 # List of drivers to enable on build
 DRIVERS = break,dailymotion,facebook,metacafe,vimeo,youtube
 
-YTARGS += --static-args='{"drivers":["youtube"]}' --manifest-overload=package-youtube-video-player.json
-ARGS   += --static-args='{"drivers":["$(shell echo $(DRIVERS) | sed 's/,/","/g')"]}'
+YTARGS += --static-args='{"drivers":["youtube"]}' \
+	--manifest-overload=package-youtube-video-player.json
+ARGS   += --static-args='{"drivers":["$(shell echo $(DRIVERS) \
+	| sed 's/,/","/g')"]}'
 
 .NOTPARALLEL : all
 all: lint beautify build
@@ -14,11 +16,11 @@ beautify:
 		| xargs js-beautify -r
 	find . -name "*.json" | xargs -n 1 jsonlint -i
 build-generic:
-	cfx xpi --force-mobile \
-		'$(shell echo $(ARGS) | sed 's/}$$/,"production":true}/')'
+	cfx xpi --force-mobile $(shell echo $(ARGS) \
+		| sed "s/\]}/\],\"production\":true}'/;s/args={/args='{/")
 build-yt:
-	cfx xpi --force-mobile \
-		'$(shell echo $(ARGS) | sed 's/}$$/,"production":true}/')'
+	cfx xpi --force-mobile $(shell echo $(YTARGS) \
+		| sed "s/\]}/\],\"production\":true}'/;s/args={/args='{/")
 run:
 	cfx run $(ARGS)
 run-yt:
