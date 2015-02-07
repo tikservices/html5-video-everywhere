@@ -1,0 +1,26 @@
+# Version: 0.8.0.93 - Date: 2012-03-05
+----------------------------------------
+* fixed an issue with control bar calculation using iframes
++ added first HTML5 video and audio support for Opera Mobile 12 on Android devices
+
+# Version: 0.8.0.92 - Date: 2012-02-22
+----------------------------------------
+* fixed an issue where volume bars wasn't set correct
+* fixed some issues in english translation
+
+# Version: 0.8.0.91 - Date: 2012-02-21
+----------------------------------------
+* fixed a volume-calculation issue in Safari
+
+# Version: 0.8.0.90 - Date: 2012-02-21
+----------------------------------------
+* improved support for (CORS) IFrame usage including full-window mode
++ added CSS style for missing stop button in controlbar
++ added french translation
+* fixed a volume-calculation issue in Chrome
+* fixed some overall issues, made some overall (cosmetic) improvements
+
+
+# Version: 0.8.0.89 - Date: 2011-12-23
+----------------------------------------
+* first public release of LeanBack Player version 0.8.0.89
