@@ -47,7 +47,7 @@
                     if (conf.isWatch)
                         playNextOnFinish();
                 } catch (e) {
-                    console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
+                    logify("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
                 }
             })
             .catch((rej) => {

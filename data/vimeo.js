@@ -39,7 +39,7 @@
             if (conf.isWatch)
                 brozarEvents();
         } catch (e) {
-            console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
+            logify("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
         }
     }
 

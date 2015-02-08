@@ -109,7 +109,7 @@ const onReady = f => {
             document.addEventListener("DOMContentLoaded", f);
         }
     } catch (e) {
-        console.error("Exception", e.lineNumber, e.columnNumber, e.message, e.stack);
+        logify("Exception", e.lineNumber, e.columnNumber, e.message, e.stack);
     }
 };
 
