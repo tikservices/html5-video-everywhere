@@ -96,7 +96,7 @@ const logify = (...args) => {
     if (OPTIONS.production) return;
     args = args.map(s => JSON.stringify(s, null, 2));
     args.unshift("[DRIVER]");
-    console.log.apply(console, args);
+    dump(args.join(" ") + "\n");
 };
 
 const onReady = f => {
@@ -109,7 +109,7 @@ const onReady = f => {
             document.addEventListener("DOMContentLoaded", f);
         }
     } catch (e) {
-        console.error("Exception", e.lineNumber, e.columnNumber, e.message, e.stack);
+        logify("Exception", e.lineNumber, e.columnNumber, e.message, e.stack);
     }
 };
 

@@ -47,7 +47,8 @@
                     if (conf.isWatch)
                         playNextOnFinish();
                 } catch (e) {
-                    console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
+                    logify("EXCEPTION: unexpected error on changePlayer",
+                        e.lineNumber, e.columnNumber, e.message, e.stack);
                 }
             })
             .catch((rej) => {
@@ -58,45 +59,47 @@
                         var error = rej.data.match(/reason=([^&]*)&/);
                         if (error)
                             errorMessage("Failed to load video url with the following error message: " +
-                                error[1].replace("+", " ", "g"));
+                                error[1].replace("+", " ", "g"), rej.conf);
                         break;
                     case "NO_SUPPORTED_VIDEO_FOUND":
                         errorMessage("Failed to find any playable video url." +
                             (rej.unsig ? " All urls are not signed" : ""), rej.conf);
+                        break;
+                    default:
+                        logify("EXCEPTION: unexpected error on changePlayer", rej);
                         break;
                 }
             });
     }
 
     function errorMessage(msg, conf) {
-        logify("errorMessage", msg, conf);
         var error_container;
+        if (vp)
+            vp.end();
         if (conf)
             error_container = getPlayerContainer(conf);
         if (!error_container)
             error_container = document.getElementById("player-unavailable") || document.getElementById("player");
         if (!error_container)
             return;
+        vp = new VP(error_container);
         if (conf && conf.isWatch)
-            error_container.className += " player-height player-width";
+            vp.containerProps({
+                className: " player-height player-width"
+            });
         if (conf && conf.isChannel)
-            error_container.className += " c4-player-container"; //" html5-main-video";
+            vp.containerProps({
+                className: " c4-player-container"
+            }); //" html5-main-video";
         if (conf && conf.isEmbed) {
-            error_container.className += " full-frame";
+            vp.containerProps({
+                className: " full-frame"
+            });
         }
-        error_container.style.background = "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626";
-        rmChildren(error_container);
-        error_container.appendChild(createNode("p", {
-            textContent: "Ooops! :("
-        }, {
-            padding: "15px",
-            fontSize: "20px"
-        }));
-        error_container.appendChild(createNode("p", {
-            textContent: msg
-        }, {
-            fontSize: "20px"
-        }));
+        vp.containerStyle({
+            background: "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626"
+        });
+        vp.error(msg);
     }
 
     function getPlayerContainer(conf) {
@@ -110,36 +113,32 @@
 
     function getConfig() {
         return new Promise((resolve, reject) => {
-            var isEmbed = location.href.search("youtube.com/embed/") > -1;
-            var isWatch = location.href.search("youtube.com/watch?") > -1;
-            var isChannel = location.href.search("youtube.com/channel/") > -1 || location.href.search("youtube.com/user/") > -1;
-            if (!isEmbed && !isWatch && !isChannel)
+            var conf = {};
+            conf.isEmbed = location.href.search("youtube.com/embed/") > -1;
+            conf.isWatch = location.href.search("youtube.com/watch?") > -1;
+            conf.isChannel = location.href.search("youtube.com/channel/") > -1 || location.href.search("youtube.com/user/") > -1;
+            if (!conf.isEmbed && !conf.isWatch && !conf.isChannel)
                 reject();
-            var player_id, player_class;
-            if (isEmbed) {
-                player_id = location.pathname.match(/^\/embed\/([^?#/]*)/)[1];
-                player_class = "full-frame";
-            } else if (isChannel) {
+            if (conf.isEmbed) {
+                conf.id = location.pathname.match(/^\/embed\/([^?#/]*)/)[1];
+                conf.className = "full-frame";
+            } else if (conf.isChannel) {
                 var upsell = document.getElementById("upsell-video");
                 if (!upsell)
                     reject();
-                player_id = upsell.dataset["videoId"];
-                player_class = "c4-player-container"; //+ " html5-main-video"
+                conf.id = upsell.dataset["videoId"];
+                conf.className = "c4-player-container"; //+ " html5-main-video"
             } else {
-                player_id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
-                player_class = "player-width player-height";
+                conf.id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
+                conf.className = "player-width player-height";
             }
-            if (!player_id)
+            if (!conf.id)
                 reject({
-                    error: "PLAYER_ID_NOT_FOUND"
+                    error: "PLAYER_ID_NOT_FOUND",
+                    conf: conf
                 });
-            resolve({
-                isEmbed: isEmbed,
-                isWatch: isWatch,
-                isChannel: isChannel,
-                id: player_id,
-                className: player_class
-            });
+            else
+                resolve(conf);
         });
     }
 
@@ -165,7 +164,8 @@
                     if (/status=fail/.test(data)) {
                         return reject({
                             error: "VIDEO_URL_UNACCESSIBLE",
-                            data: data
+                            data: data,
+                            conf: conf
                         });
                     }
                     // get the poster url

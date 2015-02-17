@@ -66,6 +66,7 @@
     "preLoad",
     "asyncGet",
     "rmChildren",
-    "VP"
+    "VP",
+    "dump"
   ]
 }
