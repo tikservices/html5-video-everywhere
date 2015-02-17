@@ -62,7 +62,8 @@ VP.prototype.stop = function() {
         return;
     this.player.pause();
     this.player.onended = undefined;
-    this.player.currentTime = this.player.duration;
+    if (this.player.duration)
+        this.player.currentTime = this.player.duration;
 };
 VP.prototype.clean = function() {
     this.log("clean");
@@ -102,6 +103,28 @@ VP.prototype.props = function(props) {
 };
 VP.prototype.containerProps = function(props) {
     this.apply(props, this.container, "_containerProps");
+};
+VP.prototype.error = function(msg) {
+    this.log("ERROR Msg:", msg);
+    this.clean();
+    if (!this.styleEl)
+        this.styleEl = createNode("style");
+    this.container.appendChild(createNode("p", {
+        textContent: "Ooops! :("
+    }, {
+        padding: "15px",
+        fontSize: "20px"
+    }));
+    this.container.appendChild(createNode("p", {
+        textContent: msg
+    }, {
+        fontSize: "20px"
+    }));
+    this.container.appendChild(this.styleEl);
+    this._CSSRules.forEach(s => this.styleEl.sheet.insertRule(s,
+        this.styleEl.sheet.cssRules.length));
+    this.patch(this.container, this._containerProps);
+    this.patch(this.container, this._containerStyle, "style");
 };
 VP.prototype.setupLBP = function() {
     this.container.className += " leanback-player-video";
