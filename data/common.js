@@ -1,7 +1,7 @@
-/* global OPTIONS:true, onPrefChange:true, getPreferredFmt:true */
+/* global OPTIONS:true, onPrefChange:true */
 /* global createNode:true, asyncGet:true, onReady:true, onInit:true, logify:true */
 /* global preLoad:true, autoPlay:true, HANDLE_VOL_PREF_CHANGE:true */
-/* global rmChildren:true */
+/* global rmChildren:true, Qlt:true, Cdc:true, chgPref:true */
 // the following jshint global rule is only because jshint support for ES6 arrow
 // functions is limited
 /* global wrapper:true, args:true, auto:true */
@@ -17,9 +17,12 @@ const Qlt = [
     "medium",
     "low"
 ];
+const Cdc = [
+    "webm",
+    "mp4"
+];
 // set it to false if the module uses custom listener
 var HANDLE_VOL_PREF_CHANGE = true;
-const Cdc = ["webm", "mp4"];
 self.port.on("preferences", function(prefs) {
     OPTIONS = prefs;
     onPrefChange.forEach(f => f());
@@ -33,29 +36,12 @@ self.port.on("prefChanged", function(pref) {
         });
     onPrefChange.forEach(f => f(pref.name));
 });
-
-const getPreferredFmt = (fmts, wrapper = {}) => {
-    // for example of the optional wrapper, see data/youtube-formats.js
-    var i, j, slct;
-    var _cdc = [
-        Cdc[OPTIONS.prefCdc],
-        Cdc[(OPTIONS.prefCdc + 1 % 2)]
-    ];
-    i = OPTIONS.prefQlt;
-    while (i > -1) {
-        for (j = 0; j < 2; j++) {
-            slct = Qlt[i] + "/" + _cdc[j];
-            slct = wrapper[slct] || slct;
-            if (fmts[slct])
-                return fmts[slct];
-        }
-        i = (i >= OPTIONS.prefQlt) ? i + 1 : i - 1;
-        if (i > 3)
-            i = OPTIONS.prefQlt - 1;
-    }
-    logify("Error on getPreferredFmt", fmts, wrapper);
+const chgPref = (name, val) => {
+    self.port.emit("prefChang", {
+        name: name,
+        val: val
+    });
 };
-
 const createNode = (type, prprt, style, data) => {
     logify("createNode", type, prprt);
     var node = document.createElement(type);

@@ -24,7 +24,11 @@
             if (!player_container)
                 return;
             var vp = new VP(player_container);
-            vp.setMainSrc(conf.url, "video/mp4");
+            vp.srcs(conf.fmts, {
+                "high/mp4": "hd",
+                "medium/mp4": "sd",
+                "low/mp4": "mobile"
+            }, (fmt) => fmt.url);
             vp.props({
                 className: conf.className,
                 autoplay: autoPlay(),
@@ -77,15 +81,8 @@
     function getVideoInfo(conf) {
         const processData = (conf) => (data) => {
             data = JSON.parse(data);
-            var fmt = getPreferredFmt(data.request.files.h264, {
-                "high/mp4": "hd",
-                "medium/mp4": "sd",
-                "low/mp4": "mobile"
-            });
-            if (fmt === undefined)
-                return Promise.reject();
+            conf.fmts = data.request.files.h264;
             conf.poster = data.video.thumbs.base;
-            conf.url = fmt.url;
             return Promise.resolve(conf);
         };
         const INFO_URL = "//player.vimeo.com/video/";

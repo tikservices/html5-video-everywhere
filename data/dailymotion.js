@@ -15,18 +15,15 @@
             urls[r[1]] = r[2].replace("\\/", "/", "g");
         });
         var types = [];
-        url = getPreferredFmt(urls, {
+        var poster = (document.body.innerHTML.match(/"thumbnail_url":"([^"]*)"/) || ["", ""])[1].replace("\\/", "/", "g");
+        var vp = new VP(document.body);
+        vp.srcs(urls, {
             // stream_h264_hd1080_url
             "higher/mp4": "stream_h264_hd_url", // H264 1280x720
             "high/mp4": "stream_h264_hq_url", // H264 848x480
             "medium/mp4": "stream_h264_url", // H264 512x384
             "low/mp4": "stream_h264_ld_url" // H264 320x240
         });
-        if (url === undefined)
-            return;
-        var poster = (document.body.innerHTML.match(/"thumbnail_url":"([^"]*)"/) || ["", ""])[1].replace("\\/", "/", "g");
-        var vp = new VP(document.body);
-        vp.setMainSrc(url, "video/mp4");
         vp.props({
             controls: true,
             autoplay: autoPlay(),

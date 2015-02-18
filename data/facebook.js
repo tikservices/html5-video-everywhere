@@ -8,16 +8,13 @@
     onInit(() => {
         var params = document.body.innerHTML.match(/\"params\",(\"[^\"]*\")/)[1];
         params = JSON.parse(decodeURIComponent(JSON.parse(params)));
-        var url = getPreferredFmt({
-            "medium/mp4": params.video_data[0].sd_src,
-            "high/mp4": params.video_data[0].hd_src
-        });
-        if (url === undefined)
-            return;
         //	var container = document.getElementsByClassName("_53j5")[0];
         var container = document.getElementsByClassName("stageContainer")[0];
         var vp = new VP(container);
-        vp.setMainSrc(url, "video/mp4");
+        vp.srcs({
+            "medium/mp4": params.video_data[0].sd_src,
+            "high/mp4": params.video_data[0].hd_src
+        });
         vp.props({
             controls: true,
             autoplay: autoPlay(true),

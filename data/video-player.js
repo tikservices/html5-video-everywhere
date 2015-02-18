@@ -4,8 +4,7 @@ const VP = function(container) {
     this.attached = false;
     this.player = undefined;
     this.container = container;
-    this.srcs = [];
-    this.src = {};
+    this._srcs = [];
     this._style = {};
     this._containerStyle = {};
     this._props = {};
@@ -14,33 +13,74 @@ const VP = function(container) {
     this.styleEl = undefined;
 };
 VP.prototype = {};
-VP.prototype.addSrc = function(url, type) {
-    this.log("addSrc", type);
-    this.srcs.push({
-        src: url,
-        type: type
-    });
+VP.prototype.addSrc = function(url, qlt, cdc) {
+    this.log("addSrc", qlt, cdc);
+    this._srcs[Qlt.indexOf(qlt) * 2 + Cdc.indexOf(cdc)] = url;
 };
-VP.prototype.setMainSrc = function(url, type) {
-    this.log("setMainSrc", type);
-    this.src = {
-        src: url,
-        type: type
-    };
+VP.prototype.srcs = function(fmts, wrapper, get) {
+    var slct, i, j;
+    if (!wrapper) {
+        for (slct in fmts) {
+            i = Qlt.indexOf(slct.split("/")[0]);
+            j = Cdc.indexOf(slct.split("/")[1]);
+            this._srcs[i * 2 + j] = fmts[slct];
+        }
+        return;
+    }
+    for (i = 0; i < Qlt.length; i++) {
+        for (j = 0; j < Cdc.length; j++) {
+            slct = Qlt[i] + "/" + Cdc[j];
+            if (!(slct in wrapper) || !fmts[wrapper[slct]])
+                continue;
+            this._srcs[i * 2 + j] = (get) ?
+                (get(fmts[wrapper[slct]]) || this._srcs[i * 2 + j]) : fmts[wrapper[slct]];
+        }
+    }
+};
+VP.prototype.mainSrcIndex = function() {
+    var i, j, slct;
+    i = OPTIONS.prefQlt;
+    while (i > -1) {
+        if (this._srcs[i * 2 + OPTIONS.prefCdc])
+            return {
+                qlt: i,
+                cdc: OPTIONS.prefCdc
+            };
+        else if (this._srcs[i * 2 + (OPTIONS.prefCdc + 1 % 2)])
+            return {
+                qlt: i,
+                cdc: OPTIONS.prefCdc + 1 % 2
+            };
+        i = (i >= OPTIONS.prefQlt) ? i + 1 : i - 1;
+        if (i > 3)
+            i = OPTIONS.prefQlt - 1;
+    }
 };
 VP.prototype.setup = function() {
+    var idx = this.mainSrcIndex();
+    if (!idx)
+        return this.error("Failed to find video url");
     this.clean();
-    if (!this.player) {
-        this.player = createNode("video", this._props, this._style);
-    }
+    // just to force contextmenu id
+    this.container.innerHTML = "<video contextmenu='h5vew-contextmenu'></video>";
+    this.player = this.container.firstChild;
+    //    if (!this.player) {
+    //        this.player = createNode("video", this._props, this._style);
+    //    }
     if (!this.styleEl)
         this.styleEl = createNode("style");
     this.patch(this.player, this._props);
     this.patch(this.player, this._style, "style");
-    this.player.appendChild(createNode("source", this.src));
-    this.srcs.forEach((src) => {
-        if (src.src !== this.src.src)
-            this.player.appendChild(createNode("source", src));
+    this.player.appendChild(createNode("source", {
+        src: this._srcs[idx.qlt * 2 + idx.cdc],
+        type: "video/" + Cdc[idx.cdc]
+    }));
+    this._srcs.forEach((url, i) => {
+        if (i !== idx.qlt * 2 + idx.cdc)
+            this.player.appendChild(createNode("source", {
+                src: url,
+                type: "video/" + Cdc[i % 2]
+            }));
     });
     this.container.appendChild(this.player);
     this.container.appendChild(this.styleEl);
@@ -52,6 +92,8 @@ VP.prototype.setup = function() {
     this.log("setup");
     if (OPTIONS.player === 1)
         this.setupLBP();
+    else
+        this.setupContextMenu(idx);
 };
 VP.prototype.on = function(evt, cb) {
     this.player["on" + evt] = cb; //TODO
@@ -78,7 +120,7 @@ VP.prototype.end = function() {
     this.log("end");
     this.stop();
     this.clean();
-    this.srcs = [];
+    this._srcs = {};
     this._style = {};
     this._containerStyle = {};
     this._props = {};
@@ -134,6 +176,69 @@ VP.prototype.setupLBP = function() {
     this.player.style.position = "relative";
     this.player.style.height = "inherit";
     this.container.style.marginLeft = "0px";
+};
+VP.prototype.setupContextMenu = function(idx) {
+    this._contextMenu = createNode("menu", {
+        type: "context", //"popup",
+        id: "h5vew-contextmenu"
+    });
+    var qltMenu = createNode("menu", {
+        id: "h5vew-menu-qlt",
+        label: "Video Quality"
+    });
+    for (var i = 0; i < Qlt.length; i++)
+        qltMenu.appendChild(createNode("menuitem", {
+            type: "radio",
+            label: Qlt[i],
+            radiogroup: "menu-qlt",
+            checked: (idx.qlt === i),
+            disabled: !(this._srcs[i * 2] || this._srcs[i * 2 + 1]),
+            onclick: (e) => {
+                idx.qlt = Qlt.indexOf(e.target.label);
+                idx.cdc = (this._srcs[idx.qlt * 2 + idx.cdc]) ?
+                    idx.cdc : (idx.cdc + 1 % 2);
+                var paused = this.player.paused;
+                this.player.src = this._srcs[idx.qlt * 2 + idx.cdc] +
+                    "#t=" + this.player.currentTime;
+                this.player.load();
+                this.player.oncanplay = () => {
+                    if (!paused)
+                        this.player.play();
+                    this.player.oncanplay = undefined;
+                };
+            }
+        }));
+    var cdcMenu = createNode("menu", {
+        id: "h5vew-menu-cdc",
+        label: "Preferred Video Format"
+    });
+    for (i = 0; i < Cdc.length; i++)
+        cdcMenu.appendChild(createNode("menuitem", {
+            type: "radio",
+            label: Cdc[i],
+            radiogroup: "menu-cdc",
+            checked: (OPTIONS.prefCdc === i),
+            onclick: (e) =>
+                chgPref("prefCdc", Cdc.indexOf(e.target.label))
+        }));
+    var autoNextMenu = createNode("menuitem", {
+        id: "h5vew-menu-autonext",
+        type: "checkbox",
+        label: "Auto Play Next Video",
+        checked: OPTIONS.autoNext,
+        onclick: (e) => chgPref("autoNext", e.target.checked)
+    });
+    const prefChanged = (name) => {
+        if (name === "autoNext")
+            autoNextMenu.checked = OPTIONS.autoNext;
+    };
+    onPrefChange.push(prefChanged);
+    this._contextMenu.appendChild(qltMenu);
+    this._contextMenu.appendChild(cdcMenu);
+    this._contextMenu.appendChild(autoNextMenu);
+    this.container.appendChild(this._contextMenu);
+    // TODO: fix assigning contextMenu and uncommant createNode("video") ^
+    this.container.contextmenu = "h5vew-contextmenu";
 };
 VP.prototype.apply = function(props, el, obj, sub) {
     for (var prop in props) {

@@ -24,7 +24,7 @@
         if (!container)
             return;
         var vp = new VP(container);
-        vp.setMainSrc(url, "video/mp4");
+        vp.addSrc(url, "medium", "mp4");
         vp.props({
             autoplay: autoPlay(true),
             preload: preLoad(),
@@ -48,7 +48,7 @@
             var container = document.getElementById("ItemContainer");
             //var container = embed.parentElement;
             var vp = new VP(container);
-            vp.setMainSrc(url, "video/mp4");
+            vp.addSrc(url, "medium", "mp4");
             vp.props({
                 autoplay: autoPlay(false),
                 preload: preLoad(),

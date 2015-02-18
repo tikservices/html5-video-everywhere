@@ -27,6 +27,7 @@
                     if (!player_container)
                         return;
                     vp = new VP(player_container);
+                    vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url);
                     vp.containerProps({
                         className: conf.className || ""
                     });
@@ -42,7 +43,6 @@
                     vp.style({
                         position: "relative"
                     });
-                    vp.setMainSrc(conf.url, conf.type);
                     vp.setup();
                     if (conf.isWatch)
                         playNextOnFinish();
@@ -83,6 +83,7 @@
         if (!error_container)
             return;
         vp = new VP(error_container);
+        vp.srcs(conf.fmts, FMT_WRAPPER);
         if (conf && conf.isWatch)
             vp.containerProps({
                 className: " player-height player-width"
@@ -207,7 +208,7 @@
             if (unsignedVideos && OPTIONS.genYTSign) {
                 return fixSignature(conf);
             } else {
-                return selectVideo(conf, unsignedVideos);
+                return Promise.resolve(conf);
             }
         });
     }
@@ -221,26 +222,8 @@
             self.port.on("fixed_signature", (fmts) => {
                 conf.fmts = fmts;
                 logify("fixed Signature");
-                resolve(selectVideo(conf, true));
-            });
-        });
-    }
-
-    function selectVideo(conf, unsignedVideos) {
-        return new Promise((resolve, reject) => {
-            var fmt;
-            fmt = getPreferredFmt(conf.fmts, FMT_WRAPPER);
-            if (fmt === undefined) {
-                reject({
-                    error: "NO_SUPPORTED_VIDEO_FOUND",
-                    unsig: unsignedVideos,
-                    conf: conf
-                });
-            } else {
-                conf.url = fmt.url;
-                conf.type = fmt.type;
                 resolve(conf);
-            }
+            });
         });
     }
 
