@@ -34,6 +34,6 @@
             width: "100%",
             height: "100%"
         });
-        vp.setup();
+        vp.setup(OPTIONS.production);
     });
 }());

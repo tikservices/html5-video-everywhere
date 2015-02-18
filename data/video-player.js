@@ -56,10 +56,10 @@ VP.prototype.mainSrcIndex = function() {
             i = OPTIONS.prefQlt - 1;
     }
 };
-VP.prototype.setup = function() {
+VP.prototype.setup = function(returnOnError) {
     var idx = this.mainSrcIndex();
     if (!idx)
-        return this.error("Failed to find video url");
+        return returnOnError ? -1 : this.error("Failed to find video url");
     this.clean();
     // just to force contextmenu id
     this.container.innerHTML = "<video contextmenu='h5vew-contextmenu'></video>";

@@ -57,7 +57,7 @@
             vp.style({
                 width: "100%"
             });
-            vp.setup();
+            vp.setup(OPTIONS.production);
         });
     }
 
