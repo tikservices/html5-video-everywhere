@@ -228,6 +228,15 @@ VP.prototype.setupContextMenu = function(idx) {
         checked: OPTIONS.autoNext,
         onclick: (e) => chgPref("autoNext", e.target.checked)
     });
+    var disableMenu = createNode("menuitem", {
+        id: "h5vew-menu-disable",
+        label: "Disable " + OPTIONS.driver.charAt(0).toUpperCase() +
+            OPTIONS.driver.slice(1) + " Support",
+        onclick: () => {
+            self.port.emit("disable");
+            this._contextMenu.removeChild(disableMenu);
+        }
+    });
     const prefChanged = (name) => {
         if (name === "autoNext")
             autoNextMenu.checked = OPTIONS.autoNext;
@@ -236,6 +245,7 @@ VP.prototype.setupContextMenu = function(idx) {
     this._contextMenu.appendChild(qltMenu);
     this._contextMenu.appendChild(cdcMenu);
     this._contextMenu.appendChild(autoNextMenu);
+    this._contextMenu.appendChild(disableMenu);
     this.container.appendChild(this._contextMenu);
     // TODO: fix assigning contextMenu and uncommant createNode("video") ^
     this.container.contextmenu = "h5vew-contextmenu";
