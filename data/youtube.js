@@ -56,10 +56,9 @@
                     return;
                 switch (rej.error) {
                     case "VIDEO_URL_UNACCESSIBLE":
-                        var error = rej.data.match(/reason=([^&]*)&/);
-                        if (error)
+                        if (rej.data.reason)
                             errorMessage("Failed to load video url with the following error message: " +
-                                error[1].replace("+", " ", "g"), rej.conf);
+                                rej.data.reason, rej.conf);
                         break;
                     case "NO_SUPPORTED_VIDEO_FOUND":
                         errorMessage("Failed to find any playable video url." +
@@ -146,15 +145,10 @@
     function getVideoInfo(conf) {
         return new Promise((resolve, reject) => {
             var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
-            var YTCONFIG_REG = /ytplayer.config\s*=\s*({.*});\s*ytplayer/;
-            var ytc, ob;
-            if ((ob = document.body.innerHTML.match(YTCONFIG_REG)) &&
-                (ob = ob[1]) &&
-                (ytc = JSON.parse(ob)) &&
-                (conf.info = ytc.args.url_encoded_fmt_stream_map)) {
-                conf.poster = ytc.args.iurlhq;
-                if (ytc.url)
-                    swf_url = ytc.url;
+            if (unsafeWindow.ytplayer && unsafeWindow.ytplayer.config) {
+                conf.info = unsafeWindow.ytplayer.config.args.url_encoded_fmt_stream_map;
+                conf.poster = unsafeWindow.ytplayer.config.iurlhq;
+                swf_url = unsafeWindow.ytplayer.url;
                 resolve(conf);
             } else {
                 asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
@@ -162,7 +156,8 @@
                         try {
                             data = atob(data);
                         } catch (_) {}
-                    if (/status=fail/.test(data)) {
+                    data = parse(data);
+                    if (data.status === "fail") {
                         return reject({
                             error: "VIDEO_URL_UNACCESSIBLE",
                             data: data,
@@ -170,12 +165,10 @@
                         });
                     }
                     // get the poster url
-                    var poster = data.match(/iurlhq=([^&]*)/);
-                    if (poster)
-                        conf.poster = decodeURIComponent(poster[1]);
+                    if (data.iurlhq)
+                        conf.poster = data.iurlhq;
                     // extract avalable formats to fmts object
-                    var info = data.match(/url_encoded_fmt_stream_map=([^&]*)/)[1];
-                    conf.info = decodeURIComponent(info);
+                    conf.info = data.url_encoded_fmt_stream_map;
                     resolve(conf);
                 });
             }
@@ -183,17 +176,9 @@
             var player = createNode("video");
             var unsignedVideos = false;
             conf.fmts = {};
-            conf.info.split(",")
-                .map(it1 => {
-                    var oo = {};
-                    it1.split("&")
-                        .map(it2 => it2.split("="))
-                        .map(it3 => [it3[0], decodeURIComponent(it3[1])])
-                        .forEach(it4 => oo[it4[0]] = it4[1]);
-                    return oo;
-                })
+            parse(conf.info, true)
                 .filter(it5 => {
-                    if (player.canPlayType((it5.type = it5.type.replace("+", " ", "g"))) !== "probably")
+                    if (player.canPlayType(it5.type) !== "probably")
                         return false;
                     if (it5.url.search("signature=") === -1) {
                         unsignedVideos = true;
@@ -258,4 +243,23 @@
             });
         }
     }
+
+    function parse(data, splitComma) {
+        if (splitComma) {
+            return data.split(",").map(i => parse(i));
+        } else {
+            var res = {};
+            var nv;
+            data.split("&").forEach((p) => {
+                try {
+                    nv = p.split("=").map(function(v) {
+                        return decodeURIComponent(v.replace(/\+/g, " "));
+                    });
+                    if (!(nv[0] in res)) res[nv[0]] = nv[1];
+                } catch (e) {}
+            });
+            return res;
+        }
+    }
+
 }());

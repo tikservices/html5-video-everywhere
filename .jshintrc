@@ -69,6 +69,7 @@
     "rmChildren",
     "VP",
     "chgPref",
+    "unsafeWindow",
     "dump"
   ]
 }

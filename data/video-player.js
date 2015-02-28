@@ -61,7 +61,7 @@ VP.prototype.setup = function(returnOnError) {
     if (!idx)
         return returnOnError ? -1 : this.error("Failed to find video url");
     this.clean();
-    // just to force contextmenu id
+    // just to force contextmenu id. TODO: fix contextmenu and use createNode
     this.container.innerHTML = "<video contextmenu='h5vew-contextmenu'></video>";
     this.player = this.container.firstChild;
     //    if (!this.player) {
