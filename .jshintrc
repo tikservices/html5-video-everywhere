@@ -62,7 +62,6 @@
     "Qlt",
     "createNode",
     "onReady",
-    "onInit",
     "HANDLE_VOL_PREF_CHANGE",
     "autoPlay",
     "preLoad",

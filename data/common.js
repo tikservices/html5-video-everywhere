@@ -1,5 +1,5 @@
 /* global OPTIONS:true, onPrefChange:true, LANGS:true */
-/* global createNode:true, asyncGet:true, onReady:true, onInit:true, logify:true */
+/* global createNode:true, asyncGet:true, onReady:true, logify:true */
 /* global preLoad:true, autoPlay:true, HANDLE_VOL_PREF_CHANGE:true */
 /* global rmChildren:true, Qlt:true, Cdc:true, chgPref:true */
 // the following jshint global rule is only because jshint support for ES6 arrow
@@ -8,7 +8,7 @@
 "use strict";
 
 //This Addons Preferences
-var OPTIONS = {};
+var OPTIONS, init;
 // push your prefernces change listner function to this table, yah the old way
 const onPrefChange = [];
 const Cdc = ["webm", "mp4"];
@@ -18,6 +18,8 @@ const LANGS = ["af", "ar", "bn", "de", "en", "es", "fi", "fr", "hi", "id", "is",
 var HANDLE_VOL_PREF_CHANGE = true;
 self.port.on("preferences", function(prefs) {
     OPTIONS = prefs;
+    if (init)
+        init();
     onPrefChange.forEach(f => f());
 });
 
@@ -36,7 +38,7 @@ const chgPref = (name, val) => {
     });
 };
 const createNode = (type, prprt, style, data) => {
-    logify("createNode", type, prprt);
+    //logify("createNode", type, prprt);
     var node = document.createElement(type);
     if (prprt)
         Object.keys(prprt).forEach(p => node[p] = prprt[p]);
@@ -79,27 +81,19 @@ const logify = (...args) => {
 };
 
 const onReady = f => {
-    //TODO: document readyState is "loading" (and DOMECotentLoaded) even DOM elements are
-    //accessible
-    try {
-        if (document.readyState !== "loading") {
+    if (document.readyState !== "loading") {
+        if (OPTIONS)
             f();
-        } else {
-            document.addEventListener("DOMContentLoaded", f);
-        }
-    } catch (e) {
-        logify("Exception", e.lineNumber, e.columnNumber, e.message, e.stack);
+        else
+            init = f;
+    } else {
+        document.addEventListener("DOMContentLoaded", () => {
+            if (OPTIONS)
+                f();
+            else
+                init = f;
+        });
     }
-};
-
-const onInit = f => {
-    // code running on when="ready" mode or does not need until onReady
-    // execc but depend on preferences, need to wrapped to this funct.
-    // need
-    document.onafterscriptexecute = function() {
-        document.onafterscriptexecute = undefined;
-        f();
-    };
 };
 const autoPlay = (auto = false) => ((OPTIONS.autoplay === 1 || auto === true) &&
     OPTIONS.autoplay !== 0);

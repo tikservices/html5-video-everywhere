@@ -5,7 +5,6 @@
     var swf_url;
 
     onReady(() => {
-        // onInit does not works on channel/user page videos
         changePlayer();
         window.addEventListener("spfrequest", function() {
             if (vp)
