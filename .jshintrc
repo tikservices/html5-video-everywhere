@@ -54,6 +54,7 @@
   "node": true,
   "predef": [
     "OPTIONS",
+    "LANGS",
     "logify",
     "onPrefChange",
     "self",

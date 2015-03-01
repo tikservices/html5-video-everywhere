@@ -8,6 +8,7 @@ const VP = function(container) {
     this._style = {};
     this._containerStyle = {};
     this._props = {};
+    this._langs = [];
     this._containerProps = {};
     this._CSSRules = [];
     this.styleEl = undefined;
@@ -85,6 +86,7 @@ VP.prototype.setup = function(returnOnError) {
     this.container.appendChild(this.player);
     this.container.appendChild(this.styleEl);
     this.attached = true;
+    this.slctLang();
     this._CSSRules.forEach(s => this.styleEl.sheet.insertRule(s,
         this.styleEl.sheet.cssRules.length));
     this.patch(this.container, this._containerProps);
@@ -94,6 +96,37 @@ VP.prototype.setup = function(returnOnError) {
         this.setupLBP();
     else
         this.setupContextMenu(idx);
+};
+VP.prototype.tracksList = function(langs, fnct) {
+    this._langs = langs;
+    this._slctLang = fnct;
+    if (this.attached)
+        this.slctLang();
+};
+VP.prototype.slctLang = function(lang) {
+    if (!(lang !== undefined || OPTIONS.lang !== 0) || this._slctLang === undefined)
+        return;
+    if (lang === undefined)
+        lang = LANGS[OPTIONS.lang - 1];
+    var track;
+    if ((track = this.player.textTracks.getTrackById(lang))) {
+        track.mode = "showing";
+        this._lang = lang;
+    } else {
+        new Promise((resolve, reject) => this._slctLang(lang, resolve, reject))
+            .then((url) => {
+                track = createNode("track", {
+                    kind: "subtitles",
+                    id: lang,
+                    src: url,
+                    label: lang,
+                    srclang: lang
+                });
+                this.player.appendChild(track);
+                track.track.mode = "showing";
+                this._lang = lang;
+            });
+    }
 };
 VP.prototype.on = function(evt, cb) {
     this.player["on" + evt] = cb; //TODO
@@ -221,6 +254,32 @@ VP.prototype.setupContextMenu = function(idx) {
             onclick: (e) =>
                 chgPref("prefCdc", Cdc.indexOf(e.target.label))
         }));
+    var langMenu = createNode("menu", {
+        id: "h5vew-menu-lang",
+        label: "Subtitles"
+    });
+    langMenu.appendChild(createNode("menuitem", {
+        type: "radio",
+        label: "none",
+        radiogroup: "menu-lang",
+        checked: OPTIONS.lang === 0 || this._langs.findIndex((l) => l === LANGS[OPTIONS.lang - 1]) === -1,
+        onclick: (e) => {
+            if (this._lang === undefined)
+                return;
+            this.player.textTracks.getTrackById(this._lang).mode = "disabled";
+            this._lang = undefined;
+        }
+    }));
+    for (i = 0; i < this._langs.length; i++)
+        langMenu.appendChild(createNode("menuitem", {
+            type: "radio",
+            label: this._langs[i],
+            radiogroup: "menu-lang",
+            checked: this._langs[i] === LANGS[OPTIONS.lang - 1],
+            onclick: (e) =>
+                this.slctLang(e.target.label)
+        }));
+
     var autoNextMenu = createNode("menuitem", {
         id: "h5vew-menu-autonext",
         type: "checkbox",
@@ -244,6 +303,8 @@ VP.prototype.setupContextMenu = function(idx) {
     onPrefChange.push(prefChanged);
     this._contextMenu.appendChild(qltMenu);
     this._contextMenu.appendChild(cdcMenu);
+    if (this._langs.length > 0)
+        this._contextMenu.appendChild(langMenu);
     this._contextMenu.appendChild(autoNextMenu);
     this._contextMenu.appendChild(disableMenu);
     this.container.appendChild(this._contextMenu);

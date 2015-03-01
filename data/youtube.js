@@ -43,6 +43,12 @@
                     vp.style({
                         position: "relative"
                     });
+                    vp.tracksList((conf.tracks || []).map(i => i.lc), (lang, resolve, reject) => {
+                        var o = conf.tracks.find((i) => i.lc === lang);
+                        if (o === undefined)
+                            return reject();
+                        addWebVTT(lang, o.u, resolve, reject);
+                    });
                     vp.setup();
                     if (conf.isWatch)
                         playNextOnFinish();
@@ -147,6 +153,8 @@
             var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
             if (unsafeWindow.ytplayer && unsafeWindow.ytplayer.config) {
                 conf.info = unsafeWindow.ytplayer.config.args.url_encoded_fmt_stream_map;
+                if (unsafeWindow.ytplayer.config.args.caption_tracks)
+                    conf.tracks = parse(unsafeWindow.ytplayer.config.args.caption_tracks, true);
                 conf.poster = unsafeWindow.ytplayer.config.iurlhq;
                 swf_url = unsafeWindow.ytplayer.url;
                 resolve(conf);
@@ -169,6 +177,8 @@
                         conf.poster = data.iurlhq;
                     // extract avalable formats to fmts object
                     conf.info = data.url_encoded_fmt_stream_map;
+                    if (data.caption_tracks)
+                        conf.tracks = parse(data.caption_tracks, true);
                     resolve(conf);
                 });
             }
@@ -262,4 +272,33 @@
         }
     }
 
+    function addWebVTT(lang, url, resolve, reject) {
+        asyncGet(url).then((data) => {
+            var webvtt = "WEBVTT\n\n";
+            var XMLParser = new DOMParser();
+            var xml = XMLParser.parseFromString(data, "text/xml");
+            if (xml.documentElement.nodeName !== "transcript")
+                reject();
+            var els = xml.documentElement.childNodes;
+            for (var i = 0; i < els.length; i++) {
+                var start = els[i].attributes.getNamedItem("start");
+                var dur = els[i].attributes.getNamedItem("dur");
+                if (start === null || dur === null)
+                    continue;
+                start = parseFloat(start.value);
+                dur = parseFloat(dur.value);
+                var s = start % 60;
+                var m = (start - s) / 60;
+                var tl1 = "" + (m < 10 ? "0" : "") + m + ":" +
+                    (s < 10 ? "0" : "") + s.toFixed(3);
+                s = (start + dur) % 60;
+                m = (start + dur - s) / 60;
+                var tl2 = "" + (m < 10 ? "0" : "") + m + ":" +
+                    (s < 10 ? "0" : "") + s.toFixed(3);
+
+                webvtt += (i + 1) + "\n" + tl1 + " --> " + tl2 + "\n" + els[i].textContent + "\n\n";
+            }
+            resolve("data:text/vtt;base64," + btoa(webvtt.replace("&#39;", "'", "g")));
+        });
+    }
 }());

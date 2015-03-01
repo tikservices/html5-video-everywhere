@@ -1,4 +1,4 @@
-/* global OPTIONS:true, onPrefChange:true */
+/* global OPTIONS:true, onPrefChange:true, LANGS:true */
 /* global createNode:true, asyncGet:true, onReady:true, onInit:true, logify:true */
 /* global preLoad:true, autoPlay:true, HANDLE_VOL_PREF_CHANGE:true */
 /* global rmChildren:true, Qlt:true, Cdc:true, chgPref:true */
@@ -11,16 +11,9 @@
 var OPTIONS = {};
 // push your prefernces change listner function to this table, yah the old way
 const onPrefChange = [];
-const Qlt = [
-    "higher",
-    "high",
-    "medium",
-    "low"
-];
-const Cdc = [
-    "webm",
-    "mp4"
-];
+const Cdc = ["webm", "mp4"];
+const Qlt = ["higher", "high", "medium", "low"];
+const LANGS = ["af", "ar", "bn", "de", "en", "es", "fi", "fr", "hi", "id", "is", "it", "ja", "ko", "pt", "ru", "tu", "zh"];
 // set it to false if the module uses custom listener
 var HANDLE_VOL_PREF_CHANGE = true;
 self.port.on("preferences", function(prefs) {
