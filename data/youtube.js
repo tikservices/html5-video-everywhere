@@ -156,7 +156,7 @@
                 if (unsafeWindow.ytplayer.config.args.caption_tracks)
                     conf.tracks = parse(unsafeWindow.ytplayer.config.args.caption_tracks, true);
                 conf.poster = unsafeWindow.ytplayer.config.iurlhq;
-                swf_url = unsafeWindow.ytplayer.url;
+                swf_url = unsafeWindow.ytplayer.config.url;
                 resolve(conf);
             } else {
                 asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
