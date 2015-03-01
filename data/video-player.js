@@ -148,6 +148,18 @@ VP.prototype.clean = function() {
         this.player.pause();
         this.player.onended = undefined;
     }
+    // site default video player sometime continue playing on background
+    var vds = this.container.getElementsByTagName("video");
+    for (var i = 0; i < vds.length; i++) {
+        if (this.player === vds[i])
+            continue;
+        vds[i].pause();
+        vds[i].src = "";
+        vds[i].addEventListener("playing", (e) => {
+            e.currentTarget.pause();
+            e.currentTarget.src = "";
+        });
+    }
     rmChildren(this.container);
     this.attached = false;
 };
