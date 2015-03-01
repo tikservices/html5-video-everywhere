@@ -98,7 +98,7 @@ VP.prototype.setup = function(returnOnError) {
         this.setupContextMenu(idx);
 };
 VP.prototype.tracksList = function(langs, fnct) {
-    this._langs = langs;
+    this._langs = langs.sort();
     this._slctLang = fnct;
     if (this.attached)
         this.slctLang();
@@ -108,6 +108,8 @@ VP.prototype.slctLang = function(lang) {
         return;
     if (lang === undefined)
         lang = LANGS[OPTIONS.lang - 1];
+    if (this._lang)
+        this.player.textTracks.getTrackById(this._lang).mode = "disabled";
     var track;
     if ((track = this.player.textTracks.getTrackById(lang))) {
         track.mode = "showing";

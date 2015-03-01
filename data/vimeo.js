@@ -37,6 +37,13 @@
                 poster: conf.poster,
                 volume: OPTIONS.volume / 100
             });
+            vp.tracksList(conf.tracks.map(l => l.lang), (lang, resolve, reject) => {
+                var l = conf.tracks.find(l => l.lang === lang);
+                if (l === undefined)
+                    reject();
+                else
+                    resolve(l.direct_url || l.url);
+            });
             if (stl)
                 vp.addCSSRule(stl);
             vp.setup(OPTIONS.production);
@@ -83,6 +90,7 @@
             data = JSON.parse(data);
             conf.fmts = data.request.files.h264;
             conf.poster = data.video.thumbs.base;
+            conf.tracks = data.request.text_tracks || [];
             return Promise.resolve(conf);
         };
         const INFO_URL = "//player.vimeo.com/video/";
