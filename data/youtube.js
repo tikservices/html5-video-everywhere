@@ -153,9 +153,9 @@
             var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
             if (unsafeWindow.ytplayer && unsafeWindow.ytplayer.config) {
                 conf.info = unsafeWindow.ytplayer.config.args.url_encoded_fmt_stream_map;
+                conf.poster = unsafeWindow.ytplayer.config.args.iurlhq;
                 if (unsafeWindow.ytplayer.config.args.caption_tracks)
                     conf.tracks = parse(unsafeWindow.ytplayer.config.args.caption_tracks, true);
-                conf.poster = unsafeWindow.ytplayer.config.iurlhq;
                 swf_url = unsafeWindow.ytplayer.config.url;
                 resolve(conf);
             } else {
