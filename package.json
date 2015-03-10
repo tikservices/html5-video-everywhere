@@ -10,6 +10,7 @@
   ],
   "version": "0.2.30",
   "license": "MPL 2.0",
+  "main": "./lib/main.js",
   "permissions": {
     "private-browsing": true
   },
