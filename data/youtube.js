@@ -301,7 +301,8 @@
 
                 webvtt += (i + 1) + "\n" + tl1 + " --> " + tl2 + "\n" + els[i].textContent + "\n\n";
             }
-            resolve("data:text/vtt;base64," + btoa(webvtt.replace("&#39;", "'", "g")));
+            resolve("data:text/vtt;base64," + btoa(window.unescape(
+                encodeURIComponent(webvtt.replace("&#39;", "'", "g")))));
         });
     }
 }());
