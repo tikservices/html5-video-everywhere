@@ -229,12 +229,46 @@
       "hidden": true
     },
     {
-      "name": "disable",
-      "title": "Drivers to disable",
-      "description": "comma-separated list of drivers to disable",
-      "type": "string",
-      "value": "",
-      "hidden": true
+      "name": "disablebreak",
+      "title": "Disable on Break",
+      "description": "Use default video player on Break",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "disabledailymotion",
+      "title": "Disable on Dailymotion",
+      "description": "Use default video player on Dailymotion",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "disablefacebook",
+      "title": "Disable on Facebook",
+      "description": "Use default video player on Facebook",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "disablemetacafe",
+      "title": "Disable on Metacafe",
+      "description": "Use default video player on Metacafe",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "disablevimeo",
+      "title": "Disable on Vimeo",
+      "description": "Use default video player on Vimeo",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "disableyoutube",
+      "title": "Disable on Youtube",
+      "description": "Use default video player on Youtube",
+      "type": "bool",
+      "value": false
     }
   ]
 }
