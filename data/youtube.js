@@ -27,9 +27,9 @@
                         return;
                     vp = new VP(player_container);
                     vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url);
-                    vp.containerProps({
-                        className: conf.className || ""
-                    });
+                    //vp.containerProps({
+                    //    className: conf.className || ""
+                    //});
                     vp.props({
                         id: "video_player",
                         className: conf.className || "",
@@ -39,9 +39,9 @@
                         poster: conf.poster || "",
                         volume: OPTIONS.volume / 100
                     });
-                    vp.style({
-                        position: "relative"
-                    });
+                    //vp.style({
+                    //    position: "relative"
+                    //});
                     vp.tracksList((conf.tracks || []).map(i => i.lc), (lang, resolve, reject) => {
                         var o = conf.tracks.find((i) => i.lc === lang);
                         if (o === undefined)
@@ -90,7 +90,7 @@
         vp.srcs(conf.fmts, FMT_WRAPPER);
         if (conf && conf.isWatch)
             vp.containerProps({
-                className: " player-height player-width"
+                className: " player-height player-width player-api"
             });
         if (conf && conf.isChannel)
             vp.containerProps({
@@ -135,7 +135,7 @@
                 conf.className = "c4-player-container"; //+ " html5-main-video"
             } else {
                 conf.id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
-                conf.className = "player-width player-height";
+                conf.className = "player-width player-height player-api";
             }
             if (!conf.id)
                 reject({
