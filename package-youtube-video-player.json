@@ -1,6 +1,6 @@
 {
-  "name": "youtube-video-player",
-  "title": "Youtube HTML5 Video Player",
+  "name": "simple-youtube-video-player",
+  "title": "Simple Youtube HTML5 Video Player",
   "id": "youtube-video-player@lejenome.me",
   "description": "Youtube video player stucks a lot, this basic video player sucks less"
 }
