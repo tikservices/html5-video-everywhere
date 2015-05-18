@@ -65,6 +65,7 @@
     "HANDLE_VOL_PREF_CHANGE",
     "autoPlay",
     "preLoad",
+    "isLoop",
     "asyncGet",
     "rmChildren",
     "VP",

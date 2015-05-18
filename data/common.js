@@ -1,10 +1,10 @@
 /* global OPTIONS:true, onPrefChange:true, LANGS:true */
 /* global createNode:true, asyncGet:true, onReady:true, logify:true */
 /* global preLoad:true, autoPlay:true, HANDLE_VOL_PREF_CHANGE:true */
-/* global rmChildren:true, Qlt:true, Cdc:true, chgPref:true */
+/* global rmChildren:true, Qlt:true, Cdc:true, chgPref:true, isLoop:true */
 // the following jshint global rule is only because jshint support for ES6 arrow
 // functions is limited
-/* global wrapper:true, args:true, auto:true */
+/* global wrapper:true, args:true, auto:true, lp:true */
 "use strict";
 
 //This Addons Preferences
@@ -99,6 +99,7 @@ const autoPlay = (auto = false) => ((OPTIONS.autoplay === 1 || auto === true) &&
     OPTIONS.autoplay !== 0);
 const preLoad = (auto = false) => ((OPTIONS.preload === 1 || auto === true) &&
     OPTIONS.preload !== 0) ? "auto" : "metadata";
+const isLoop = (lp = false) => ((OPTIONS.loop === 1 || lp) && OPTIONS.loop !== 0);
 
 const rmChildren = (prnt) => {
     while (prnt && prnt.firstChild)

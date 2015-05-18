@@ -18,7 +18,7 @@
 - [ ] enablejsapi 0,1
 - [ ] end
 - [ ] fs 0,1
-- [ ] loop 0,1
+- [x] loop 0,1
 - [ ] playlist
 - [ ] start
 

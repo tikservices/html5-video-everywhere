@@ -225,6 +225,7 @@ VP.prototype.setupLBP = function() {
     this.container.style.marginLeft = "0px";
 };
 VP.prototype.setupContextMenu = function(idx) {
+    /* jshint maxstatements:false */
     this._contextMenu = createNode("menu", {
         type: "context", //"popup",
         id: "h5vew-contextmenu"
@@ -293,7 +294,20 @@ VP.prototype.setupContextMenu = function(idx) {
             onclick: (e) =>
                 this.slctLang(e.target.label)
         }));
-
+    var loopMenu = createNode("menu", {
+        id: "h5vew-menu-loop",
+        label: "Loop Video"
+    });
+    ["Never", "Always", "Default"].forEach((n, i) => {
+        loopMenu.appendChild(createNode("menuitem", {
+            type: "radio",
+            label: n,
+            radiogroup: "menu-loop",
+            checked: (OPTIONS.loop === i),
+            onclick: (e) =>
+                chgPref("loop", i)
+        }));
+    });
     var autoNextMenu = createNode("menuitem", {
         id: "h5vew-menu-autonext",
         type: "checkbox",
@@ -319,6 +333,7 @@ VP.prototype.setupContextMenu = function(idx) {
     this._contextMenu.appendChild(cdcMenu);
     if (this._langs.length > 0)
         this._contextMenu.appendChild(langMenu);
+    this._contextMenu.appendChild(loopMenu);
     this._contextMenu.appendChild(autoNextMenu);
     this._contextMenu.appendChild(disableMenu);
     this.container.appendChild(this._contextMenu);

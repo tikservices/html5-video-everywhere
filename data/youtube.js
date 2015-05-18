@@ -35,6 +35,7 @@
                         className: conf.className || "",
                         autoplay: autoPlay(!conf.isEmbed),
                         preload: preLoad(),
+                        loop: isLoop(location.search.search("loop=1") !== -1),
                         controls: true,
                         poster: conf.poster || "",
                         volume: OPTIONS.volume / 100
