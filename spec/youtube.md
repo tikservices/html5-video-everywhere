@@ -11,7 +11,7 @@
 - [ ] `www.youtube.com/embed?listType=search&list=<QUERY>`		#3
 
 **QUERY:**
-- [ ] autoplay 1,0
+- [x] autoplay 1,0
 - [ ] autohide 0,1,2
 - [ ] color
 - [ ] controls 0,1,2

@@ -33,7 +33,7 @@
                     vp.props({
                         id: "video_player",
                         className: conf.className || "",
-                        autoplay: autoPlay(!conf.isEmbed),
+                        autoplay: autoPlay(location.search.search("autoplay=") === -1 ? !conf.isEmbed : location.search.search("autoplay=0") === -1),
                         preload: preLoad(),
                         loop: isLoop(location.search.search("loop=1") !== -1),
                         controls: true,
