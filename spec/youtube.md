@@ -20,7 +20,8 @@
 - [ ] fs 0,1
 - [x] loop 0,1
 - [ ] playlist
-- [ ] start
+- [x] start
+- [x] t
 
 **API:**
 more @ https://developers.google.com/youtube/player_parameters
