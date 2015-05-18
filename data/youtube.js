@@ -25,8 +25,9 @@
                     var player_container = getPlayerContainer(conf);
                     if (!player_container)
                         return;
+                    var seek = getSeek();
                     vp = new VP(player_container);
-                    vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url);
+                    vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url + seek);
                     //vp.containerProps({
                     //    className: conf.className || ""
                     //});
@@ -305,5 +306,22 @@
             resolve("data:text/vtt;base64," + btoa(window.unescape(
                 encodeURIComponent(webvtt.replace("&#39;", "'", "g")))));
         });
+    }
+
+    function getSeek() {
+        var seek = 0;
+        if (location.search.search("start=") > -1) {
+            seek = location.search.match(/start=(\d+)/);
+            seek = seek ? parseInt(seek[1]) : 0;
+        } else if (location.search.search(/[&?]t=\d/) > -1) {
+            seek = location.search.match(/[&?]t=([^&]*)/)[1];
+            var h = seek.match(/(\d+)h/);
+            var m = seek.match(/(\d+)m/);
+            var s = seek.match(/(\d+)s/);
+            seek = (h ? parseInt(h[1]) : 0) * 3600 +
+                (m ? parseInt(m[1]) : 0) * 60 +
+                (s ? parseInt(s[1]) : 0);
+        }
+        return seek > 0 ? ("#t=" + seek) : "";
     }
 }());
