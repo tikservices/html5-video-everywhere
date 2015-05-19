@@ -14,7 +14,8 @@
         vp.props({
             controls: true,
             autoplay: autoPlay(true),
-            preload: preLoad()
+            preload: preLoad(),
+            loop: isLoop()
         });
         vp.style({
             width: "100%",

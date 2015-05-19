@@ -33,6 +33,7 @@
                 className: conf.className,
                 autoplay: autoPlay(),
                 preload: preLoad(),
+                loop: isLoop(),
                 controls: true,
                 poster: conf.poster,
                 volume: OPTIONS.volume / 100

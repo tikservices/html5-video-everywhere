@@ -28,6 +28,7 @@
         vp.props({
             autoplay: autoPlay(true),
             preload: preLoad(),
+            loop: isLoop(),
             controls: true
         });
         vp.style({
@@ -52,6 +53,7 @@
             vp.props({
                 autoplay: autoPlay(false),
                 preload: preLoad(),
+                loop: isLoop(),
                 controls: true
             });
             vp.style({

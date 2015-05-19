@@ -35,6 +35,7 @@
             controls: true,
             autoplay: autoPlay(),
             preload: preLoad(),
+            loop: isLoop(),
             poster: poster
         });
         vp.style({
