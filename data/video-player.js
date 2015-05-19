@@ -324,6 +324,13 @@ VP.prototype.setupContextMenu = function(idx) {
             this._contextMenu.removeChild(disableMenu);
         }
     });
+    var aboutMenu = createNode("menuitem", {
+        id: "h5vew-menu-about",
+        label: "About HTML5 Video EveryWhere",
+        onclick: () =>
+            window.open("http://lejenome.github.io/html5-video-everywhere", "h5vew-about",
+                "menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
+    });
     const prefChanged = (name) => {
         if (name === "autoNext")
             autoNextMenu.checked = OPTIONS.autoNext;
@@ -336,6 +343,7 @@ VP.prototype.setupContextMenu = function(idx) {
     this._contextMenu.appendChild(loopMenu);
     this._contextMenu.appendChild(autoNextMenu);
     this._contextMenu.appendChild(disableMenu);
+    this._contextMenu.appendChild(aboutMenu);
     this.container.appendChild(this._contextMenu);
     // TODO: fix assigning contextMenu and uncommant createNode("video") ^
     this.container.contextmenu = "h5vew-contextmenu";
