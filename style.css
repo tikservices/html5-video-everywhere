@@ -1,0 +1,11 @@
+body
+{
+  margin: 20px;
+  background-color: beige;
+}
+
+footer {
+  font-size: 60%;
+  position: absolute;
+  bottom: 20px;
+}
