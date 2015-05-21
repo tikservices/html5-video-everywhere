@@ -1,0 +1,6 @@
+*.zip
+*.xpi
+test/
+data/
+lib/
+spec/
