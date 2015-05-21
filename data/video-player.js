@@ -328,8 +328,9 @@ VP.prototype.setupContextMenu = function(idx) {
         id: "h5vew-menu-about",
         label: "About HTML5 Video EveryWhere",
         onclick: () =>
-            window.open("http://lejenome.github.io/html5-video-everywhere#v=" + OPTIONS.addon.version + "&id=" + OPTIONS.addon.id, "h5vew-about",
-                "menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
+            window.open("http://lejenome.github.io/html5-video-everywhere#v=" +
+                OPTIONS.addon.version + "&id=" + OPTIONS.addon.id,
+                "h5vew-about", "width=550,height=280,menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
     });
     const prefChanged = (name) => {
         if (name === "autoNext")
