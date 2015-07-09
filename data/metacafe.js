@@ -59,7 +59,7 @@
             vp.style({
                 width: "100%"
             });
-            vp.setup(OPTIONS.production);
+            vp.setup();
         });
     }
 

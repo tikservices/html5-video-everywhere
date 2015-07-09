@@ -47,7 +47,7 @@
             });
             if (stl)
                 vp.addCSSRule(stl);
-            vp.setup(OPTIONS.production);
+            vp.setup();
             if (conf.isWatch)
                 brozarEvents();
         } catch (e) {

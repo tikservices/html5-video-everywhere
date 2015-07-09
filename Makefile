@@ -1,31 +1,29 @@
 # List of drivers to enable on build
-DRIVERS = break,dailymotion,facebook,metacafe,vimeo,youtube
 
-YTARGS += --static-args='{"drivers":["youtube"]}' \
-	--manifest-overload=package-youtube-video-player.json
-ARGS   += --static-args='{"drivers":["$(shell echo $(DRIVERS) \
-	| sed 's/,/","/g')"]}'
+#YTARGS += --manifest-overload=package-youtube-video-player.json
 
 .NOTPARALLEL : all
 all: lint beautify build
-build: build-generic build-yt
+build-all: build build-yt
 lint:
 	jshint --verbose */*.js
 beautify:
 	find . -maxdepth 2 -name "*.js" -a ! -name "flashgot-*.js" \
 		| xargs js-beautify -r
 	find . -name "*.json" | xargs -n 1 jsonlint -i
-build-generic:
-	cfx xpi --force-mobile $(shell echo $(ARGS) \
-		| sed "s/\]}/\],\"production\":true}'/;s/args={/args='{/")
+build:
+	jpm xpi
 build-yt:
-	cfx xpi --force-mobile $(shell echo $(YTARGS) \
-		| sed "s/\]}/\],\"production\":true}'/;s/args={/args='{/")
+	jpm xpi $(YTARGS)
 run:
-	cfx run $(ARGS)
+	jpm run
 run-yt:
-	cfx run $(YTARGS)
+	jpm run $(YTARGS)
+watch:
+	jpm watchpost --post-url http://localhost:8888/
+watch-yt:
+	jpm watchpost --post-url http://localhost:8888/
 test:
-	cfx test $(ARGS)
+	jpm test
 test-yt:
-	cfx test $(YTARGS)
+	jpm test $(YTARGS)

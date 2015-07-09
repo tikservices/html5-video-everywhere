@@ -57,10 +57,10 @@ VP.prototype.mainSrcIndex = function() {
             i = OPTIONS.prefQlt - 1;
     }
 };
-VP.prototype.setup = function(returnOnError) {
+VP.prototype.setup = function() {
     var idx = this.mainSrcIndex();
     if (!idx)
-        return returnOnError ? -1 : this.error("Failed to find video url");
+        return this.error("Failed to find video url");
     this.clean();
     // just to force contextmenu id. TODO: fix contextmenu and use createNode
     this.container.innerHTML = "<video contextmenu='h5vew-contextmenu'></video>";
@@ -369,7 +369,6 @@ VP.prototype.patch = function(el, props, sub) {
                 el[prop] = props[prop];
 };
 VP.prototype.log = function(...args) {
-    if (OPTIONS.production) return;
     args.unshift("[DRIVER::VP]");
     dump(args.join(" ") + "\n");
 };

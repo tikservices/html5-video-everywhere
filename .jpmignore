@@ -1,0 +1,4 @@
+*.xpi
+*.zip
+.git
+*.hook

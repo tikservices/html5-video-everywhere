@@ -15,14 +15,14 @@ var prefs = require("sdk/simple-prefs").prefs;
 //  list of current workers
 const workers = [];
 const pageMods = {};
-const common = require("./common");
+const common = require("./lib/common");
 const allDrivers = {
-    "facebook": require("./facebook"),
-    "vimeo": require("./vimeo"),
-    "dailymotion": require("./dailymotion"),
-    "break": require("./break"),
-    "metacafe": require("./metacafe"),
-    "youtube": require("./youtube")
+    "facebook": require("./lib/facebook"),
+    "vimeo": require("./lib/vimeo"),
+    "dailymotion": require("./lib/dailymotion"),
+    "break": require("./lib/break"),
+    "metacafe": require("./lib/metacafe"),
+    "youtube": require("./lib/youtube")
 };
 const drivers = (Array.isArray(staticArgs.drivers) ?
     staticArgs.drivers :
@@ -45,7 +45,6 @@ const onWorkerAttach = (drvName, listen) => (worker) => {
     for (let pref in prefs)
         _prefs[pref] = prefs[pref];
     _prefs.driver = drvName;
-    _prefs.production = staticArgs.production;
     _prefs.addon = {
         id: _self.id,
         version: _self.version
@@ -141,8 +140,6 @@ function workersPrefHandler(pref) {
 }
 
 function logify(...args) {
-    if (staticArgs.production)
-        return;
     args.unshift("[CORE]");
     dump(args.join(" ") + "\n");
 }
