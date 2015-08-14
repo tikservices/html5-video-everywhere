@@ -121,9 +121,10 @@
     function getConfig() {
         return new Promise((resolve, reject) => {
             var conf = {};
-            conf.isEmbed = location.href.search("youtube.com/embed/") > -1;
-            conf.isWatch = location.href.search("youtube.com/watch?") > -1;
-            conf.isChannel = location.href.search("youtube.com/channel/") > -1 || location.href.search("youtube.com/user/") > -1;
+            conf.isEmbed = location.pathname.startsWith("/embed/");
+            conf.isWatch = location.pathname.startsWith("/watch?");
+            conf.isChannel = location.pathname.startsWith("/channel/") || location.pathname.startsWith("/user/");
+            conf.withoutCookies = location.hostname.search("youtube-nocookie.com") > -1;
             if (!conf.isEmbed && !conf.isWatch && !conf.isChannel)
                 reject();
             if (conf.isEmbed) {
@@ -152,6 +153,8 @@
     function getVideoInfo(conf) {
         return new Promise((resolve, reject) => {
             var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
+            if (conf.withoutCookies)
+                INFO_URL = "https://www.youtube-nocookie.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
             if (unsafeWindow.ytplayer && unsafeWindow.ytplayer.config) {
                 conf.info = unsafeWindow.ytplayer.config.args.url_encoded_fmt_stream_map;
                 conf.poster = unsafeWindow.ytplayer.config.args.iurlsd ||
