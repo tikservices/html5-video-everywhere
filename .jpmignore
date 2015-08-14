@@ -2,3 +2,6 @@
 *.zip
 .git
 *.hook
+.jpmignore
+.gitignore
+.jshintrc

@@ -1,18 +1,20 @@
 {
-  "name": "html5-video-everywhere",
   "title": "HTML5 Video Everywhere!",
+  "name": "html5-video-everywhere",
   "id": "html5-video-everywhere@lejenome.me",
+  "version": "0.3.1",
   "description": "Replace video player with Firefox native video player",
+  "main": "index.js",
   "author": "Moez Bouhlel <bmoez.j@gmail.com> (http://lejenome.github.io/)",
   "homepage": "https://github.com/lejenome/html5-video-everywhere",
-  "contributors": [
-    "HTML5 Video Everywhere Contributors (https://github.com/lejenome/html5-video-everywhere/graphs/contributors)"
-  ],
-  "version": "0.3.1",
-  "license": "MPL 2.0",
-  "main": "index.js",
+  "engines": {
+    "firefox": ">=38.0a1",
+    "fennec": ">=38.0a1"
+  },
+  "license": "MPL-2.0",
   "permissions": {
-    "private-browsing": true
+    "private-browsing": true,
+    "multiprocess": true
   },
   "preferences": [
     {
