@@ -13,9 +13,14 @@ work as expected.
 
 ## Build
 
-To build HTML5-Video-EveryWhere
+`jpm` is required to build the addon. To install `jpm`, run:
 ```shell
-make
+npm install jpm
+```
+
+To build the addon:
+```shell
+jpm xpi
 ```
 
 ## Credit
