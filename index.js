@@ -9,7 +9,6 @@ const {
 const _self = require("sdk/self");
 const pageMod = require("sdk/page-mod");
 const events = require("sdk/system/events");
-const staticArgs = require("sdk/system").staticArgs;
 const utils = require("sdk/window/utils");
 var prefs = require("sdk/simple-prefs").prefs;
 //  list of current workers
@@ -24,9 +23,7 @@ const allDrivers = {
     "metacafe": require("./lib/metacafe"),
     "youtube": require("./lib/youtube")
 };
-const drivers = (Array.isArray(staticArgs.drivers) ?
-    staticArgs.drivers :
-    Object.keys(allDrivers)).filter(drvName =>
+const drivers = Object.keys(allDrivers).filter(drvName =>
     prefs["disable" + drvName] === false
 );
 

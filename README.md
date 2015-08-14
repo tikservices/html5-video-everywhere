@@ -13,14 +13,9 @@ work as expected.
 
 ## Build
 
-To build either HTML5-Video-EveryWhere with full features or Youtube-video-player:
+To build HTML5-Video-EveryWhere
 ```shell
 make
-```
-To Build a custom HTML5-Video-EveryWhere with specific drivers, specific them
-to DRIVER var on comma-seprated format, e.g:
-```shell
-make DRIVER=facebook,vimeo
 ```
 
 ## Credit
