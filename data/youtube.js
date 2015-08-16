@@ -122,7 +122,7 @@
         return new Promise((resolve, reject) => {
             var conf = {};
             conf.isEmbed = location.pathname.startsWith("/embed/");
-            conf.isWatch = location.pathname.startsWith("/watch?");
+            conf.isWatch = location.pathname.startsWith("/watch");
             conf.isChannel = location.pathname.startsWith("/channel/") || location.pathname.startsWith("/user/");
             conf.withoutCookies = location.hostname.search("youtube-nocookie.com") > -1;
             if (!conf.isEmbed && !conf.isWatch && !conf.isChannel)

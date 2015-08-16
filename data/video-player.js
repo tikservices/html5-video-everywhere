@@ -315,6 +315,15 @@ VP.prototype.setupContextMenu = function(idx) {
         checked: OPTIONS.autoNext,
         onclick: (e) => chgPref("autoNext", e.target.checked)
     });
+    var moreMenu = createNode("menu", {
+        id: "h5vew-menu-more",
+        label: "More options"
+    });
+    var copyMenu = createNode("menuitem", {
+        id: "h5vew-menu-copy",
+        label: "Copy Page URL",
+        onclick: () => setClipboard(location.href) // TODO
+    });
     var disableMenu = createNode("menuitem", {
         id: "h5vew-menu-disable",
         label: "Disable " + OPTIONS.driver.charAt(0).toUpperCase() +
@@ -332,6 +341,11 @@ VP.prototype.setupContextMenu = function(idx) {
                 OPTIONS.addon.version + "&id=" + OPTIONS.addon.id,
                 "h5vew-about", "width=550,height=280,menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
     });
+    moreMenu.appendChild(copyMenu);
+    moreMenu.appendChild(disableMenu);
+    moreMenu.appendChild(createNode("hr"));
+    moreMenu.appendChild(aboutMenu);
+
     const prefChanged = (name) => {
         if (name === "autoNext")
             autoNextMenu.checked = OPTIONS.autoNext;
@@ -343,8 +357,7 @@ VP.prototype.setupContextMenu = function(idx) {
         this._contextMenu.appendChild(langMenu);
     this._contextMenu.appendChild(loopMenu);
     this._contextMenu.appendChild(autoNextMenu);
-    this._contextMenu.appendChild(disableMenu);
-    this._contextMenu.appendChild(aboutMenu);
+    this._contextMenu.appendChild(moreMenu);
     this.container.appendChild(this._contextMenu);
     // TODO: fix assigning contextMenu and uncommant createNode("video") ^
     this.container.contextmenu = "h5vew-contextmenu";

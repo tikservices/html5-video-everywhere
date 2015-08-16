@@ -10,6 +10,7 @@ const _self = require("sdk/self");
 const pageMod = require("sdk/page-mod");
 const events = require("sdk/system/events");
 const utils = require("sdk/window/utils");
+const clipboard = require("sdk/clipboard");
 var prefs = require("sdk/simple-prefs").prefs;
 //  list of current workers
 const workers = [];
@@ -52,6 +53,7 @@ const onWorkerAttach = (drvName, listen) => (worker) => {
         prefs[pref.name] = pref.val);
     worker.port.on("disable", () =>
         prefs["disable" + drvName] = true);
+    worker.port.on("setClipboard", (txt) => clipboard.set(txt));
     for (let evt in listen) {
         logify("Add listener:", evt);
         worker.port.on(evt, (obj) => {

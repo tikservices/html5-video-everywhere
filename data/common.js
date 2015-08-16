@@ -2,6 +2,7 @@
 /* global createNode:true, asyncGet:true, onReady:true, logify:true */
 /* global preLoad:true, autoPlay:true, HANDLE_VOL_PREF_CHANGE:true */
 /* global rmChildren:true, Qlt:true, Cdc:true, chgPref:true, isLoop:true */
+/* global setClipboard:true */
 // the following jshint global rule is only because jshint support for ES6 arrow
 // functions is limited
 /* global wrapper:true, args:true, auto:true, lp:true */
@@ -37,6 +38,8 @@ const chgPref = (name, val) => {
         val: val
     });
 };
+const setClipboard = (text) =>
+    self.port.emit("setClipboard", text);
 const createNode = (type, prprt, style, data) => {
     //logify("createNode", type, prprt);
     var node = document.createElement(type);

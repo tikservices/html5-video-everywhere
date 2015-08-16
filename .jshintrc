@@ -68,6 +68,7 @@
     "isLoop",
     "asyncGet",
     "rmChildren",
+    "setClipboard",
     "VP",
     "chgPref",
     "unsafeWindow",
