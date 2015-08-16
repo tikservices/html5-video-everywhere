@@ -12,6 +12,21 @@
     "fennec": ">=38.0a1"
   },
   "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lejenome/html5-video-everywhere.git"
+  },
+  "keywords": [
+    "firefox",
+    "android",
+    "fennec",
+    "jetpack",
+    "jpm",
+    "add-on"
+  ],
+  "devDependencies": {
+    "jpm": "lastest"
+  },
   "permissions": {
     "private-browsing": true,
     "multiprocess": true

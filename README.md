@@ -15,7 +15,7 @@ work as expected.
 
 `jpm` is required to build the addon. To install `jpm`, run:
 ```shell
-npm install jpm
+npm install -g jpm
 ```
 
 To build the addon:
