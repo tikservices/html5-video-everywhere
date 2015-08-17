@@ -5,3 +5,4 @@
 .jpmignore
 .gitignore
 .jshintrc
+.release.json

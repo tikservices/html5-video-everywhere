@@ -7,7 +7,7 @@ lint:
 beautify:
 	find . -maxdepth 2 -name "*.js" -a ! -name "flashgot-*.js" \
 		| xargs js-beautify -r
-	find . -name "*.json" | xargs -n 1 jsonlint -i
+	find . -maxdepth 2 -name "*.json" | xargs -n 1 jsonlint -i
 build:
 	jpm xpi
 run:

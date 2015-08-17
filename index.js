@@ -16,25 +16,20 @@ var prefs = require("sdk/simple-prefs").prefs;
 const workers = [];
 const pageMods = {};
 const common = require("./lib/common");
-const allDrivers = {
+const _package = JSON.parse(_self.data.load("../package.json"));
+const allDrivers = { // buildin drivers first
     "facebook": require("./lib/facebook"),
     "vimeo": require("./lib/vimeo"),
     "dailymotion": require("./lib/dailymotion"),
     "break": require("./lib/break"),
-    "metacafe": require("./lib/metacafe"),
-    "youtube": require("./lib/youtube")
+    "metacafe": require("./lib/metacafe")
 };
+// then extern drivers
+Object.keys(_package.dependencies).map((d) => require(d))
+    .filter((d) => d.type === "site").forEach((d) =>
+        allDrivers[d.name] = d);
 const drivers = Object.keys(allDrivers).filter(drvName =>
-    prefs["disable" + drvName] === false
-);
-
-//ensure preferences match the state of disabled drivers
-Object.keys(allDrivers).filter(drvName =>
-    drivers.indexOf(drvName) === -1
-).forEach(drvName =>
-    prefs["disable" + drvName] = true
-);
-
+    prefs["disable" + drvName] === false);
 
 const onWorkerAttach = (drvName, listen) => (worker) => {
     logify("onAttach", worker);

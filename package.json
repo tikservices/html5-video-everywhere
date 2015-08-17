@@ -24,8 +24,8 @@
     "jpm",
     "add-on"
   ],
-  "devDependencies": {
-    "jpm": "lastest"
+  "dependencies": {
+    "h5vew-site-youtube": "latest"
   },
   "permissions": {
     "private-browsing": true,
