@@ -24,6 +24,7 @@ const allDrivers = { // buildin drivers first
     "break": require("./lib/break"),
     "metacafe": require("./lib/metacafe")
 };
+const externURL = _self.data.url().slice(0, -5) + "node_modules/";
 // then extern drivers
 Object.keys(_package.dependencies).map((d) => require(d))
     .filter((d) => d.type === "site").forEach((d) =>

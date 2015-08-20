@@ -9,7 +9,10 @@
   "homepage": "https://github.com/lejenome/html5-video-everywhere",
   "engines": {
     "firefox": ">=38.0a1",
-    "fennec": ">=38.0a1"
+    "fennec": ">=38.0a1",
+    "seamonkey": ">=2.32",
+    "thunderbird": ">=38.0a1",
+    "palemoon": ">=24.0a1"
   },
   "license": "MPL-2.0",
   "repository": {
