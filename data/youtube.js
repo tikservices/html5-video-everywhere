@@ -320,7 +320,7 @@
             seek = location.search.match(/[&?]t=([^&]*)/)[1];
             var h = seek.match(/(\d+)h/);
             var m = seek.match(/(\d+)m/);
-            var s = seek.match(/(\d+)s/);
+            var s = seek.match(/(\d+)s/) || seek.match(/(\d+)/);
             seek = (h ? parseInt(h[1]) : 0) * 3600 +
                 (m ? parseInt(m[1]) : 0) * 60 +
                 (s ? parseInt(s[1]) : 0);
