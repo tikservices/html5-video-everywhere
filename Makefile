@@ -5,7 +5,7 @@ all: lint beautify build
 lint:
 	jshint --verbose *.js */*.js
 beautify:
-	find . -maxdepth 2 -name "*.js" -a ! -name "flashgot-*.js" \
+	find . -name "*.js" -a ! -name "flashgot-*.js" \
 		| xargs js-beautify -r
 	find . -maxdepth 2 -name "*.json" | xargs -n 1 jsonlint -i
 build:
