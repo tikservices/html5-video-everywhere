@@ -269,7 +269,7 @@
     },
     {
       "name": "disableEmbed",
-      "title": "Disable for Embed Youtube",
+      "title": "Disable for Embed YouTube",
       "description": "Use default video player for embed videos",
       "type": "bool",
       "value": false,
