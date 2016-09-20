@@ -10,7 +10,7 @@
   "engines": {
     "firefox": ">=38.0a1",
     "fennec": ">=38.0a1",
-    "seamonkey": ">=2.35a1",
+    "seamonkey": ">=2.35a1 <=2.42",
     "thunderbird": ">=38.0a1"
   },
   "license": "MPL-2.0",

@@ -3,6 +3,7 @@
 .git
 *.hook
 .jpmignore
+.npmignore
 .gitignore
 .jshintrc
 .release.json

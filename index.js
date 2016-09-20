@@ -1,17 +1,20 @@
 /* jshint esnext:true, node:true*/
 "use strict";
 const {
-    Cc, Ci, Cr
+    Cc,
+    Ci,
+    Cr
 } = require("chrome");
 const {
-    add, remove
+    add,
+    remove
 } = require("sdk/util/array");
 const _self = require("sdk/self");
 const pageMod = require("sdk/page-mod");
 const events = require("sdk/system/events");
 const utils = require("sdk/window/utils");
 const clipboard = require("sdk/clipboard");
-var prefs = require("sdk/simple-prefs").prefs;
+let prefs = require("sdk/simple-prefs").prefs;
 //  list of current workers
 const workers = [];
 const pageMods = {};
@@ -58,9 +61,9 @@ const onWorkerAttach = (drvName, listen) => (worker) => {
 drivers.forEach(setupDriver);
 
 function setupDriver(drvName) {
-    var driver = allDrivers[drvName];
-    var drvPath = externURL + _package.sites[drvName] + "/";
-    var scripts, styles;
+    let driver = allDrivers[drvName];
+    let drvPath = externURL + _package.sites[drvName] + "/";
+    let scripts, styles;
     if (driver.match === void(0))
         return;
     scripts = common.inject
@@ -79,10 +82,10 @@ function setupDriver(drvName) {
 }
 
 function listener(event) {
-    var channel = event.subject.QueryInterface(Ci.nsIHttpChannel);
-    var url = event.subject.URI.spec;
+    let channel = event.subject.QueryInterface(Ci.nsIHttpChannel);
+    let url = event.subject.URI.spec;
     for (let drvName of drivers) {
-        var driver = allDrivers[drvName];
+        let driver = allDrivers[drvName];
         for (let redirect of(driver.redirect || [])) {
             if (redirect.src.test(url)) {
                 channel.redirectTo(Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService).newURI(
