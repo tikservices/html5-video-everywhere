@@ -339,7 +339,7 @@ VP.prototype.setupContextMenu = function(idx) {
         onclick: () =>
             window.open("http://lejenome.github.io/html5-video-everywhere#v=" +
                 OPTIONS.addon.version + "&id=" + OPTIONS.addon.id,
-                "h5vew-about", "width=550,height=280,menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
+                "h5vew-about", "width=550,height=300,menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
     });
     moreMenu.appendChild(copyMenu);
     moreMenu.appendChild(disableMenu);

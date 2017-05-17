@@ -1,4 +1,4 @@
-/* jshint esnext:true, node:true*/
+/* jshint esnext:true, node:true */
 "use strict";
 const {
     Cc,
