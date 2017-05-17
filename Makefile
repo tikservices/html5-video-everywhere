@@ -11,8 +11,8 @@ beautify:
 build:
 	jpm xpi
 run:
-	jpm run
+	+jpm run
 watch:
-	jpm watchpost --post-url http://localhost:8888/
+	+jpm watchpost --post-url http://localhost:8888/
 test:
-	jpm test
+	+jpm test

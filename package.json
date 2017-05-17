@@ -26,16 +26,7 @@
     "jpm",
     "add-on"
   ],
-  "sites": {
-    "youtube": "h5vew-site-youtube",
-    "vimeo": "h5vew-site-vimeo",
-    "break": "h5vew-site-break",
-    "dailymotion": "h5vew-site-dailymotion",
-    "facebook": "h5vew-site-facebook",
-    "metacafe": "h5vew-site-metacafe"
-  },
   "dependencies": {
-    "h5vew-site-youtube": "latest"
   },
   "permissions": {
     "private-browsing": true,

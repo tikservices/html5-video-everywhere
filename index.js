@@ -20,11 +20,19 @@ const workers = [];
 const pageMods = {};
 const common = require("./lib/common");
 const _package = JSON.parse(_self.data.load("../package.json"));
-const allDrivers = {};
+const allDrivers = { // buildin drivers first
+    "youtube": require("./lib/youtube"),
+    "facebook": require("./lib/facebook"),
+    "vimeo": require("./lib/vimeo"),
+    "dailymotion": require("./lib/dailymotion"),
+    "break": require("./lib/break"),
+    "metacafe": require("./lib/metacafe")
+};
 const externURL = _self.data.url().slice(0, -5) + "node_modules/";
 // then extern drivers
-Object.keys(_package.sites).forEach((d) =>
-    allDrivers[d] = require(_package.sites[d]));
+Object.keys(_package.dependencies).map((d) => require(d))
+    .filter((d) => d.type === "site").forEach((d) =>
+        allDrivers[d.name] = d);
 const drivers = Object.keys(allDrivers).filter(drvName =>
     prefs["disable" + drvName] === false);
 
@@ -62,15 +70,12 @@ drivers.forEach(setupDriver);
 
 function setupDriver(drvName) {
     let driver = allDrivers[drvName];
-    let drvPath = externURL + _package.sites[drvName] + "/";
-    let scripts, styles;
     if (driver.match === void(0))
         return;
-    scripts = common.inject
-        .concat((driver.inject || []).map(u => drvPath + u))
+    let scripts, styles;
+    scripts = common.inject.concat(driver.inject)
         .map(i => _self.data.url(i));
-    styles = common.style
-        .concat((driver.style || []).map(u => drvPath + u))
+    styles = common.style.concat(driver.style || [])
         .map(i => _self.data.url(i));
     pageMods[drvName] = pageMod.PageMod({
         include: driver.match,
@@ -141,6 +146,6 @@ function logify(...args) {
 exports.main = () => {
     events.on("http-on-modify-request", listener);
 };
-exports.onUnload = (reason) => {
+exports.onUnload = function(reason) {
     events.off("http-on-modify-request", listener);
 };
