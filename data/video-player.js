@@ -154,10 +154,8 @@ VP.prototype.clean = function() {
         if (this.player === vds[i])
             continue;
         vds[i].pause();
-        vds[i].src = "";
         vds[i].addEventListener("playing", (e) => {
             e.currentTarget.pause();
-            e.currentTarget.src = "";
         });
     }
     rmChildren(this.container);
