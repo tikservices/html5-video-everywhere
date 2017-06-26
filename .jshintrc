@@ -72,6 +72,7 @@
     "VP",
     "chgPref",
     "unsafeWindow",
-    "dump"
+    "dump",
+    "fetch"
   ]
 }

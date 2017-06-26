@@ -39,6 +39,9 @@ const drivers = Object.keys(allDrivers).filter(drvName =>
 const onWorkerAttach = (drvName, listen) => (worker) => {
     logify("onAttach", worker);
     //send current Addon preferences to content-script
+    if (!prefs.uuid) {
+      prefs.uuid = require("sdk/util/uuid").uuid().toString().substr(1, 36);
+    }
     let _prefs = {};
     for (let pref in prefs)
         _prefs[pref] = prefs[pref];
