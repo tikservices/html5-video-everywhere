@@ -7,3 +7,10 @@
 .gitignore
 .jshintrc
 .release.json
+node_modules
+test
+spec
+locale
+TODO.md
+Makefile
+README.md
