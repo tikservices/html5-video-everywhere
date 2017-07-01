@@ -5,9 +5,9 @@ all: lint beautify build
 lint:
 	jshint --verbose *.js */*.js
 beautify:
-	find . -name "*.js" -a ! -name "flashgot-*.js" \
+	+find index.js lib data test -name "*.js" -a ! -name "flashgot-*.js" \
 		| xargs js-beautify -r
-	find . -maxdepth 2 -name "*.json" | xargs -n 1 jsonlint -i
+	+find . -maxdepth 2 -name "*.json" -o -name ".jshintrc" | xargs -n 1 jsonlint -i
 build:
 	jpm xpi
 run:

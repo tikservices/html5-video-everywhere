@@ -4,12 +4,26 @@
     "package.json"
   ],
   "increment": "patch",
-  "buildCommand": false,
-  "distPkgFiles": null,
-  "distBase": "dist",
-  "distFiles": [
-    "**/*"
-  ],
-  "publish": true,
-  "githubRelease": true
+
+  "buildCommand": "make",
+  "requireCleanWorkingDir": false,
+  "src": {
+    "beforeStartCommand": false,
+    "beforeStageCommand": false,
+    "afterReleaseCommand": false,
+    "githubAssets": true
+  },
+  "dist": {
+    "repo": false,
+    "stageDir": ".stage",
+    "baseDir": ".",
+    "files": ["html5-video-everywhere.xpi"],
+    "pkgFiles": ["html5-video-everywhere.xpi"],
+    "beforeStageCommand": false,
+    "afterReleaseCommand": false,
+    "githubAssets": true
+  },
+  "github": {
+    "release": true
+  }
 }

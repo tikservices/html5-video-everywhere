@@ -1,6 +1,6 @@
 // wrap getPreferedFmt selector to YT itag eq, as we the passed fmts object
 // later has itags as keys not getPreferredFmt known keys
-var FMT_WRAPPER = {
+const FMT_WRAPPER = {
     "high/mp4": "22",
     "medium/mp4": "18",
     "medium/webm": "43"

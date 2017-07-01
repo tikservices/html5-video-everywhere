@@ -23,7 +23,7 @@
             }
             if (!player_container)
                 return;
-            var vp = new VP(player_container);
+            let vp = new VP(player_container);
             vp.srcs(conf.fmts, {
                 "high/mp4": "hd",
                 "medium/mp4": "sd",
@@ -39,7 +39,7 @@
                 volume: OPTIONS.volume / 100
             });
             vp.tracksList(conf.tracks.map(l => l.lang), (lang, resolve, reject) => {
-                var l = conf.tracks.find(l => l.lang === lang);
+                let l = conf.tracks.find(l => l.lang === lang);
                 if (l === undefined)
                     reject();
                 else
@@ -57,14 +57,14 @@
 
     function getConfig() {
         return new Promise((resolve, reject) => {
-            var isWatch = /https?:\/\/vimeo.com\/[\d]+/.test(location.href) ||
+            let isWatch = /https?:\/\/vimeo.com\/[\d]+/.test(location.href) ||
                 ogType().indexOf("video") > -1;
-            var isEmbed = /https?:\/\/player.vimeo.com\/video/.test(location.href);
-            var isChannel = /https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href) ||
+            let isEmbed = /https?:\/\/player.vimeo.com\/video/.test(location.href);
+            let isChannel = /https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href) ||
                 ogType().match(/channel|profile/) !== null;
             if (!isWatch && !isChannel && !isEmbed)
                 reject();
-            var player_id, player_class;
+            let player_id, player_class;
             if (isWatch) {
                 player_id = location.pathname.match(/\/([\d]+)/)[1];
                 player_class = "player";
@@ -97,8 +97,8 @@
         const INFO_URL = "//player.vimeo.com/video/";
         if (conf.isChannel) {
             return Array.map(document.getElementsByClassName("player_container"), (el) => {
-                var _conf = {};
-                for (var va in conf)
+                let _conf = {};
+                for (let va in conf)
                     _conf[va] = conf[va];
                 _conf.id = el.id.replace("clip_", "");
                 return asyncGet(INFO_URL + _conf.id + "/config").then(processData(_conf))
@@ -112,26 +112,26 @@
 
     function brozarEvents() {
         // change Vimeo default click events of items on brozar element
-        var clips = document.getElementById("clips");
+        let clips = document.getElementById("clips");
         if (clips)
             clips.onclick = function(e) {
                 if (e.target === e.currentTarget)
                     return;
-                var li = e.target;
+                let li = e.target;
                 while (li.tagName !== "LI")
                     li = li.parentElement;
                 window.location = "/" + li.id.replace("clip_", "");
             };
-        var promos = document.getElementsByClassName("js-promo_link");
-        var promoClick = function(e) {
+        let promos = document.getElementsByClassName("js-promo_link");
+        let promoClick = function(e) {
             window.location = "/" + e.currentTarget.dataset.clipId;
         };
-        for (var i = 0; promos && i < promos.length; i++)
+        for (let i = 0; promos && i < promos.length; i++)
             promos[i].onclick = promoClick;
     }
 
     function ogType() {
-        var t = document.head.querySelector("meta[property=\"og:type\"]");
+        let t = document.head.querySelector("meta[property=\"og:type\"]");
         return (t) ? t.content : "";
     }
 }());

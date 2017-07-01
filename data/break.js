@@ -2,11 +2,11 @@
     "use strict";
 
     onReady(() => {
-        var url_r = /"uri":\s*"([^"]*)"/;
-        var width_r = /"width":\s*([^\s,]*),/;
-        var height_r = /"height":\s*([^\s,]*),/;
-        var fmts = {};
-        var data = document.head.innerHTML.match(/"media": \[\s[^\]]*\s\],/);
+        let url_r = /"uri":\s*"([^"]*)"/;
+        let width_r = /"width":\s*([^\s,]*),/;
+        let height_r = /"height":\s*([^\s,]*),/;
+        let fmts = {};
+        let data = document.head.innerHTML.match(/"media": \[\s[^\]]*\s\],/);
         if (!data)
             return;
         data = data[0].match(/\{[^}]*\}/g);
@@ -18,7 +18,7 @@
 
     function injectPlayer(fmts) {
         rmChildren(document.head);
-        var vp = new VP(document.body);
+        let vp = new VP(document.body);
         vp.srcs(fmts, {
             "higher/mp4": "1280x720",
             "high/mp4": "848x480",
@@ -40,8 +40,8 @@
 
     function fallback() {
         // Just fallback method if the first one didn't work
-        var url_r = /"videoUri":\s*"([^"]*)"/;
-        var url = (document.head.innerHTML.match(url_r) || ["", ""])[1];
+        let url_r = /"videoUri":\s*"([^"]*)"/;
+        let url = (document.head.innerHTML.match(url_r) || ["", ""])[1];
         return url;
     }
 }());

@@ -9,7 +9,7 @@
     });
 
     function watchPage() {
-        var ob, url;
+        let ob, url;
         if ((ob = document.getElementById("flashVars"))) {
             url = getURL(ob.value);
         } else if ((ob = document.getElementById("FlashWrap")) &&
@@ -20,10 +20,10 @@
         }
         if (!url)
             return;
-        var container = document.getElementById("ItemContainer");
+        let container = document.getElementById("ItemContainer");
         if (!container)
             return;
-        var vp = new VP(container);
+        let vp = new VP(container);
         vp.addSrc(url, "medium", "mp4");
         vp.props({
             autoplay: autoPlay(true),
@@ -38,17 +38,17 @@
     }
 
     function channelPage() {
-        var embed = document.getElementsByTagName("embed");
+        let embed = document.getElementsByTagName("embed");
         if (!embed)
             return;
         embed = embed[0];
-        var page = embed.src;
+        let page = embed.src;
         page = page.replace("/fplayer/", "/watch/").replace(/.swf$/, "");
         asyncGet(page).then((data) => {
-            var url = getURL(data);
-            var container = document.getElementById("ItemContainer");
-            //var container = embed.parentElement;
-            var vp = new VP(container);
+            let url = getURL(data);
+            let container = document.getElementById("ItemContainer");
+            //let container = embed.parentElement;
+            let vp = new VP(container);
             vp.addSrc(url, "medium", "mp4");
             vp.props({
                 autoplay: autoPlay(false),
@@ -64,7 +64,7 @@
     }
 
     function getURL(e) {
-        var data = decodeURIComponent(e.match(/&mediaData=([^&]*)&/)[1]);
+        let data = decodeURIComponent(e.match(/&mediaData=([^&]*)&/)[1]);
         return JSON.parse(data).MP4.mediaURL;
     }
 

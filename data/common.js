@@ -9,14 +9,14 @@
 "use strict";
 
 //This Addons Preferences
-var OPTIONS, init;
+let OPTIONS, init;
 // push your prefernces change listner function to this table, yah the old way
 const onPrefChange = [];
 const Cdc = ["webm", "mp4"];
 const Qlt = ["higher", "high", "medium", "low"];
 const LANGS = ["af", "ar", "bn", "de", "en", "es", "fi", "fr", "hi", "id", "is", "it", "ja", "ko", "pt", "ru", "tu", "zh"];
 // set it to false if the module uses custom listener
-var HANDLE_VOL_PREF_CHANGE = true;
+const HANDLE_VOL_PREF_CHANGE = true;
 self.port.on("preferences", function(prefs) {
     OPTIONS = prefs;
     if (init)
@@ -42,7 +42,7 @@ const setClipboard = (text) =>
     self.port.emit("setClipboard", text);
 const createNode = (type, prprt, style, data) => {
     //logify("createNode", type, prprt);
-    var node = document.createElement(type);
+    let node = document.createElement(type);
     if (prprt)
         Object.keys(prprt).forEach(p => node[p] = prprt[p]);
     if (style)
@@ -55,7 +55,7 @@ const createNode = (type, prprt, style, data) => {
 const asyncGet = (url, headers, mimetype) => {
     logify("asyncGet", url);
     return new Promise(function(resolve, reject) {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
         if (headers)
             Object.keys(headers).forEach(h => xhr.setRequestHeader(h, headers[h]));
