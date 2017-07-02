@@ -197,7 +197,7 @@ var zip_inflate = function() {
             pidx = 0;
             i = n;
             do {
-                c[p[pidx]] ++; // assume all entries <= BMAX
+                c[p[pidx]]++; // assume all entries <= BMAX
                 pidx++;
             } while (--i > 0);
             if (c[0] == n) { // null input--all zero length codes
@@ -249,7 +249,7 @@ var zip_inflate = function() {
             i = 0;
             do {
                 if ((j = p[pidx++]) != 0)
-                    v[x[j] ++] = i;
+                    v[x[j]++] = i;
             } while (++i < n);
             n = x[g]; // set n to length of v
 
@@ -810,7 +810,8 @@ var zip_inflate = function() {
 
         buff = new Array(1024);
         out = "";
-        while ((i = zip_inflate_internal(buff, 0, buff.length)) > 0 && last_zip_inflate_pos != zip_inflate_pos) {
+        while ((i = zip_inflate_internal(buff, 0, buff.length)) > 0 &&
+            last_zip_inflate_pos != zip_inflate_pos) {
             last_zip_inflate_pos = zip_inflate_pos;
             for (j = 0; j < i; j++) out += String.fromCharCode(buff[j]);
         }
@@ -1978,10 +1979,14 @@ function decode(df) {
     };
     var PS_TIMESTAMP = [
         function(op, o) {
-            return op !== AS3_OP_FINDPROPERTY || cp.resolve_multiname(o.index) !== "TIMESTAMP" || this.advance_if(true);
+            return op !== AS3_OP_FINDPROPERTY ||
+                cp.resolve_multiname(o.index) !== "TIMESTAMP" ||
+                this.advance_if(true);
         },
         function(op, o) {
-            return this.advance_if(op === AS3_OP_PUSHSHORT && (this.result.timestamp = o.value, 1)) || this.advance_if(op === AS3_OP_PUSHINT && (this.result.timestamp = cp.resolve_integer(o.index), 1)) || this.advance_if(op === AS3_OP_PUSHUINT && (this.result.timestamp = cp.resolve_uinteger(o.index), 1));
+            return this.advance_if(op === AS3_OP_PUSHSHORT && (this.result.timestamp = o.value, 1)) ||
+                this.advance_if(op === AS3_OP_PUSHINT && (this.result.timestamp = cp.resolve_integer(o.index), 1)) ||
+                this.advance_if(op === AS3_OP_PUSHUINT && (this.result.timestamp = cp.resolve_uinteger(o.index), 1));
         },
         function(op) {
             if (op !== AS3_OP_SETPROPERTY) {
@@ -2008,7 +2013,8 @@ function decode(df) {
             return this.advance_if(op === AS3_OP_PUSHSTRING && cp.resolve_string(o.index).length === 0);
         },
         function(op, o) {
-            return this.advance_if(op === AS3_OP_CALLPROPERTY && cp.resolve_multiname(o.index) === "http://adobe.com/AS3/2006/builtin.split");
+            return this.advance_if(op === AS3_OP_CALLPROPERTY &&
+                cp.resolve_multiname(o.index) === "http://adobe.com/AS3/2006/builtin.split");
         },
         function(op, o) {
             return this.advance_if(op === AS3_OP_CALLPROPERTY && (ctx.func_name_idx = o.index));
@@ -2017,7 +2023,8 @@ function decode(df) {
             return this.advance_if(op === AS3_OP_PUSHSTRING && cp.resolve_string(o.index).length === 0);
         },
         function(op, o) {
-            return this.advance_if(op === AS3_OP_CALLPROPERTY && cp.resolve_multiname(o.index) === "http://adobe.com/AS3/2006/builtin.join");
+            return this.advance_if(op === AS3_OP_CALLPROPERTY &&
+                cp.resolve_multiname(o.index) === "http://adobe.com/AS3/2006/builtin.join");
         },
         function(op) {
             if (op !== AS3_OP_RETURNVALUE) {
@@ -2039,7 +2046,8 @@ function decode(df) {
     ];
     var PS_FUNC_BRANCH = [
         function(op) {
-            return this.switch_if(op === AS3_OP_GETLOCAL_0, PS_FUNC_CALL) || this.advance_if(op === AS3_OP_GETLOCAL_1);
+            return this.switch_if(op === AS3_OP_GETLOCAL_0, PS_FUNC_CALL) ||
+                this.advance_if(op === AS3_OP_GETLOCAL_1);
         },
         function(op) {
             return this.done_if(op === AS3_OP_RETURNVALUE);
@@ -2066,7 +2074,9 @@ function decode(df) {
                     AS3_OP_PUSHSCOPE,
                     AS3_OP_GETLOCAL_1,
                     function(op) {
-                        return this.done_if((op === AS3_OP_GETLOCAL_2 && (this.result = "clone")) || (op === AS3_OP_CALLPROPVOID && (this.result = "reverse")) || (op === AS3_OP_PUSHBYTE && (this.result = "swap")));
+                        return this.done_if((op === AS3_OP_GETLOCAL_2 && (this.result = "clone")) ||
+                            (op === AS3_OP_CALLPROPVOID && (this.result = "reverse")) ||
+                            (op === AS3_OP_PUSHBYTE && (this.result = "swap")));
                     }
                 ];
                 var d = new Decoder(df, new doABCReader(mb.code), PS_TEST);

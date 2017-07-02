@@ -25,6 +25,9 @@
                     var player_container = getPlayerContainer(conf);
                     if (!player_container)
                         return;
+                    let scripts = player_container.getElementsByTagName("script");
+                    for (let script of scripts)
+                        player_container.parentElement.appendChild(script);
                     var seek = getSeek();
                     vp = new VP(player_container);
                     vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url + seek);

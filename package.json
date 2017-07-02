@@ -3,7 +3,7 @@
   "title": "HTML5 Video Everywhere!",
   "name": "html5-video-everywhere",
   "id": "html5-video-everywhere@lejenome.me",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Replace video player with Firefox native video player",
   "main": "index.js",
   "author": "Moez Bouhlel <bmoez.j@gmail.com> (http://lejenome.github.io/)",
