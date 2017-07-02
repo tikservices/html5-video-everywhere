@@ -3,7 +3,7 @@
 .NOTPARALLEL : all
 all: lint beautify build
 lint:
-	jshint --verbose *.js */*.js
+	jshint --verbose *.js data/*.js lib/*.js test/*.js
 beautify:
 	+find index.js lib data test -name "*.js" -a ! -name "flashgot-*.js" \
 		| xargs js-beautify -r
