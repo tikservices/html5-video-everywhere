@@ -1,0 +1,39 @@
+form {
+  width: 100%;
+  color: rgba(0,0,0,0.8);
+  box-sizing: border-box;
+} 
+form > div {
+  padding: 5px 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  min-height: 30px !important;
+}
+form > div:last-of-type {
+  border: none;
+}
+
+form > div > label {
+  display: inline-block;
+  width: 300px;
+  min-height: 100%;
+  /* vertical-align: sub;
+  -vertical-align: -moz-middle-with-baseline;*/
+      line-height: 30px;
+    text-shadow: 0 1px 1px #fefffe;
+}
+form > div > input,
+form > div > select {
+  /*float: right;*/
+  display: inline-block;
+  width: calc(100% - 300px - 22px);
+  height: 100%;
+}
+form > div > button {
+  margin-top: 10px;
+  float: right;
+  width: 120px;
+  height: 30px;
+  font-weight: bold;
+  color: rgba(20, 50, 185, 0.8);
+  font-size: 90%;
+}

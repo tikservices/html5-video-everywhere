@@ -1,0 +1,56 @@
+{
+    "manifest_version": 2,
+    "name": "HTML5 Video Everywhere",
+    "version": "0.4.0",
+
+    "description": "Replace video player with Firefox native video player",
+    "homepage_url": "https://github.com/lejenome/html5-video-everywhere",
+    "author": "Moez Bouhlel",
+    "developer": {
+        "name": "Moez Bouhlel",
+        "url": "https://lejenome.github.io/"
+    },
+    "icons": {
+        "32": "icons/h5vew-32.png",
+        "64": "icons/h5vew-64.png",
+        "128": "icons/h5vew-128.png"
+    },
+    "applications": {
+        "gecko": {
+            "id": "html5-video-everywhere@lejenome.me",
+            "update_url": "https://lejenome.github.io/h5vew/update.json"
+        }
+    },
+    "content_scripts": [{
+        "matches": ["*://www.youtube.com/*", "*://*.www.youtube-nocookie.com/*"],
+        "js": ["content/Module.js", "content/youtube.js"],
+        "css": [],
+        "all_frames": true,
+        "run_at": "document_start"
+    }],
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "options_ui": {
+        "page": "options/options.html",
+        "browser_style": true,
+        "chrome_style": true
+    },
+    "content_security_policy": "default-src 'none'; script-src 'self' https://www.google-analytics.com; style-src 'self'; img-src *; media-src *; report-uri https://api.admin.tik.tn/repor/csp",
+    "permissions": [
+        "storage",
+        "webRequest",
+        "webRequestBlocking",
+        "activeTab"
+    ],
+    "page_action": {
+        "browser_style": true,
+        "default_icons": {
+            "19": "icons/h5vew-19.png",
+            "38": "icons/h5vew-38.png",
+            "128": "icons/h5vew-128.png"
+        },
+        "default_title": "HTML5 Video",
+        "default_popup": "popup/dashboard.html"
+    }
+}
