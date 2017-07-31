@@ -92,10 +92,10 @@ const onReady = f => {
   }
 };
 const autoPlay = (auto = false) =>
-    ((OPTIONS.autoplay === 1 || auto === true) && OPTIONS.autoplay !== 0);
+    ((OPTIONS.autoplay === "1" || auto === true) && OPTIONS.autoplay !== "0");
 const preLoad = (auto = false) =>
-    ((OPTIONS.preload === 1 || auto === true) && OPTIONS.preload !== 0) ? "auto" : "metadata";
-const isLoop = (lp = false) => ((OPTIONS.loop === 1 || lp) && OPTIONS.loop !== 0);
+    ((OPTIONS.preload === "1" || auto === true) && OPTIONS.preload !== "0") ? "auto" : "metadata";
+const isLoop = (lp = false) => ((OPTIONS.loop === "1" || lp) && OPTIONS.loop !== "0");
 
 const rmChildren = (prnt) => {
   while (prnt && prnt.firstChild)

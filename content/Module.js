@@ -9,27 +9,33 @@ class Module {
     this.port = browser.runtime.connect({"name" : "h5vew"});
     this.port.postMessage({"type" : "inject", "module" : this.name});
     this.port.onMessage.addListener((msg) => this.onMessage(msg));
+    this.messageListeners = {};
   }
 
   start() {
     this.log("start()");
-    new Promise((resolve, reject) => resolve(this.onLoading()))
-        .then(() => new Promise((resolve, reject) => {
-                if (document.readyState != "loading") {
-                  resolve(this.onInteractive());
-                } else {
-                  document.addEventListener("DOMContentLoaded", () => {
-                    resolve(() => this.onInteractive());
-                  });
-                }
-              }))
-        .then(() => {
-          if (document.readyState === "complete")
-            this.onComplete();
-          else
-            document.addEventListener("load", () => this.onComplete());
-        })
-        .catch((err) => this.log("Error start():", err));
+    if (OPTIONS) {
+      new Promise((resolve, reject) => resolve(this.onLoading()))
+          .then(() => new Promise((resolve, reject) => {
+                  if (document.readyState != "loading") {
+                    resolve(this.onInteractive());
+                  } else {
+                    this.log("DDDD2");
+                    document.addEventListener("DOMContentLoaded", () => {
+                      resolve(this.onInteractive());
+                    });
+                  }
+                }))
+          .then(() => {
+            if (document.readyState === "complete")
+              this.onComplete();
+            else
+              document.addEventListener("load", () => this.onComplete());
+          })
+          .catch((err) => this.log("Error start():", err));
+    } else {
+      this.addMessageListener("options", (msg) => this.start());
+    }
   }
 
   onLoading() {
@@ -44,13 +50,33 @@ class Module {
     this.log("onComplete()");
   }
 
-  onMessage(msg) {}
+  onMessage(msg) {
+    this.log("Message", msg);
+    switch (msg.type) {
+    case "options":
+      OPTIONS = msg.options;
+      OPTIONS.driver = this.name; // FIXME
+      OPTIONS.addon = {version:0, id:0}; //FIXME
+      break;
+    default:
+      break;
+      }
+    for (const fn of (this.messageListeners[msg.type] || []))
+      fn(msg);
+  }
 
+  addMessageListener(type, fn) {
+    this.log("Add msg listener:", type);
+    if (!this.messageListeners[type]) {
+      this.messageListeners[type] = [];
+    }
+    this.messageListeners[type].push(fn);
+  }
   onOptionChange(opt, val) {}
 
   getOption(opt) {}
 
-  setOption(opt, val) {}
+  async setOption(opt, val) {}
 
   log(...args) {
     console.log("[h5vew:" + this.name + "]", ...args);

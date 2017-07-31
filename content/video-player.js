@@ -43,21 +43,23 @@ class VP {
 
     mainSrcIndex() {
         let i, j, slct;
-        i = OPTIONS.prefQlt;
+      const prefCdc = parseInt(OPTIONS.prefCdc);
+      const prefQlt = parseInt(OPTIONS.prefQlt);
+        i = prefQlt;
         while (i > -1) {
-            if (this._srcs[i * 2 + OPTIONS.prefCdc])
+            if (this._srcs[i * 2 + prefCdc])
                 return {
                     qlt: i,
-                    cdc: OPTIONS.prefCdc
+                    cdc: prefCdc
                 };
-            else if (this._srcs[i * 2 + (OPTIONS.prefCdc + 1 % 2)])
+            else if (this._srcs[i * 2 + (prefCdc + 1 % 2)])
                 return {
                     qlt: i,
-                    cdc: OPTIONS.prefCdc + 1 % 2
+                    cdc: prefCdc + 1 % 2
                 };
-            i = (i >= OPTIONS.prefQlt) ? i + 1 : i - 1;
+            i = (i >= prefQlt) ? i + 1 : i - 1;
             if (i > 3)
-                i = OPTIONS.prefQlt - 1;
+                i = prefQlt - 1;
         }
     }
 
@@ -110,10 +112,10 @@ class VP {
     }
 
     slctLang(lang) {
-        if (!(lang !== undefined || OPTIONS.lang !== 0) || this._slctLang === undefined)
+        if (!(lang !== undefined || OPTIONS.lang !== "0") || this._slctLang === undefined)
             return;
         if (lang === undefined)
-            lang = LANGS[OPTIONS.lang - 1];
+            lang = LANGS[parseInt(OPTIONS.lang) - 1];
         if (this._lang)
             this.player.textTracks.getTrackById(this._lang).mode = "disabled";
         let track;
@@ -283,7 +285,7 @@ class VP {
                 type: "radio",
                 label: Cdc[i],
                 radiogroup: "menu-cdc",
-                checked: (OPTIONS.prefCdc === i),
+                checked: (parseInt(OPTIONS.prefCdc) === i),
                 onclick: (e) =>
                     chgPref("prefCdc", Cdc.indexOf(e.target.label))
             }));
@@ -295,7 +297,7 @@ class VP {
             type: "radio",
             label: "none",
             radiogroup: "menu-lang",
-            checked: OPTIONS.lang === 0 || this._langs.findIndex((l) => l === LANGS[OPTIONS.lang - 1]) === -1,
+            checked: parseInt(OPTIONS.lang) === 0 || this._langs.findIndex((l) => l === LANGS[parseInt(OPTIONS.lang) - 1]) === -1,
             onclick: (e) => {
                 if (this._lang === undefined)
                     return;
@@ -308,7 +310,7 @@ class VP {
                 type: "radio",
                 label: this._langs[i],
                 radiogroup: "menu-lang",
-                checked: this._langs[i] === LANGS[OPTIONS.lang - 1],
+                checked: this._langs[i] === LANGS[parseInt(OPTIONS.lang) - 1],
                 onclick: (e) =>
                     this.slctLang(e.target.label)
             }));

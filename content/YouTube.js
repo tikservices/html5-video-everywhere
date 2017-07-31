@@ -45,7 +45,7 @@ class YouTube extends Module {
               loop : isLoop(location.search.search("loop=1") !== -1),
               controls : true,
               poster : conf.poster || "",
-              volume : OPTIONS.volume / 100
+              volume : parseFloat(OPTIONS.volume) / 100
             });
             // vp.style({
             //    position: "relative"
