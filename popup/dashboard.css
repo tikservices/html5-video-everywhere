@@ -32,11 +32,17 @@ form > div > label > select {
   height: 100%;
 }
 form > div > button {
-  margin-top: 10px;
-  float: right;
-  width: 120px;
+  /*float: right;*/
+  display: inline-block;
+  min-width: 30px;
   height: 30px;
   font-weight: bold;
   color: rgba(20, 50, 185, 0.8);
   font-size: 90%;
+}
+.s12 {
+  width: 100%;
+}
+.s4 {
+  width: 32%;
 }

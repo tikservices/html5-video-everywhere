@@ -12,19 +12,19 @@
 
         <div>
             <label>Auto Play Next
-            <input type="checkbox" name="autoNext" id="autoNext" />
+            <input type="checkbox" name="autoNext" id="autoNext" checked />
           </label>
         </div>
 
         <div>
             <label>Decode YouTube Signature
-            <input type="checkbox" name="genYTSign" id="genYTSign" />
+            <input type="checkbox" name="genYTSign" id="genYTSign" checked/>
           </label>
         </div>
 
         <div>
             <label>Subtitles
-            <select name="lang" id="lang">
+            <select name="lang" id="lang" value="0">
               <option value="0">None</option>
               <option value="1">Af</option>
               <option value="2">Ar</option>
@@ -50,7 +50,7 @@
 
         <div>
             <label>Preferred Codec
-            <select name="prefCdc" id="prefCdc">
+            <select name="prefCdc" id="prefCdc" value="0">
           <option value="0">WebM</option>
           <option value="1">MP4</option>
         </select>
@@ -59,7 +59,7 @@
 
         <div>
             <label>Preferred Quality
-            <select name="prefQlt" id="prefQlt">
+            <select name="prefQlt" id="prefQlt" value="2">
           <option value="0">Higher</option>
           <option value="1">High</option>
           <option value="2">Medium</option>
@@ -70,7 +70,7 @@
 
         <div>
             <label>Auto Play Video
-            <select name="autoplay" id="autoplay">
+            <select name="autoplay" id="autoplay" value="2">
           <option value="2">Default</option>
           <option value="1">Enabled</option>
           <option value="0">Disabled</option>
@@ -80,7 +80,7 @@
 
         <div>
             <label>Preload Video
-            <select name="preload" id="preload">
+            <select name="preload" id="preload" value="2">
           <option value="2">Default</option>
           <option value="1">Enabled</option>
           <option value="0">Disabled</option>
@@ -90,7 +90,7 @@
 
         <div>
             <label>Auto Loop Video
-            <select name="loop" id="loop">
+            <select name="loop" id="loop" value="2">
           <option value="2">Default</option>
           <option value="1">Always</option>
           <option value="0">Never</option>
@@ -100,7 +100,7 @@
 
         <div>
             <label>Volume
-            <input type="range" min="0" max="100" list="volume-levels" />
+            <input type="range" min="0" max="100" list="volume-levels" value="100" />
             <datalist name="volume-levels" id="volume-levels">
           <option value="0" label="0%">
           <option value="10">
@@ -159,7 +159,7 @@
           </label>
         </div>
 
-        <div>
+        <div hidden>
             <button type="submit" class="default">Save</button>
         </div>
 

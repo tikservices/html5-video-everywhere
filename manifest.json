@@ -22,8 +22,76 @@
         }
     },
     "content_scripts": [{
-        "matches": ["*://www.youtube.com/*", "*://*.www.youtube-nocookie.com/*"],
-        "js": ["content/Module.js", "content/youtube.js"],
+        "matches": ["*://www.break/embed/*"],
+        "js": [
+            "content/common.js",
+            "content/video-player.js",
+            "content/Module.js",
+            "content/Break.js"
+        ],
+        "all_frames": true,
+        "run_at": "document_start"
+    }, {
+        "matches": ["*://www.dailymotion.com/embed/video/*"],
+        "js": [
+            "content/common.js",
+            "content/video-player.js",
+            "content/Module.js",
+            "content/Dailymotion.js"
+        ],
+        "all_frames": true,
+        "run_at": "document_start"
+    }, {
+        "matches": [
+            "*://*.facebook.com/*/videos/*",
+            "*://*.facebook.com/video.php"
+        ],
+        "js": [
+            "content/common.js",
+            "content/video-player.js",
+            "content/Module.js",
+            "content/Facebook.js"
+        ],
+        "all_frames": true,
+        "run_at": "document_start"
+    }, {
+        "matches": [
+            "*://www.metacafe.com/watch/*",
+            "*://www.metacafe.com/*"
+        ],
+        "js": [
+            "content/common.js",
+            "content/video-player.js",
+            "content/Module.js",
+            "content/Metacafe.js"
+        ],
+        "all_frames": true,
+        "run_at": "document_start"
+    }, {
+        "matches": [
+            "*://vimeo.com/*",
+            "*://player.vimeo.com/video*"
+        ],
+        "js": [
+            "content/common.js",
+            "content/video-player.js",
+            "content/Module.js",
+            "content/Vimeo.js"
+        ],
+        "all_frames": true,
+        "run_at": "document_start"
+    }, {
+        "matches": [
+            "*://*.youtube.com/*",
+            "*://*.youtube-nocookie.com/*"
+        ],
+        "js": [
+            "content/common.js",
+            "content/video-player.js",
+            "content/Module.js",
+            "content/youtube-formats.js",
+            "content/YouTube.js"
+        ],
         "css": [],
         "all_frames": true,
         "run_at": "document_start"
