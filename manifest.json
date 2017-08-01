@@ -21,6 +21,7 @@
             "update_url": "https://lejenome.github.io/h5vew/update.json"
         }
     },
+    "license": "MPL-2.0",
     "content_scripts": [{
         "matches": ["*://www.break/embed/*"],
         "js": [

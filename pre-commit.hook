@@ -4,4 +4,4 @@ make || exit 1
 git diff --cached --name-only HEAD | while read F; do
 	git add "$F"
 done
-git update-index --really-refresh
+git update-index # --really-refresh
