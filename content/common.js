@@ -12,9 +12,9 @@
 let OPTIONS, init;
 // push your prefernces change listner function to this table, yah the old way
 const onPrefChange = [];
-const Cdc          = [ "webm", "mp4" ];
-const Qlt          = [ "higher", "high", "medium", "low" ];
-const LANGS        = [
+const Cdc = ["webm", "mp4"];
+const Qlt = ["higher", "high", "medium", "low"];
+const LANGS = [
   "af", "ar", "bn", "de", "en", "es", "fi", "fr", "hi", "id", "is", "it", "ja", "ko", "pt", "ru",
   "tu", "zh"
 ];
@@ -36,7 +36,10 @@ const HANDLE_VOL_PREF_CHANGE = true;
 //     onPrefChange.forEach(f => f(pref.name));
 // });
 const chgPref = (name, val) => {
-  self.port.emit("prefChang", {name : name, val : val});
+  self.port.emit("prefChang", {
+    name: name,
+    val: val
+  });
 };
 const setClipboard = (text) => self.port.emit("setClipboard", text);
 const createNode = (type, prprt, style, data) => {
@@ -92,9 +95,9 @@ const onReady = f => {
   }
 };
 const autoPlay = (auto = false) =>
-    ((OPTIONS.autoplay === "1" || auto === true) && OPTIONS.autoplay !== "0");
+  ((OPTIONS.autoplay === "1" || auto === true) && OPTIONS.autoplay !== "0");
 const preLoad = (auto = false) =>
-    ((OPTIONS.preload === "1" || auto === true) && OPTIONS.preload !== "0") ? "auto" : "metadata";
+  ((OPTIONS.preload === "1" || auto === true) && OPTIONS.preload !== "0") ? "auto" : "metadata";
 const isLoop = (lp = false) => ((OPTIONS.loop === "1" || lp) && OPTIONS.loop !== "0");
 
 const rmChildren = (prnt) => {

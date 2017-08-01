@@ -27,6 +27,7 @@
     "add-on"
   ],
   "dependencies": {
+    "html-beautify": "^1.0.4"
   },
   "permissions": {
     "private-browsing": true,

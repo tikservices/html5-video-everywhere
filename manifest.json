@@ -32,7 +32,10 @@
         "all_frames": true,
         "run_at": "document_start"
     }, {
-        "matches": ["*://www.dailymotion.com/embed/video/*"],
+        "matches": [
+            "*://www.dailymotion.com/embed/video/*",
+            "*://www.dailymotion.com/video/*"
+        ],
         "js": [
             "content/common.js",
             "content/video-player.js",

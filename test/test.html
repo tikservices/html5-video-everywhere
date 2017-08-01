@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HTML5 Video EveryWhere Manual Test</title>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			document.getElementById("testUrls").onclick = function(e) {
+				if(e.currentTarget !== e.target && e.target.dataset.url){
+					document.getElementById("testFrame").src = e.target.dataset.url;
+					e.target.style.backgroundColor = "green";
+				}
+			};
+		});
+	</script>
+	<style>
+		body {height: 100%; width: 100%}
+		#testUrls a { border: black solid 1px; margin: 2px;}
+		#testFrame {width: 100%; min-height: 400px}
+	</style>
+</head>
+<body>
+	<div id="testUrls">
+		<a data-url="https://youtube.com/watch?v=ltun92DfnPY&amp;list=FLem-lx9iHZGg5LOrNPJ9Peg&amp;index=3">YT /watch</a>
+		<a data-url="https://youtube.com/embed/2sTt-51iS_I">YT /embed</a>
+		<a data-url="https://youtube.com/user/WatchMojo">YT /user</a>
+		<a data-url="https://facebook.com/video.php?v=10153178235822275">FB /video</a>
+		<a data-url="https://vimeo.com/channels/documentaryfilm">Vimeo /channel</a>
+		<a data-url="https://vimeo.com/channels/staffpicks/117128919">Vimeo /channel/X/Y</a>
+		<a data-url="https://vimeo.com/groups/filmschool/videos/100175238">Vimeo /groups/X/videos/Y</a>
+		<a data-url="https://vimeo.com/86877247">Vimeo /VIDEO</a>
+		<a data-url="https://vimeo.com/focuspulling">Vimeo /USER</a>
+		<a data-url="https://metacafe.com/watch/11371672/everything_wrong_with_underworld_evolution/">metacafe /watch/X/Y</a>
+		<a data-url="https://metacafe.com/watch/cb-lJ6KDvO07Aab/marcus_smart_shoves_a_texas_tech_fan/">metacafe /watch/X/Y</a>
+		<a data-url="https://dailymotion.com/embed/video/x2eqonv_impossible-sellotape_tech">dailymotion /embed/video</a>
+		<a data-url="https://break.com/embed/2810311">Break /embed</a>
+	</div>
+	<iframe id="testFrame">
+	</iframe>
+
+</body>
+</html>

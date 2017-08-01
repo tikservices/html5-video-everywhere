@@ -1,9 +1,14 @@
 "use strict";
 
-const ports   = [];
-let activeTab = browser.tabs.query({active : true, currentWindow : true});
+const ports = [];
+let activeTab = browser.tabs.query({
+  active: true,
+  currentWindow: true
+});
 activeTab.then(tab => {
-  browser.tabs.sendMessage(tab[0].id, {msg : "I'm here"});
+  browser.tabs.sendMessage(tab[0].id, {
+    msg: "I'm here"
+  });
 });
 
 browser.runtime.onMessage.addListener((msg) => {});
@@ -11,14 +16,18 @@ browser.runtime.onMessage.addListener((msg) => {});
 function onMessage(msg, port) {
   console.log("New message:", msg);
   switch (msg.type) {
-  case "inject":
-    browser.storage.sync.get().then((opts) =>
-                                        port.postMessage({"type" : "options", "options" : opts}));
-    break;
-  default:
-    break;
+    case "inject":
+      browser.storage.sync.get().then((opts) =>
+        port.postMessage({
+          "type": "options",
+          "options": opts
+        }));
+      break;
+    default:
+      break;
   }
-  }
+}
+
 function onDisconnect(port) {}
 
 browser.runtime.onConnect.addListener((port) => {

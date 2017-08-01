@@ -12,7 +12,7 @@ function saveOptions(e) {
   }
   browser.storage.sync.set(options);
   e.preventDefault();
-  }
+}
 
 function changeOption(e) {
   let el = e.target;
@@ -22,9 +22,11 @@ function changeOption(e) {
   else
     val = el.value;
   console.log("[h5vew:options] Change", el.name, val);
-  browser.storage.sync.set({[el.name] : val});
+  browser.storage.sync.set({
+    [el.name]: val
+  });
   e.preventDefault();
-  }
+}
 
 function restoreOptions() {
   for (const el of form.elements) {
