@@ -1,29 +1,27 @@
 "use strict";
+
 class Metacafe extends Module {
   constructor() {
     super("metacafe");
   }
 
   onInteractive() {
-    if (/watch\/\d+\/.*/.test(location.pathname))
+    if (window.location.pathname.startsWith("/watch/"))
       this.watchPage();
     else if (/[^\/]+\/?$/.test(location.pathname))
       this.channelPage();
   }
 
   watchPage() {
-    let ob, url;
-    if ((ob = document.getElementById("flashVars"))) {
-      url = this.getURL(ob.value);
-    } else if ((ob = document.getElementById("FlashWrap")) &&
-      (ob = ob.getElementsByTagName("video")).length) {
-      url = ob[0].src;
-      ob[0].pause();
-      ob[0].remove();
+    let data;
+    if (document.getElementById("json_video_data")) {
+      data = JSON.parse(document.getElementById("json_video_data").textContent)
     }
-    if (!url) return;
-    let container = document.getElementById("ItemContainer");
-    if (!container) return;
+    if (!data) return;
+    let url = data.sources[0].src;
+    let container = document.getElementsByClassName("mc-player");
+    if (container.length === 0) return;
+    container = container[0];
     let vp = new VP(container);
     vp.addSrc(url, "medium", "mp4");
     vp.props({
@@ -69,4 +67,4 @@ class Metacafe extends Module {
   }
 }
 
-new Metacafe().start();
+// new Metacafe().start(); // FIXME: needs HLS support
