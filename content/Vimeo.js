@@ -15,21 +15,19 @@ class Vimeo extends Module {
         player_container = document.body;
       } else if (conf.isWatch) {
         player_container =
-          document.getElementById("video") || document.getElementById("video_wrapper");
+          document.getElementsByClassName("player_area")[0];
+        /*
         if ((stl = player_container.children[0]) && (stl = stl.sheet) &&
           (stl.cssRules.length > 0)) {
           stl = stl.cssRules[0].cssText;
         }
+        */
       } else {
         player_container = document.getElementById("clip_" + conf.id);
       }
       if (!player_container) return;
       let vp = new VP(player_container);
-      vp.srcs(conf.fmts, {
-        "high/mp4": "hd",
-        "medium/mp4": "sd",
-        "low/mp4": "mobile"
-      }, (fmt) => fmt.url);
+      vp.srcs(conf.fmts);
       vp.props({
         className: conf.className,
         autoplay: autoPlay(),
@@ -37,7 +35,7 @@ class Vimeo extends Module {
         loop: isLoop(),
         controls: true,
         poster: conf.poster,
-        volume: OPTIONS.volume / 100
+        volume: parseFloat(OPTIONS.volume) / 100
       });
       vp.tracksList(conf.tracks.map(l => l.lang), (lang, resolve, reject) => {
         let l = conf.tracks.find(l => l.lang === lang);
@@ -59,8 +57,8 @@ class Vimeo extends Module {
       let isWatch =
         /https?:\/\/vimeo.com\/[\d]+/.test(location.href) || this.ogType().indexOf("video") > -1;
       let isEmbed = /https?:\/\/player.vimeo.com\/video/.test(location.href);
-      let isChannel = /https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href) ||
-        this.ogType().match(/channel|profile/) !== null;
+      let isChannel = !isWatch && (/https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href) ||
+        this.ogType().match(/channel|profile/) !== null);
       if (!isWatch && !isChannel && !isEmbed) reject();
       let player_id, player_class;
       if (isWatch) {
@@ -84,14 +82,7 @@ class Vimeo extends Module {
   }
 
   getVideoInfo(conf) {
-    const processData = (conf) => (data) => {
-      data = JSON.parse(data);
-      conf.fmts = data.request.files.h264;
-      conf.poster = data.video.thumbs.base;
-      conf.tracks = data.request.text_tracks || [];
-      return Promise.resolve(conf);
-    };
-    const INFO_URL = "//player.vimeo.com/video/";
+    const INFO_URL = "https://player.vimeo.com/video/";
     if (conf.isChannel) {
       return Array.map(document.getElementsByClassName("player_container"), (el) => {
         let _conf = {};
@@ -99,16 +90,38 @@ class Vimeo extends Module {
           _conf[va] = conf[va];
         _conf.id = el.id.replace("clip_", "");
         return asyncGet(INFO_URL + _conf.id + "/config")
-          .then(processData(_conf))
+          .then(this.processData(_conf))
           .then((conf) => this.injectPlayer(conf));
       });
     } else {
       return asyncGet(INFO_URL + conf.id + "/config")
-        .then(processData(conf))
+        .then(this.processData(conf))
         .then((conf) => this.injectPlayer(conf));
     }
   }
 
+  processData(conf) {
+    return (data) => {
+      data = JSON.parse(data);
+      conf.fmts = this.getSrcs(data.request.files.progressive);
+      conf.poster = data.video.thumbs.base;
+      conf.tracks = data.request.text_tracks || [];
+      return Promise.resolve(conf);
+    };
+  }
+  getSrcs(progressive) {
+    let fmts = {};
+    let srcs = {};
+    Array.forEach(progressive, (v) => {
+      srcs[v.quality] = v.url;
+    });
+    for (const [q, fmt] of[
+        ["270p", "low/mp4"], ["360p", "medium/mp4"], ["720p", "high/mp4"], ["1028p", "higher/mp4"],
+      ]) {
+      if (srcs[q]) fmts[fmt] = srcs[q];
+    }
+    return fmts;
+  }
   brozarEvents() {
     // change Vimeo default click events of items on brozar element
     let clips = document.getElementById("clips");

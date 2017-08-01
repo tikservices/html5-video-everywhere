@@ -51,25 +51,13 @@ const createNode = (type, prprt, style, data) => {
   return node;
 };
 
-const asyncGet = (url, headers, mimetype) => {
+const asyncGet = (url, headers = {}, mimetype = null) => {
   logify("asyncGet", url);
-  return new Promise(function(resolve, reject) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    if (headers) Object.keys(headers).forEach(h => xhr.setRequestHeader(h, headers[h]));
-    if (mimetype && xhr.overrideMimeType) xhr.overrideMimeType(mimetype);
-    xhr.onload = function() {
-      if (this.status !== 200) {
-        reject(this.status);
-        logify("Error on asyncGet", url, headers, this.status);
-        return;
-      }
-      resolve(this.responseText);
-    };
-    xhr.onerror = function() {
-      reject();
-    };
-    xhr.send();
+  return fetch(url, {
+    headers: headers,
+  }).then((res) => {
+    if (res.ok) return res.text();
+    else return Promise.reject();
   });
 };
 

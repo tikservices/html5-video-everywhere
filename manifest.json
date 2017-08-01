@@ -1,127 +1,128 @@
 {
-    "manifest_version": 2,
-    "name": "HTML5 Video Everywhere",
-    "version": "0.4.0",
+  "manifest_version": 2,
+  "name": "HTML5 Video Everywhere",
+  "version": "0.4.0",
 
-    "description": "Replace video player with Firefox native video player",
-    "homepage_url": "https://github.com/lejenome/html5-video-everywhere",
-    "author": "Moez Bouhlel",
-    "developer": {
-        "name": "Moez Bouhlel",
-        "url": "https://lejenome.github.io/"
-    },
-    "icons": {
-        "32": "icons/h5vew-32.png",
-        "64": "icons/h5vew-64.png",
-        "128": "icons/h5vew-128.png"
-    },
-    "applications": {
-        "gecko": {
-            "id": "html5-video-everywhere@lejenome.me",
-            "update_url": "https://lejenome.github.io/h5vew/update.json"
-        }
-    },
-    "content_scripts": [{
-        "matches": ["*://www.break.com/embed/*"],
-        "js": [
-            "content/common.js",
-            "content/video-player.js",
-            "content/Module.js",
-            "content/Break.js"
-        ],
-        "all_frames": true,
-        "run_at": "document_start"
-    }, {
-        "matches": [
-            "*://www.dailymotion.com/embed/video/*",
-            "*://www.dailymotion.com/video/*"
-        ],
-        "js": [
-            "content/common.js",
-            "content/video-player.js",
-            "content/Module.js",
-            "content/Dailymotion.js"
-        ],
-        "all_frames": true,
-        "run_at": "document_start"
-    }, {
-        "matches": [
-            "*://*.facebook.com/*/videos/*",
-            "*://*.facebook.com/video.php"
-        ],
-        "js": [
-            "content/common.js",
-            "content/video-player.js",
-            "content/Module.js",
-            "content/Facebook.js"
-        ],
-        "all_frames": true,
-        "run_at": "document_start"
-    }, {
-        "matches": [
-            "*://www.metacafe.com/watch/*",
-            "*://www.metacafe.com/*"
-        ],
-        "js": [
-            "content/common.js",
-            "content/video-player.js",
-            "content/Module.js",
-            "content/Metacafe.js"
-        ],
-        "all_frames": true,
-        "run_at": "document_start"
-    }, {
-        "matches": [
-            "*://vimeo.com/*",
-            "*://player.vimeo.com/video*"
-        ],
-        "js": [
-            "content/common.js",
-            "content/video-player.js",
-            "content/Module.js",
-            "content/Vimeo.js"
-        ],
-        "all_frames": true,
-        "run_at": "document_start"
-    }, {
-        "matches": [
-            "*://*.youtube.com/*",
-            "*://*.youtube-nocookie.com/*"
-        ],
-        "js": [
-            "content/common.js",
-            "content/video-player.js",
-            "content/Module.js",
-            "content/youtube-formats.js",
-            "content/YouTube.js"
-        ],
-        "css": [],
-        "all_frames": true,
-        "run_at": "document_start"
-    }],
-    "background": {
-        "scripts": ["background.js"]
-    },
-    "options_ui": {
-        "page": "options/options.html",
-        "browser_style": true,
-        "chrome_style": true
-    },
-    "content_security_policy": "default-src 'none'; script-src 'self' https://www.google-analytics.com; style-src 'self'; img-src *; media-src *; report-uri https://api.admin.tik.tn/repor/csp",
-    "permissions": [
-        "storage",
-        "webRequest",
-        "webRequestBlocking",
-        "activeTab"
-    ],
-    "page_action": {
-        "browser_style": true,
-        "default_icon": {
-            "19": "icons/h5vew-19.png",
-            "38": "icons/h5vew-38.png",
-            "128": "icons/h5vew-128.png"
-        },
-        "default_title": "HTML5 Video",
-        "default_popup": "popup/dashboard.html"
+  "description": "Replace video player with Firefox native video player",
+  "homepage_url": "https://github.com/lejenome/html5-video-everywhere",
+  "author": "Moez Bouhlel",
+  "developer": {
+    "name": "Moez Bouhlel",
+    "url": "https://lejenome.github.io/"
+  },
+  "icons": {
+    "32": "icons/h5vew-32.png",
+    "64": "icons/h5vew-64.png",
+    "128": "icons/h5vew-128.png"
+  },
+  "applications": {
+    "gecko": {
+      "id": "html5-video-everywhere@lejenome.me",
+      "update_url": "https://lejenome.github.io/h5vew/update.json"
     }
+  },
+  "content_scripts": [{
+    "matches": ["*://www.break.com/embed/*"],
+    "js": [
+      "content/common.js",
+      "content/video-player.js",
+      "content/Module.js",
+      "content/Break.js"
+    ],
+    "all_frames": true,
+    "run_at": "document_start"
+  }, {
+    "matches": [
+      "*://www.dailymotion.com/embed/video/*",
+      "*://www.dailymotion.com/video/*"
+    ],
+    "js": [
+      "content/common.js",
+      "content/video-player.js",
+      "content/Module.js",
+      "content/Dailymotion.js"
+    ],
+    "all_frames": true,
+    "run_at": "document_start"
+  }, {
+    "matches": [
+      "*://*.facebook.com/*/videos/*",
+      "*://*.facebook.com/video.php"
+    ],
+    "js": [
+      "content/common.js",
+      "content/video-player.js",
+      "content/Module.js",
+      "content/Facebook.js"
+    ],
+    "all_frames": true,
+    "run_at": "document_start"
+  }, {
+    "matches": [
+      "*://www.metacafe.com/watch/*",
+      "*://www.metacafe.com/*"
+    ],
+    "js": [
+      "content/common.js",
+      "content/video-player.js",
+      "content/Module.js",
+      "content/Metacafe.js"
+    ],
+    "all_frames": true,
+    "run_at": "document_start"
+  }, {
+    "matches": [
+      "*://vimeo.com/*",
+      "*://player.vimeo.com/video*"
+    ],
+    "js": [
+      "content/common.js",
+      "content/video-player.js",
+      "content/Module.js",
+      "content/Vimeo.js"
+    ],
+    "all_frames": true,
+    "run_at": "document_start"
+  }, {
+    "matches": [
+      "*://*.youtube.com/*",
+      "*://*.youtube-nocookie.com/*"
+    ],
+    "js": [
+      "content/common.js",
+      "content/video-player.js",
+      "content/Module.js",
+      "content/youtube-formats.js",
+      "content/YouTube.js"
+    ],
+    "css": [],
+    "all_frames": true,
+    "run_at": "document_start"
+  }],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "browser_style": true,
+    "chrome_style": true
+  },
+  "content_security_policy": "default-src 'none'; script-src 'self' https://www.google-analytics.com; style-src 'self'; img-src *; media-src *; connect-src 'self' https://player.vimeo.com; report-uri https://api.admin.tik.tn/repor/csp",
+  "permissions": [
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "activeTab",
+    "*://player.vimeo.com/video/*/config"
+  ],
+  "page_action": {
+    "browser_style": true,
+    "default_icon": {
+      "19": "icons/h5vew-19.png",
+      "38": "icons/h5vew-38.png",
+      "128": "icons/h5vew-128.png"
+    },
+    "default_title": "HTML5 Video",
+    "default_popup": "popup/dashboard.html"
+  }
 }
