@@ -6,32 +6,16 @@ class Break extends Module {
   }
 
   onInteractive() {
-    let url_r = /"uri":\s*"([^"]*)"/;
-    let width_r = /"width":\s*([^\s,]*),/;
-    let height_r = /"height":\s*([^\s,]*),/;
-    let fmts = {};
-    let data = document.head.innerHTML.match(/"media": \[\s[^\]]*\s\],/);
-    if (!data) return;
-    data = data[0].match(/\{[^}]*\}/g);
-    data.forEach(it => fmts[it.match(width_r)[1] + "x" + it.match(height_r)[1]] =
-      it.match(url_r)[1]);
-    this.injectPlayer(fmts);
-  }
-
-  injectPlayer(fmts) {
-    rmChildren(document.head);
+    this.log("onInteractive()");
     let vp = new VP(document.body);
-    vp.srcs(fmts, {
-      "higher/mp4": "1280x720",
-      "high/mp4": "848x480",
-      "medium/mp4": "640x360",
-      "low/mp4": "301x232" // there is 300x220 too which is audio only
-    });
+    vp.srcs(this.getSrcs());
+    rmChildren(document.head);
     vp.props({
       controls: true,
       autoplay: autoPlay(true),
       preload: preLoad(),
-      loop: isLoop()
+      loop: isLoop(),
+      poster: window.wrappedJSObject.embedVars.thumbUri,
     });
     vp.style({
       width: "100%",
@@ -45,6 +29,25 @@ class Break extends Module {
     let url_r = /"videoUri":\s*"([^"]*)"/;
     let url = (document.head.innerHTML.match(url_r) || ["", ""])[1];
     return url;
+  }
+
+  getSrcs() {
+    let fmts = {};
+    const maps = [
+      ["1280x720", "higher/mp4"],
+      ["848x480", "high/mp4"],
+      ["640x360", "medium/mp4"],
+      ["426x240", "low/mp4"], // fallback if no 301x232
+      ["301x232", "low/mp4"],
+    ];
+    let srcs = {};
+    Array.forEach(window.wrappedJSObject.embedVars.media, (v) => {
+      if (v.mediaPurpose === "play") srcs[v.width + "x" + v.height] = v.uri;
+    });
+    for (const [q, fmt] of maps) {
+      if (srcs[q]) fmts[fmt] = srcs[q];
+    }
+    return fmts;
   }
 }
 new Break().start();

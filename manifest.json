@@ -21,9 +21,8 @@
             "update_url": "https://lejenome.github.io/h5vew/update.json"
         }
     },
-    "license": "MPL-2.0",
     "content_scripts": [{
-        "matches": ["*://www.break/embed/*"],
+        "matches": ["*://www.break.com/embed/*"],
         "js": [
             "content/common.js",
             "content/video-player.js",
@@ -117,7 +116,7 @@
     ],
     "page_action": {
         "browser_style": true,
-        "default_icons": {
+        "default_icon": {
             "19": "icons/h5vew-19.png",
             "38": "icons/h5vew-38.png",
             "128": "icons/h5vew-128.png"

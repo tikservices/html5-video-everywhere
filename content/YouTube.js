@@ -50,11 +50,13 @@ class YouTube extends Module {
           // vp.style({
           //    position: "relative"
           //});
+          /* FIXME
           this.vp.tracksList((conf.tracks || []).map(i => i.lc), (lang, resolve, reject) => {
             var o = conf.tracks.find((i) => i.lc === lang);
             if (o === undefined) return reject();
             this.addWebVTT(lang, o.u, resolve, reject);
           });
+          */
           this.vp.setup();
           if (conf.isWatch) this.playNextOnFinish();
         } catch (e) {
