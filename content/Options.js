@@ -93,7 +93,7 @@ class Options {
     return browser.runtime.getManifest()["version"];
   }
   getId() {
-    return "html5-video-everywhere@lejenome.me";
+    return browser.runtime.id;
   }
   getLang() {
     let lang = this.get("lang");

@@ -31,10 +31,14 @@ class Module {
           }
         }))
         .then(() => {
-          if (document.readyState === "complete")
+          if (document.readyState === "complete") {
             this.onComplete();
-          else
+          } else {
             document.addEventListener("load", () => this.onComplete());
+          }
+          if (typeof "reportGeolocation" === "function") {
+            reportGeolocation(this.options);
+          }
         })
         .catch((err) => this.log("Error start():", err));
     } else {
