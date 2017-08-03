@@ -22,7 +22,7 @@ class Metacafe extends Module {
     let container = document.getElementsByClassName("mc-player");
     if (container.length === 0) return;
     container = container[0];
-    let vp = new VP(container);
+    let vp = new VP(container, this.options);
     vp.addSrc(url, "medium", "mp4");
     vp.props({
       autoplay: this.options.isAutoPlay(true),

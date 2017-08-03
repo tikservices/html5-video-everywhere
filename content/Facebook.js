@@ -8,7 +8,7 @@ class Facebook extends Module {
     params = JSON.parse(decodeURIComponent(JSON.parse(params)));
     //	let container = document.getElementsByClassName("_53j5")[0];
     let container = document.getElementsByClassName("stageContainer")[0];
-    let vp = new VP(container);
+    let vp = new VP(container, this.options);
     this.log("params.video_data[0]:", params.video_data[0]);
     vp.srcs({
       "medium/mp4": params.video_data[0].sd_src,

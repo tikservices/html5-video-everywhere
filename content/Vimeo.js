@@ -26,7 +26,7 @@ class Vimeo extends Module {
         player_container = document.getElementById("clip_" + conf.id);
       }
       if (!player_container) return;
-      let vp = new VP(player_container);
+      let vp = new VP(player_container, this.options);
       vp.srcs(conf.fmts);
       vp.props({
         className: conf.className,

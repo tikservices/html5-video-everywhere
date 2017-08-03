@@ -30,7 +30,7 @@ class YouTube extends Module {
           for (let script of scripts)
             player_container.parentElement.appendChild(script);
           var seek = this.getSeek();
-          this.vp = new VP(player_container);
+          this.vp = new VP(player_container, this.options);
           this.vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url + seek);
           // vp.containerProps({
           //    className: conf.className || ""
@@ -93,7 +93,7 @@ class YouTube extends Module {
       error_container =
       document.getElementById("player-unavailable") || document.getElementById("player");
     if (!error_container) return;
-    this.vp = new VP(error_container);
+    this.vp = new VP(error_container, this.options);
     this.vp.srcs(conf.fmts, FMT_WRAPPER);
     if (conf && conf.isWatch)
       this.vp.containerProps({

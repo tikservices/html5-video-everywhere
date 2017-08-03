@@ -7,7 +7,7 @@ class Break extends Module {
 
   onInteractive() {
     this.log("onInteractive()");
-    let vp = new VP(document.body);
+    let vp = new VP(document.body, this.options);
     vp.srcs(this.getSrcs());
     rmChildren(document.head);
     vp.props({

@@ -36,7 +36,7 @@ class Dailymotion extends Module {
     } else {
       videoContainer = document.body;
     }
-    let vp = new VP(videoContainer);
+    let vp = new VP(videoContainer, this.options);
     vp.srcs(this.getSrcs(urls));
     /*
       urls, {
