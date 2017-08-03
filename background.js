@@ -1,5 +1,8 @@
 "use strict";
 
+if (typeof browser === "undefined")
+  var browser = chrome;
+
 const ports = [];
 let activeTab = browser.tabs.query({
   active: true,

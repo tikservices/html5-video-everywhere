@@ -1,8 +1,10 @@
 "use strict";
 
-let form = document.getElementById("options");
 let options;
-const elements = Array.filter(form.elements, (e) => e.type !== "submit");
+const form = document.getElementById("options");
+const elements = Array.from(form.elements).filter((e) => {
+  e.type !== "submit" && e.type !== "button"
+});
 
 function saveOptions(e) {
   for (const el of elements) {
@@ -41,6 +43,6 @@ function restoreOptions() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', restoreOptions);
+restoreOptions();
 form.addEventListener("submit", saveOptions)
 form.addEventListener("change", changeOption)

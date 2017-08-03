@@ -8,23 +8,28 @@
 </head>
 
 <body>
-    <form>
+      <header>
+        <h3 id="name"></h3> <span id="version"></span>
+      </header>
+    <form id="form">
         <div>
             <label>Disabel for YouTube
-        <input type="checkbox" />
+        <input type="checkbox" name="disablemodule" />
         </label>
         </div>
         <div>
             <label>Disable on this website
-        <input type="checkbox" value="Disable on this website" />
+        <input type="checkbox" value="Disable on this website" name="disablewebsite" />
         </label>
         </div>
         <div class="s12">
-          <button class="s4" id="donate">Donate</button>
-          <button class="s4" id="report">Report</button>
-          <button class="s4" id="options">Options</button>
+          <button class="s3" name="donate">Donate</button>
+          <button class="s3" name="report">Report</button>
+          <button class="s3" name="about">Report</button>
+          <button class="s3" name="options">Options</button>
         </div>
     </form>
+    <script src="../content/Options.js"></script>
     <script src="dashboard.js"></script>
 </body>
 

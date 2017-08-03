@@ -1,5 +1,8 @@
 "use static";
 
+if (typeof browser === "undefined")
+  var browser = chrome;
+
 const Cdc = ["webm", "mp4"];
 const Qlt = ["higher", "high", "medium", "low"];
 const LANGS = [
