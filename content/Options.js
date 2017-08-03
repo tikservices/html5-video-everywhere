@@ -8,8 +8,9 @@ const LANGS = [
 ];
 
 class Options {
-  constructor(opts) {
+  constructor(opts, moduleName) {
     this.opts = opts;
+    this.moduleName = moduleName;
     this.defaults = {
       autoNext: ["boolean", true],
       genYTSign: ["boolean", true],
@@ -84,5 +85,21 @@ class Options {
   }
   isLoop(lp = false) {
     return (this.get("loop") === "1" || lp) && this.get("loop") !== 0;
+  }
+  isDisabled() {
+    return this.get("disable" + this.moduleName);
+  }
+  getVersion() {
+    return browser.runtime.getManifest()["version"];
+  }
+  getId() {
+    return "html5-video-everywhere@lejenome.me";
+  }
+  getLang() {
+    let lang = this.get("lang");
+    if (lang > 0)
+      return LANGS[lang];
+    else
+      return undefined;
   }
 }

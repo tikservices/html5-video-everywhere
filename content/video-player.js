@@ -34,10 +34,9 @@ class VP {
     for (i = 0; i < Qlt.length; i++) {
       for (j = 0; j < Cdc.length; j++) {
         slct = Qlt[i] + "/" + Cdc[j];
-        if (!(slct in wrapper) || !fmts[wrapper[slct]])
-          continue;
-        this._srcs[i * 2 + j] = (get) ?
-          (get(fmts[wrapper[slct]]) || this._srcs[i * 2 + j]) : fmts[wrapper[slct]];
+        if (!(slct in wrapper) || !fmts[wrapper[slct]]) continue;
+        this._srcs[i * 2 + j] =
+          (get) ? (get(fmts[wrapper[slct]]) || this._srcs[i * 2 + j]) : fmts[wrapper[slct]];
       }
     }
   }
@@ -59,15 +58,13 @@ class VP {
           cdc: prefCdc + 1 % 2
         };
       i = (i >= prefQlt) ? i + 1 : i - 1;
-      if (i > 3)
-        i = prefQlt - 1;
+      if (i > 3) i = prefQlt - 1;
     }
   }
 
   setup() {
     let idx = this.mainSrcIndex();
-    if (!idx)
-      return this.error("Failed to find video url");
+    if (!idx) return this.error("Failed to find video url");
     this.clean();
     // just to force contextmenu id. TODO: fix contextmenu and use createNode
     this.container.innerHTML = "<video contextmenu='h5vew-contextmenu'></video>";
@@ -75,14 +72,14 @@ class VP {
     //    if (!this.player) {
     //        this.player = createNode("video", this._props, this._style);
     //    }
-    if (!this.styleEl)
-      this.styleEl = createNode("style");
+    if (!this.styleEl) this.styleEl = createNode("style");
     this.patch(this.player, this._props);
     this.patch(this.player, this._style, "style");
-    this.player.appendChild(createNode("source", {
-      src: this._srcs[idx.qlt * 2 + idx.cdc],
-      type: "video/" + Cdc[idx.cdc]
-    }));
+    this.player.appendChild(createNode(
+      "source", {
+        src: this._srcs[idx.qlt * 2 + idx.cdc],
+        type: "video/" + Cdc[idx.cdc]
+      }));
     this._srcs.forEach((url, i) => {
       if (i !== idx.qlt * 2 + idx.cdc)
         this.player.appendChild(createNode("source", {
@@ -94,8 +91,8 @@ class VP {
     this.container.appendChild(this.styleEl);
     this.attached = true;
     this.slctLang();
-    this._CSSRules.forEach(s => this.styleEl.sheet.insertRule(s,
-      this.styleEl.sheet.cssRules.length));
+    this._CSSRules.forEach(
+      s => this.styleEl.sheet.insertRule(s, this.styleEl.sheet.cssRules.length));
     this.patch(this.container, this._containerProps);
     this.patch(this.container, this._containerStyle, "style");
     this.log("setup");
@@ -108,50 +105,44 @@ class VP {
   tracksList(langs, fnct) {
     this._langs = langs.sort();
     this._slctLang = fnct;
-    if (this.attached)
-      this.slctLang();
+    if (this.attached) this.slctLang();
   }
 
   slctLang(lang) {
-    if (!(lang !== undefined || this.options.get("lang") !== 0) || this._slctLang === undefined)
-      return;
-    if (lang === undefined)
-      lang = LANGS[this.options.get("lang") - 1];
-    if (this._lang)
-      this.player.textTracks.getTrackById(this._lang).mode = "disabled";
+    if (!lang) lang = this.options.getLang();
+    if (!lang && !this._slctLang) return;
+    if (this._lang) this.player.textTracks.getTrackById(this._lang).mode = "disabled";
     let track;
     if ((track = this.player.textTracks.getTrackById(lang))) {
       track.mode = "showing";
       this._lang = lang;
     } else {
-      new Promise((resolve, reject) => this._slctLang(lang, resolve, reject))
-        .then((url) => {
-          track = createNode("track", {
+      new Promise((resolve, reject) => this._slctLang(lang, resolve, reject)).then((url) => {
+        track = createNode(
+          "track", {
             kind: "subtitles",
             id: lang,
             src: url,
             label: lang,
             srclang: lang
           });
-          this.player.appendChild(track);
-          track.track.mode = "showing";
-          this._lang = lang;
-        });
+        this.player.appendChild(track);
+        track.track.mode = "showing";
+        this._lang = lang;
+      });
     }
   }
 
   on(evt, cb) {
-    this.player["on" + evt] = cb; //TODO
+    this.player["on" + evt] = cb; // TODO
   }
 
   stop() {
     this.log("stop");
-    if (!this.player)
-      return;
+    if (!this.player) return;
     this.player.pause();
     this.player.onended = undefined;
-    if (this.player.duration)
-      this.player.currentTime = this.player.duration;
+    if (this.player.duration) this.player.currentTime = this.player.duration;
   }
 
   clean() {
@@ -163,8 +154,7 @@ class VP {
     // site default video player sometime continue playing on background
     let vds = this.container.getElementsByTagName("video");
     for (let i = 0; i < vds.length; i++) {
-      if (this.player === vds[i])
-        continue;
+      if (this.player === vds[i]) continue;
       vds[i].pause();
       vds[i].src = "";
       vds[i].addEventListener("playing", (e) => {
@@ -191,9 +181,7 @@ class VP {
   addCSSRule(cssText) {
     this.log("addCSSRule", cssText);
     this._CSSRules.push(cssText);
-    if (this.attached)
-      this.styleEl.sheet.insertRule(cssText,
-        this.styleEl.sheet.cssRules.length);
+    if (this.attached) this.styleEl.sheet.insertRule(cssText, this.styleEl.sheet.cssRules.length);
   }
 
   style(_style) {
@@ -215,22 +203,22 @@ class VP {
   error(msg) {
     this.log("ERROR Msg:", msg);
     this.clean();
-    if (!this.styleEl)
-      this.styleEl = createNode("style");
-    this.container.appendChild(createNode("p", {
-      textContent: "Ooops! :("
-    }, {
-      padding: "15px",
-      fontSize: "20px"
-    }));
+    if (!this.styleEl) this.styleEl = createNode("style");
+    this.container.appendChild(
+      createNode("p", {
+        textContent: "Ooops! :("
+      }, {
+        padding: "15px",
+        fontSize: "20px"
+      }));
     this.container.appendChild(createNode("p", {
       textContent: msg
     }, {
       fontSize: "20px"
     }));
     this.container.appendChild(this.styleEl);
-    this._CSSRules.forEach(s => this.styleEl.sheet.insertRule(s,
-      this.styleEl.sheet.cssRules.length));
+    this._CSSRules.forEach(
+      s => this.styleEl.sheet.insertRule(s, this.styleEl.sheet.cssRules.length));
     this.patch(this.container, this._containerProps);
     this.patch(this.container, this._containerStyle, "style");
   }
@@ -264,15 +252,12 @@ class VP {
         disabled: !(this._srcs[i * 2] || this._srcs[i * 2 + 1]),
         onclick: (e) => {
           idx.qlt = Qlt.indexOf(e.target.label);
-          idx.cdc = (this._srcs[idx.qlt * 2 + idx.cdc]) ?
-            idx.cdc : (idx.cdc + 1 % 2);
+          idx.cdc = (this._srcs[idx.qlt * 2 + idx.cdc]) ? idx.cdc : (idx.cdc + 1 % 2);
           let paused = this.player.paused;
-          this.player.src = this._srcs[idx.qlt * 2 + idx.cdc] +
-            "#t=" + this.player.currentTime;
+          this.player.src = this._srcs[idx.qlt * 2 + idx.cdc] + "#t=" + this.player.currentTime;
           this.player.load();
           this.player.oncanplay = () => {
-            if (!paused)
-              this.player.play();
+            if (!paused) this.player.play();
             this.player.oncanplay = undefined;
           };
         }
@@ -287,8 +272,7 @@ class VP {
         label: Cdc[i],
         radiogroup: "menu-cdc",
         checked: (this.options.get("prefCdc") === i),
-        onclick: (e) =>
-          chgPref("prefCdc", Cdc.indexOf(e.target.label))
+        onclick: (e) => chgPref("prefCdc", Cdc.indexOf(e.target.label))
       }));
     let langMenu = createNode("menu", {
       id: "h5vew-menu-lang",
@@ -298,10 +282,10 @@ class VP {
       type: "radio",
       label: "none",
       radiogroup: "menu-lang",
-      checked: this.options.get("lang") === 0 || this._langs.findIndex((l) => l === LANGS[this.options.get("lang") - 1]) === -1,
+      checked: this.options.get("lang") === 0 ||
+        this._langs.findIndex((l) => l === this.options.getLang()) === -1,
       onclick: (e) => {
-        if (this._lang === undefined)
-          return;
+        if (this._lang === undefined) return;
         this.player.textTracks.getTrackById(this._lang).mode = "disabled";
         this._lang = undefined;
       }
@@ -311,9 +295,8 @@ class VP {
         type: "radio",
         label: this._langs[i],
         radiogroup: "menu-lang",
-        checked: this._langs[i] === LANGS[this.options.get("lang") - 1],
-        onclick: (e) =>
-          this.slctLang(e.target.label)
+        checked: this._langs[i] === this.options.getLang(),
+        onclick: (e) => this.slctLang(e.target.label)
       }));
     let loopMenu = createNode("menu", {
       id: "h5vew-menu-loop",
@@ -325,8 +308,7 @@ class VP {
         label: n,
         radiogroup: "menu-loop",
         checked: (this.options.get("loop") === i),
-        onclick: (e) =>
-          chgPref("loop", i)
+        onclick: (e) => chgPref("loop", i)
       }));
     });
     let autoNextMenu = createNode("menuitem", {
@@ -347,8 +329,8 @@ class VP {
     });
     let disableMenu = createNode("menuitem", {
       id: "h5vew-menu-disable",
-      label: "Disable " + this.options.driver.charAt(0).toUpperCase() +
-        this.options.driver.slice(1) + " Support",
+      label: "Disable " + this.options.moduleName.charAt(0).toUpperCase() +
+        this.options.moduleName.slice(1) + " Support",
       onclick: () => {
         self.port.emit("disable");
         this._contextMenu.removeChild(disableMenu);
@@ -357,10 +339,11 @@ class VP {
     let aboutMenu = createNode("menuitem", {
       id: "h5vew-menu-about",
       label: "About HTML5 Video EveryWhere",
-      onclick: () =>
-        window.open("http://lejenome.github.io/html5-video-everywhere#v=" +
-          this.options.addon.version + "&id=" + this.options.addon.id,
-          "h5vew-about", "width=550,height=300,menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
+      onclick: () => window.open(
+        "http://lejenome.github.io/html5-video-everywhere#v=" + this.options.getVersion() +
+        "&id=" + this.options.getId(),
+        "h5vew-about",
+        "width=550,height=300,menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
     });
     moreMenu.appendChild(copyMenu);
     moreMenu.appendChild(disableMenu);
@@ -368,14 +351,12 @@ class VP {
     moreMenu.appendChild(aboutMenu);
 
     const prefChanged = (name) => {
-      if (name === "autoNext")
-        autoNextMenu.checked = this.options.("autoNext");
+      if (name === "autoNext") autoNextMenu.checked = this.options.get("autoNext");
     };
     onPrefChange.push(prefChanged);
     this._contextMenu.appendChild(qltMenu);
     this._contextMenu.appendChild(cdcMenu);
-    if (this._langs.length > 0)
-      this._contextMenu.appendChild(langMenu);
+    if (this._langs.length > 0) this._contextMenu.appendChild(langMenu);
     this._contextMenu.appendChild(loopMenu);
     this._contextMenu.appendChild(autoNextMenu);
     this._contextMenu.appendChild(moreMenu);

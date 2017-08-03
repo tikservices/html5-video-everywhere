@@ -19,7 +19,7 @@ class Module {
 
   start() {
     this.log("start()");
-    if (this.options) {
+    if (this.options && !this.options.isDisabled()) {
       new Promise((resolve, reject) => resolve(this.onLoading()))
         .then(() => new Promise((resolve, reject) => {
           if (document.readyState != "loading") {
@@ -58,12 +58,7 @@ class Module {
     this.log("Message", msg);
     switch (msg.type) {
       case "options":
-        this.options = msg.options;
-        this.options.driver = this.name; // FIXME
-        this.options.addon = {
-          version: 0,
-          id: 0
-        }; //FIXME
+        this.options = new Options(msg.options, this.name);
         break;
       default:
         break;

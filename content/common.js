@@ -25,7 +25,6 @@
 // });
 const setClipboard = (text) => self.port.emit("setClipboard", text);
 const createNode = (type, prprt, style, data) => {
-  // logify("createNode", type, prprt);
   let node = document.createElement(type);
   if (prprt) Object.keys(prprt).forEach(p => node[p] = prprt[p]);
   if (style) Object.keys(style).forEach(s => node.style[s] = style[s]);
@@ -34,7 +33,6 @@ const createNode = (type, prprt, style, data) => {
 };
 
 const asyncGet = (url, headers = {}, mimetype = null) => {
-  logify("asyncGet", url);
   return fetch(url, {
     headers: headers,
   }).then((res) => {
