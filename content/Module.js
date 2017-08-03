@@ -19,13 +19,12 @@ class Module {
 
   start() {
     this.log("start()");
-    if (OPTIONS) {
+    if (this.options) {
       new Promise((resolve, reject) => resolve(this.onLoading()))
         .then(() => new Promise((resolve, reject) => {
           if (document.readyState != "loading") {
             resolve(this.onInteractive());
           } else {
-            this.log("DDDD2");
             document.addEventListener("DOMContentLoaded", () => {
               resolve(this.onInteractive());
             });
@@ -59,9 +58,9 @@ class Module {
     this.log("Message", msg);
     switch (msg.type) {
       case "options":
-        OPTIONS = msg.options;
-        OPTIONS.driver = this.name; // FIXME
-        OPTIONS.addon = {
+        this.options = msg.options;
+        this.options.driver = this.name; // FIXME
+        this.options.addon = {
           version: 0,
           id: 0
         }; //FIXME

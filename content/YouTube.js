@@ -45,7 +45,7 @@ class YouTube extends Module {
             loop: isLoop(location.search.search("loop=1") !== -1),
             controls: true,
             poster: conf.poster || "",
-            volume: parseFloat(OPTIONS.volume) / 100
+            volume: this.options.getVolume(),
           });
           // vp.style({
           //    position: "relative"
@@ -193,7 +193,7 @@ class YouTube extends Module {
         }
       })
       .then((conf) => {
-        var player = createNode("video");
+        var player = document.createElement("video");
         var unsignedVideos = false;
         conf.fmts = {};
         this.parse(conf.info, true)
@@ -201,14 +201,14 @@ class YouTube extends Module {
             if (player.canPlayType(it5.type) !== "probably") return false;
             if (it5.url.search("signature=") === -1) {
               unsignedVideos = true;
-              if (!OPTIONS.genYTSign) return false;
+              if (!this.options.get("genYTSign")) return false;
             }
             return true;
           })
           .forEach(fmt => {
             conf.fmts[fmt.itag] = fmt;
           });
-        if (unsignedVideos && OPTIONS.genYTSign) {
+        if (unsignedVideos && this.options.get("genYTSign")) {
           return this.fixSignature(conf);
         } else {
           return Promise.resolve(conf);
@@ -234,7 +234,7 @@ class YouTube extends Module {
     // Credits to @durazell github.com/lejenome/youtube-html5-player/issues/9
     if (document.getElementsByClassName("playlist-header").length > 0) {
       this.vp.on("ended", function(e) {
-        if (this.currentTime !== this.duration || OPTIONS.autoNext === false) return;
+        if (this.currentTime !== this.duration || this.options.get("autoNext") === false) return;
         var cur = 0,
           len = 0;
         var current, playlist;

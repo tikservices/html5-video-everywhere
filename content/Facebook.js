@@ -9,16 +9,16 @@ class Facebook extends Module {
     //	let container = document.getElementsByClassName("_53j5")[0];
     let container = document.getElementsByClassName("stageContainer")[0];
     let vp = new VP(container);
-    logify(params.video_data[0]);
+    this.log("params.video_data[0]:", params.video_data[0]);
     vp.srcs({
       "medium/mp4": params.video_data[0].sd_src,
       "high/mp4": params.video_data[0].hd_src
     });
     vp.props({
       controls: true,
-      autoplay: autoPlay(true),
-      preload: preLoad(),
-      loop: isLoop()
+      autoplay: this.options.isAutoPlay(true),
+      preload: this.options.getPreload(),
+      loop: this.options.isLoop()
     });
     vp.style({
       width: "100%",

@@ -1,7 +1,7 @@
 /* global VP:true, LBP */
 "use strict";
 class VP {
-  constructor(container) {
+  constructor(container, options) {
     this.attached = false;
     this.player = undefined;
     this.container = container;
@@ -13,6 +13,7 @@ class VP {
     this._containerProps = {};
     this._CSSRules = [];
     this.styleEl = undefined;
+    this.options = options;
   }
 
   addSrc(url, qlt, cdc) {
@@ -43,8 +44,8 @@ class VP {
 
   mainSrcIndex() {
     let i, j, slct;
-    const prefCdc = parseInt(OPTIONS.prefCdc);
-    const prefQlt = parseInt(OPTIONS.prefQlt);
+    const prefCdc = this.options.get("prefCdc");
+    const prefQlt = this.options.get("prefQlt");
     i = prefQlt;
     while (i > -1) {
       if (this._srcs[i * 2 + prefCdc])
@@ -98,10 +99,10 @@ class VP {
     this.patch(this.container, this._containerProps);
     this.patch(this.container, this._containerStyle, "style");
     this.log("setup");
-    if (OPTIONS.player === 1)
-      this.setupLBP();
-    else
-      this.setupContextMenu(idx);
+    // if (this.options.get("player") === 1)
+    //   this.setupLBP();
+    // else
+    this.setupContextMenu(idx);
   }
 
   tracksList(langs, fnct) {
@@ -112,10 +113,10 @@ class VP {
   }
 
   slctLang(lang) {
-    if (!(lang !== undefined || OPTIONS.lang !== "0") || this._slctLang === undefined)
+    if (!(lang !== undefined || this.options.get("lang") !== 0) || this._slctLang === undefined)
       return;
     if (lang === undefined)
-      lang = LANGS[parseInt(OPTIONS.lang) - 1];
+      lang = LANGS[this.options.get("lang") - 1];
     if (this._lang)
       this.player.textTracks.getTrackById(this._lang).mode = "disabled";
     let track;
@@ -285,7 +286,7 @@ class VP {
         type: "radio",
         label: Cdc[i],
         radiogroup: "menu-cdc",
-        checked: (parseInt(OPTIONS.prefCdc) === i),
+        checked: (this.options.get("prefCdc") === i),
         onclick: (e) =>
           chgPref("prefCdc", Cdc.indexOf(e.target.label))
       }));
@@ -297,7 +298,7 @@ class VP {
       type: "radio",
       label: "none",
       radiogroup: "menu-lang",
-      checked: parseInt(OPTIONS.lang) === 0 || this._langs.findIndex((l) => l === LANGS[parseInt(OPTIONS.lang) - 1]) === -1,
+      checked: this.options.get("lang") === 0 || this._langs.findIndex((l) => l === LANGS[this.options.get("lang") - 1]) === -1,
       onclick: (e) => {
         if (this._lang === undefined)
           return;
@@ -310,7 +311,7 @@ class VP {
         type: "radio",
         label: this._langs[i],
         radiogroup: "menu-lang",
-        checked: this._langs[i] === LANGS[parseInt(OPTIONS.lang) - 1],
+        checked: this._langs[i] === LANGS[this.options.get("lang") - 1],
         onclick: (e) =>
           this.slctLang(e.target.label)
       }));
@@ -323,7 +324,7 @@ class VP {
         type: "radio",
         label: n,
         radiogroup: "menu-loop",
-        checked: (OPTIONS.loop === i),
+        checked: (this.options.get("loop") === i),
         onclick: (e) =>
           chgPref("loop", i)
       }));
@@ -332,7 +333,7 @@ class VP {
       id: "h5vew-menu-autonext",
       type: "checkbox",
       label: "Auto Play Next Video",
-      checked: OPTIONS.autoNext,
+      checked: this.options.get("autoNext"),
       onclick: (e) => chgPref("autoNext", e.target.checked)
     });
     let moreMenu = createNode("menu", {
@@ -346,8 +347,8 @@ class VP {
     });
     let disableMenu = createNode("menuitem", {
       id: "h5vew-menu-disable",
-      label: "Disable " + OPTIONS.driver.charAt(0).toUpperCase() +
-        OPTIONS.driver.slice(1) + " Support",
+      label: "Disable " + this.options.driver.charAt(0).toUpperCase() +
+        this.options.driver.slice(1) + " Support",
       onclick: () => {
         self.port.emit("disable");
         this._contextMenu.removeChild(disableMenu);
@@ -358,7 +359,7 @@ class VP {
       label: "About HTML5 Video EveryWhere",
       onclick: () =>
         window.open("http://lejenome.github.io/html5-video-everywhere#v=" +
-          OPTIONS.addon.version + "&id=" + OPTIONS.addon.id,
+          this.options.addon.version + "&id=" + this.options.addon.id,
           "h5vew-about", "width=550,height=300,menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
     });
     moreMenu.appendChild(copyMenu);
@@ -368,7 +369,7 @@ class VP {
 
     const prefChanged = (name) => {
       if (name === "autoNext")
-        autoNextMenu.checked = OPTIONS.autoNext;
+        autoNextMenu.checked = this.options.("autoNext");
     };
     onPrefChange.push(prefChanged);
     this._contextMenu.appendChild(qltMenu);

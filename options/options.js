@@ -1,43 +1,44 @@
 "use strict";
 
 let form = document.getElementById("options");
+let options;
+const elements = Array.filter(form.elements, (e) => e.type !== "submit");
 
 function saveOptions(e) {
-  let options = {};
-  for (const el of form.elements) {
+  for (const el of elements) {
     if (el.type === "checkbox")
-      options[el.name] = el.checked;
+      options.set(el.name, el.checked);
     else
-      options[el.name] = el.value;
+      options.set(el.name, el.checked);
   }
-  browser.storage.sync.set(options);
+  browser.storage.sync.set(options.getAll());
   e.preventDefault();
 }
 
 function changeOption(e) {
   let el = e.target;
-  let val;
   if (el.type === "checkbox")
-    val = el.checked;
+    options.set(el.name, el.checked);
   else
-    val = el.value;
-  console.log("[h5vew:options] Change", el.name, val);
+    options.set(el.name, el.value);
+  console.log("[h5vew:options] Change", el.name, options.get(el.name));
   browser.storage.sync.set({
-    [el.name]: val
+    [el.name]: options.get(el.name)
   });
   e.preventDefault();
 }
 
 function restoreOptions() {
-  for (const el of form.elements) {
-    browser.storage.sync.get(el.name).then((res) => {
+  browser.storage.sync.get().then((res) => {
+    options = new Options(res);
+    for (const el of elements) {
       if (el.type === "checkbox") {
-        el.checked = (res[el.name] !== undefined) ? res[el.name] : el.checked;
+        el.checked = options.get(el.name);
       } else {
-        el.value = (res[el.name] !== undefined) ? res[el.name] : el.value;
+        el.value = options.get(el.name);
       }
-    })
-  }
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);

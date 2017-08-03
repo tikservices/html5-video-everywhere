@@ -49,9 +49,9 @@ class Dailymotion extends Module {
     */
     vp.props({
       controls: true,
-      autoplay: autoPlay(),
-      preload: preLoad(),
-      loop: isLoop(),
+      autoplay: this.options.isAutoPlay(),
+      preload: this.options.getPreload(),
+      loop: this.options.isLoop(),
       poster: poster
     });
     vp.style({

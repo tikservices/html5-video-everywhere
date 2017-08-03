@@ -30,12 +30,12 @@ class Vimeo extends Module {
       vp.srcs(conf.fmts);
       vp.props({
         className: conf.className,
-        autoplay: autoPlay(),
-        preload: preLoad(),
-        loop: isLoop(),
+        autoplay: this.options.isAutoPlay(),
+        preload: this.options.getPreload(),
+        loop: this.options.isLoop(),
         controls: true,
         poster: conf.poster,
-        volume: parseFloat(OPTIONS.volume) / 100
+        volume: this.options.getVolume(),
       });
       vp.tracksList(conf.tracks.map(l => l.lang), (lang, resolve, reject) => {
         let l = conf.tracks.find(l => l.lang === lang);
@@ -48,7 +48,7 @@ class Vimeo extends Module {
       vp.setup();
       if (conf.isWatch) this.brozarEvents();
     } catch (e) {
-      logify("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
+      this.log("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
     }
   }
 

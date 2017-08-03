@@ -25,6 +25,7 @@
     "matches": ["*://www.break.com/embed/*"],
     "js": [
       "content/common.js",
+      "content/Options.js",
       "content/video-player.js",
       "content/Module.js",
       "content/Break.js"
@@ -38,6 +39,7 @@
     ],
     "js": [
       "content/common.js",
+      "content/Options.js",
       "content/video-player.js",
       "content/Module.js",
       "content/Dailymotion.js"
@@ -51,6 +53,7 @@
     ],
     "js": [
       "content/common.js",
+      "content/Options.js",
       "content/video-player.js",
       "content/Module.js",
       "content/Facebook.js"
@@ -64,6 +67,7 @@
     ],
     "js": [
       "content/common.js",
+      "content/Options.js",
       "content/video-player.js",
       "content/Module.js",
       "content/Metacafe.js"
@@ -77,6 +81,7 @@
     ],
     "js": [
       "content/common.js",
+      "content/Options.js",
       "content/video-player.js",
       "content/Module.js",
       "content/Vimeo.js"
@@ -90,6 +95,7 @@
     ],
     "js": [
       "content/common.js",
+      "content/Options.js",
       "content/video-player.js",
       "content/Module.js",
       "content/youtube-formats.js",

@@ -12,9 +12,9 @@ class Break extends Module {
     rmChildren(document.head);
     vp.props({
       controls: true,
-      autoplay: autoPlay(true),
-      preload: preLoad(),
-      loop: isLoop(),
+      autoplay: this.options.isAutoPlay(true),
+      preload: this.options.getPreload(),
+      loop: this.options.isLoop(),
       poster: window.wrappedJSObject.embedVars.thumbUri,
     });
     vp.style({

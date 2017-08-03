@@ -25,9 +25,9 @@ class Metacafe extends Module {
     let vp = new VP(container);
     vp.addSrc(url, "medium", "mp4");
     vp.props({
-      autoplay: autoPlay(true),
-      preload: preLoad(),
-      loop: isLoop(),
+      autoplay: this.options.isAutoPlay(true),
+      preload: this.options.getPreload(),
+      loop: this.options.isLoop(),
       controls: true
     });
     vp.style({
@@ -49,9 +49,9 @@ class Metacafe extends Module {
       let vp = new VP(container);
       vp.addSrc(url, "medium", "mp4");
       vp.props({
-        autoplay: autoPlay(false),
-        preload: preLoad(),
-        loop: isLoop(),
+        autoplay: this.options.isAutoPlay(false),
+        preload: this.options.getPreload(),
+        loop: this.options.isLoop(),
         controls: true
       });
       vp.style({
