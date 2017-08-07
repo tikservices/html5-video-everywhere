@@ -15,3 +15,6 @@ TODO.md
 Makefile
 README.md
 docs
+dumps
+lib
+package.json

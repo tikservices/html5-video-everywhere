@@ -1,33 +1,37 @@
 form {
   width: 100%;
-  color: rgba(0,0,0,0.8);
+  color: rgba(0, 0, 0, 0.8);
   box-sizing: border-box;
-} 
-form > div {
+}
+
+form> div {
   padding: 5px 8px;
-  border-bottom: 1px solid rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   min-height: 30px !important;
 }
-form > div:last-of-type {
+
+form> div:last-of-type {
   border: none;
 }
 
-form > div > label {
+form> div> label {
   display: inline-block;
   width: 100%;
   min-height: 100%;
-      line-height: 30px;
-    text-shadow: 0 1px 1px #fefffe;
+  line-height: 30px;
+  text-shadow: 0 1px 1px #fefffe;
 }
-form > div > label > input,
-form > div > label > select {
+
+form> div> label> input,
+form> div> label> select {
   float: right;
   display: inline-block;
   min-width: 100px;
   width: calc(100% - 300px - 22px);
   height: 100%;
 }
-form > div > button {
+
+form> div> button {
   margin-top: 10px;
   float: right;
   width: 120px;
