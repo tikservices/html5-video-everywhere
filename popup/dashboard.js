@@ -6,13 +6,17 @@ const elements = Array.from(form.elements).filter((e) => {
   e.type !== "submit" && e.type !== "button"
 });
 
-function onClick() {
+function onClick(evt) {
   switch (evt.target.name) {
     case "donate":
       break;
     case "report":
       break;
     case "about":
+      browser.tabs.create({
+        active: true,
+        url: "https://addons.mozilla.org/en-US/firefox/addon/html5-video-everywhere/"
+      });
       break;
     case "options":
       browser.runtime.openOptionsPage();

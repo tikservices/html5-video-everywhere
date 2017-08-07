@@ -4,17 +4,6 @@ if (typeof browser === "undefined")
   var browser = chrome;
 
 const ports = [];
-let activeTab = browser.tabs.query({
-  active: true,
-  currentWindow: true
-});
-activeTab.then(tab => {
-  browser.tabs.sendMessage(tab[0].id, {
-    msg: "I'm here"
-  });
-});
-
-browser.runtime.onMessage.addListener((msg) => {});
 
 function onMessage(msg, port) {
   console.log("New message:", msg);
