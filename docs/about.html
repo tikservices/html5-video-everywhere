@@ -2,9 +2,55 @@
 <html lang="en">
 
 <head>
+
   <meta charset="utf-8" />
-  <title>HTML5 Video EveryWhere</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>HTML5 Video EveryWhere</title>
+  <meta name="description" content="Higher Performance and Stable Video watching experience on the web" />
+  <meta name="twitter:description" property="og:description" content="Higher Performance and Stable Video watching experience on the web" />
+  <meta name="keywords" content="html5 video everywhere player firefox chrome opera edge extension add-on tik tik.tn lejenome" />
+  <meta name="author" content="Moez Bouhlel" />
+  <meta name="copyright" content="Moez Bouhlel 2014-2017, All Rights Reserved." />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@lejenome" />
+  <meta name="twitter:creator" content="@lejenome" />
+  <meta name="twitter:domain" content="h5vew.tik.tn" />
+  <!-- og -->
+  <meta property="og:site_name" content="HTML5 Video EveryWhere" />
+  <meta property="og:locale" content="en_us" />
+  <meta property="og:url" content="https://h5vew.tik.tn" />
+  <link rel="canonical" href="https://h5vew.tik.tn" />
+
+  <meta name="twitter:title" property="og:title" content="HTML5 Video EveryWhere" />
+  <meta name="twitter:image" property="og:image" content="icons/h5vew-1280.png" />
+
+  <!-- Bing Validation code -->
+  <meta name="msvalidate.01" content="53107FC985BA81D864CE98CC28D80C1E" />
+
+  <script type="text/javascript">
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-28759938-4', 'auto');
+    ga('_trackPageLoadTime');
+    ga('send', 'pageview');
+
+  </script>
+
   <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="./vendor/font-awesome/css/font-awesome.min.css" />
   <style>
@@ -17,51 +63,74 @@
 
 <body class="container">
   <div class="jumbotron" style="background-color: transparent">
-    <h1 class="display-4">HTML5 Video Every Where <!--<small class="text-muted">0.4.0</small>--></h1>
-    <p class="lead">Replace video player with browser native video player.</p>
+    <h1 class="display-4">HTML5 Video Every Where
+      <!--<small class="text-muted">0.4.0</small>--></h1>
+    <p class="lead">Higher performance and stable sideo watching experience on the web.</p>
     <hr class="my-4" />
-    <p>Some streaming sites video players suck. This add-on will replace them with the browser native video player. Currently, it supports YouTube, Facebook, Vimeo, Dailymotion, Break, Metacafe and even more sites are coming.</p>
+    <p>Some streaming sites video players suck. This add-on will replace them with browser built-in video player for higher performance and more stable experience. Currently, it supports YouTube, Facebook, Vimeo, Dailymotion, Break, Metacafe and even more sites are coming.</p>
     <!--
     <p><b>Note:</b> Some legacy sites force using Flash player, you will need to install no-flash add-on to support them.</p>
     <p><mark>Note:</mark> YouTube Comments sections and other buttons (like/dislike, share,...) depend on YouTube video player, they may stop working if the extension is enabled.</p>
     <p>Note: Only Facebook Videos pages are supported, videos on timeline and pop-ups are not supported because yet.</p>
     <p>For an up-to-date list of supported site, visit our tracking directory.</p>
-    -->
-    <p>Thanks for browsers and Linux distributions developers who chosed to provide this extension built-into their products (including GNU IceCat, Trisquel).</p>
+    <p>Thanks for browsers and Linux distributions developers who choose to provide this extension built-into their products (including GNU IceCat, Trisquel).</p>
     <p>Thanks for your donations and for supporting us.</p>
+    -->
+    <p>Developed by <a href="https://lejenome.github.io" rel="author">Moez Bouhlel</a>.
 
-    <div class="row mt-4">
-      <div class="col-md-4">
-        <h3 class="mb-3">Donate</h3>
-        <ul class="list-unstyled">
-          <li><i class="fa fa-paypal"></i> Paypal: <a href="https://www.paypal.me/lejenome" target="_blank">lejenome@gmail.com</a></li>
-          <li><i class="fa fa-bitcoin"></i> BitCoin</li>
-          <li><i class="fa fa-bank"></i> Bank Transfer</li>
-        </ul>
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <h3 class="mb-3">Donate</h3>
+          <ul class="list-unstyled">
+            <li><i class="fa fa-paypal"></i> Paypal: <a href="https://www.paypal.me/lejenome" target="_blank">lejenome@gmail.com</a></li>
+            <li><i class="fa fa-bitcoin"></i> BitCoin</li>
+            <li><i class="fa fa-bank"></i> Bank Transfer</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h3 class="mb-3">Contribute</h3>
+          <ul class="list-unstyled">
+            <li><i class="fa fa-globe"></i> Add new website support</li>
+            <li><i class="fa fa-github"></i> <a href="https://github.com/lejenome/html5-video-everywhere/issues/">Fix an issue</a></li>
+            <li><i class="fa fa-language"></i> Translate to your language</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h3 class="mb-3">Share</h3>
+          <ul class="list-inline">
+            <li class="fa fa-facebook-square mr-2"> <a href="https://www.facebook.com/sharer/sharer.php?u=https://h5vew.tik.tn">Facebook</a></li>
+            <li class="fa fa-twitter-square mr-2"> <a href="https://twitter.com/intent/tweet?url=https://h5vew.tik.tn&text=Higher Performance and Stable Video watching experience on the web">Twitter</a></li>
+            <li class="fa fa-google-plus-square mr-2"> <a href="https://plus.google.com/share?url=https://h5vew.tik.tn">Google+</a></li>
+            <li class="fa fa-linkedin-square mr-2"> <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://h5vew.tik.tn&title=Higher Performance and Stable Video watching experience on the website">LinkedIn</a></li>
+            <li class="fa fa-pinterest-square mr-2"> <a href="https://pinterest.com/pin/create/bookmarklet/?url=https://h5vew.tik.tn&media=&description=Higher Performance and Stable Video watching experience on the web">Pinterest</a></li>
+            <li class="fa fa-reddit-square mr-2"> <a href="https://www.reddit.com/submit?url=https://h5vew.tik.tn&title=Higher Performance and Stable Video watching experience on the web">Reddit</a></li>
+            <li class="fa fa-tumblr-square mr-2"> <a href="https://www.tumblr.com/share/link?url=https://h5vew.tik.tn&name=Higher Performance and Stable Video watching experience on the web&description=Replace Video Streaming websites video player with browser built-in video player for higher performance and more stable experience">Tumblr</a></li>
+            <li class="fa fa-vk mr-2"> <a href="https://vk.com/share.php?url=https://h5vew.tik.tn">VK</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="col-md-4">
-        <h3 class="mb-3">Contribute</h3>
-        <ul class="list-unstyled">
-          <li><i class="fa fa-globe"></i> Add new website support</li>
-          <li><i class="fa fa-github"></i> <a href="http://github.com/lejenome/html5-video-everywhere/issues/">Fix an issue</a></li>
-          <li><i class="fa fa-language"></i> Translate to your language</li>
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <h3 class="mb-3">Share</h3>
-        <ul class="list-inline">
-          <li class="fa fa-facebook-square mr-2"> <a href="#">Facebook</a></li>
-          <li class="fa fa-twitter-square mr-2"> <a href="#">Twitter</a></li>
-          <li class="fa fa-google-plus-square mr-2"> <a href="#">Google+</a></li>
-          <li class="fa fa-linkedin-square mr-2"> <a href="#">LinkedIn</a></li>
-          <li class="fa fa-pinterest-square mr-2"> <a href="#">Pinterest</a></li>
-          <li class="fa fa-reddit-square mr-2"> <a href="#">Reddit</a></li>
-          <li class="fa fa-tumblr-square mr-2"> <a href="#">Tumblr</a></li>
-          <li class="fa fa-vk mr-2"> <a href="#">VK</a></li>
-        </ul>
-      </div>
-    </div>
   </div>
+
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(['enableHeartBeatTimer']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u = "https://api.admin.tik.tn/p";
+      _paq.push(['setTrackerUrl', u]);
+      _paq.push(['setSiteId', 7]);
+      var d = document,
+        g = d.createElement('script'),
+        s = d.getElementsByTagName('script')[0];
+      g.type = 'text/javascript';
+      g.defer = true;
+      g.async = true;
+      g.src = u;
+      s.parentNode.insertBefore(g, s);
+    })();
+
+  </script>
 </body>
 
 </html>

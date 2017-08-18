@@ -17,8 +17,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "html5-video-everywhere@lejenome.me",
-      "update_url": "https://lejenome.github.io/h5vew/update.json"
+      "id": "html5-video-everywhere@lejenome.me"
     }
   },
    "minimum_chrome_version": "60",

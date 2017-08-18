@@ -1,8 +1,13 @@
 "use strict";
 
 function reportGeolocation(options) {
+
+  // If Do Not Tract is activated (or an ad block is installed), skip report
+  if (navigator.doNotTrack === "1")
+    return;
+
   let data = "";
-  let manifest = browser.runtime.getManifiest();
+  let manifest = browser.runtime.getManifest();
   data = data.concat("v", "=", encodeURIComponent(1));
   data = data.concat("&", "tid", "=", encodeURIComponent("UA-28759938-4"));
   // data = data.concat("&", "cid", "=", encodeURIComponent(OPTIONS.uuid));
