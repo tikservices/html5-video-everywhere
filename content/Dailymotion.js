@@ -65,7 +65,7 @@ class Dailymotion extends Module {
     let fmts = {};
     for (const [id,
         fmt
-      ] of[
+      ] of [
         ["144", "low/mp4"], // 176x144; 144 is fallback low quality if no 240
         ["240", "low/mp4"], // 320x240
         ["380", "medium/mp4"], // 512x384

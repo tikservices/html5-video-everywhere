@@ -13,7 +13,7 @@ header {
   text-align: center;
 }
 
-header> * {
+header>* {
   display: inline-block;
   margin-right: 5px;
 }
@@ -24,18 +24,18 @@ form {
   box-sizing: border-box;
 }
 
-form> div {
+form>div {
   padding: 5px 8px;
   box-sizing: border-box;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   min-height: 30px !important;
 }
 
-form> div:last-of-type {
+form>div:last-of-type {
   border: none;
 }
 
-form> div> label {
+form>div>label {
   display: inline-block;
   width: 100%;
   min-height: 100%;
@@ -45,15 +45,15 @@ form> div> label {
   text-shadow: 0 1px 1px #fefffe;
 }
 
-form> div> label> input,
-form> div> label> select {
+form>div>label>input,
+form>div>label>select {
   float: right;
   display: inline-block;
   width: calc(100% - 300px - 22px);
   height: 100%;
 }
 
-form> div> button {
+form>div>button {
   /*float: right;*/
   display: inline-block;
   min-width: 30px;

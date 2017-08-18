@@ -115,8 +115,11 @@ class Vimeo extends Module {
     Array.forEach(progressive, (v) => {
       srcs[v.quality] = v.url;
     });
-    for (const [q, fmt] of[
-        ["270p", "low/mp4"], ["360p", "medium/mp4"], ["720p", "high/mp4"], ["1028p", "higher/mp4"],
+    for (const [q, fmt] of [
+        ["270p", "low/mp4"],
+        ["360p", "medium/mp4"],
+        ["720p", "high/mp4"],
+        ["1028p", "higher/mp4"],
       ]) {
       if (srcs[q]) fmts[fmt] = srcs[q];
     }

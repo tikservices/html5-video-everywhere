@@ -67,7 +67,7 @@ class Module {
       default:
         break;
     }
-    for (const fn of(this.messageListeners[msg.type] || []))
+    for (const fn of (this.messageListeners[msg.type] || []))
       fn(msg);
   }
 
