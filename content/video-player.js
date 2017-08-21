@@ -353,7 +353,7 @@ class VP {
     const prefChanged = (name) => {
       if (name === "autoNext") autoNextMenu.checked = this.options.get("autoNext");
     };
-    onPrefChange.push(prefChanged);
+    // onPrefChange.push(prefChanged);
     this._contextMenu.appendChild(qltMenu);
     this._contextMenu.appendChild(cdcMenu);
     if (this._langs.length > 0) this._contextMenu.appendChild(langMenu);

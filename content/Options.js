@@ -30,6 +30,7 @@ class Options {
       disabledailymotion: ["boolean", false],
       disablebreak: ["boolean", false],
       disablemetacafe: ["boolean", false],
+      disablelego: ["boolean", false],
       uuid: ["string", ""],
     };
   }
