@@ -1,42 +1,42 @@
 form {
-  width: 100%;
-  color: rgba(0, 0, 0, 0.8);
-  box-sizing: border-box;
+    width: 100%;
+    color: rgba(0, 0, 0, 0.8);
+    box-sizing: border-box;
 }
 
 form>div {
-  padding: 5px 8px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  min-height: 30px !important;
+    padding: 5px 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    min-height: 30px !important;
 }
 
 form>div:last-of-type {
-  border: none;
+    border: none;
 }
 
 form>div>label {
-  display: inline-block;
-  width: 100%;
-  min-height: 100%;
-  line-height: 30px;
-  text-shadow: 0 1px 1px #fefffe;
+    display: inline-block;
+    width: 100%;
+    min-height: 100%;
+    line-height: 30px;
+    text-shadow: 0 1px 1px #fefffe;
 }
 
 form>div>label>input,
 form>div>label>select {
-  float: right;
-  display: inline-block;
-  min-width: 100px;
-  width: calc(100% - 300px - 22px);
-  height: 100%;
+    float: right;
+    display: inline-block;
+    min-width: 100px;
+    width: calc(100% - 300px - 22px);
+    height: 100%;
 }
 
 form>div>button {
-  margin-top: 10px;
-  float: right;
-  width: 120px;
-  height: 30px;
-  font-weight: bold;
-  color: rgba(20, 50, 185, 0.8);
-  font-size: 90%;
+    margin-top: 10px;
+    float: right;
+    width: 120px;
+    height: 30px;
+    font-weight: bold;
+    color: rgba(20, 50, 185, 0.8);
+    font-size: 90%;
 }

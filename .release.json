@@ -4,7 +4,6 @@
     "package.json"
   ],
   "increment": "patch",
-
   "buildCommand": "make",
   "requireCleanWorkingDir": false,
   "src": {
@@ -17,8 +16,12 @@
     "repo": false,
     "stageDir": ".stage",
     "baseDir": ".",
-    "files": ["html5-video-everywhere.xpi"],
-    "pkgFiles": ["html5-video-everywhere.xpi"],
+    "files": [
+      "html5-video-everywhere.xpi"
+    ],
+    "pkgFiles": [
+      "html5-video-everywhere.xpi"
+    ],
     "beforeStageCommand": false,
     "afterReleaseCommand": false,
     "githubAssets": true

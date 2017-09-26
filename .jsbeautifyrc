@@ -4,5 +4,19 @@
   "indent_level": 0,
   "indent_with_tabs": false,
   "preserve_newlines": true,
-  "end_with_newline": true
+  "max-preserve-newlines": 2,
+  "end_with_newline": true,
+  "wrap-line-length": 120,
+  "css": {
+    "preserve_newlines": false,
+    "indent_size": 4
+  },
+  "js": {
+    "indent_size": 2,
+    "wrap-line-length": 120
+  },
+  "html": {
+    "wrap-line-length": 120
+  }
 }
+
