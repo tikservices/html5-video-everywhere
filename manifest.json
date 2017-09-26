@@ -2,7 +2,6 @@
   "manifest_version": 2,
   "name": "HTML5 Video Everywhere",
   "version": "0.4.0",
-
   "description": "Replace video player with Firefox native video player",
   "homepage_url": "https://github.com/lejenome/html5-video-everywhere",
   "author": "Moez Bouhlel",
@@ -20,112 +19,127 @@
       "id": "html5-video-everywhere@lejenome.me"
     }
   },
-   "minimum_chrome_version": "60",
-  "content_scripts": [{
-    "matches": ["*://www.break.com/embed/*"],
-    "js": [
-      "content/Options.js",
-      "content/common.js",
-      "content/report-geolocation.js",
-      "content/video-player.js",
-      "content/Module.js",
-      "content/Break.js"
-    ],
-    "all_frames": true,
-    "run_at": "document_start"
-  }, {
-    "matches": [
-      "*://www.dailymotion.com/embed/video/*",
-      "*://www.dailymotion.com/video/*"
-    ],
-    "js": [
-      "content/Options.js",
-      "content/common.js",
-      "content/report-geolocation.js",
-      "content/video-player.js",
-      "content/Module.js",
-      "content/Dailymotion.js"
-    ],
-    "all_frames": true,
-    "run_at": "document_start"
-  }, {
-    "matches": [
-      "*://*.facebook.com/*/videos/*",
-      "*://*.facebook.com/video.php"
-    ],
-    "js": [
-      "content/Options.js",
-      "content/common.js",
-      "content/report-geolocation.js",
-      "content/video-player.js",
-      "content/Module.js",
-      "content/Facebook.js"
-    ],
-    "all_frames": true,
-    "run_at": "document_start"
-  }, {
-    "matches": ["https://www.lego.com/*/mediaplayer/video/*"],
-    "js": [
-      "content/Options.js",
-      "content/common.js",
-      "content/report-geolocation.js",
-      "content/video-player.js",
-      "content/Module.js",
-      "content/Lego.js"
-    ],
-    "all_frames": true,
-    "run_at": "document_start"
-  }, {
-    "matches": [
-      "*://www.metacafe.com/watch/*",
-      "*://www.metacafe.com/*"
-    ],
-    "js": [
-      "content/Options.js",
-      "content/common.js",
-      "content/report-geolocation.js",
-      "content/video-player.js",
-      "content/Module.js",
-      "content/Metacafe.js"
-    ],
-    "all_frames": true,
-    "run_at": "document_start"
-  }, {
-    "matches": [
-      "*://vimeo.com/*",
-      "*://player.vimeo.com/video*"
-    ],
-    "js": [
-      "content/Options.js",
-      "content/common.js",
-      "content/report-geolocation.js",
-      "content/video-player.js",
-      "content/Module.js",
-      "content/Vimeo.js"
-    ],
-    "all_frames": true,
-    "run_at": "document_start"
-  }, {
-    "matches": [
-      "*://*.youtube.com/*",
-      "*://*.youtube-nocookie.com/*"
-    ],
-    "js": [
-      "content/Options.js",
-      "content/common.js",
-      "content/report-geolocation.js",
-      "content/video-player.js",
-      "content/Module.js",
-      "content/youtube-formats.js",
-      "content/YouTube.js"
-    ],
-    "css": [],
-    "all_frames": true,
-    "run_at": "document_start"
-  }],
+  "minimum_chrome_version": "60",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.break.com/embed/*"
+      ],
+      "js": [
+        "content/Options.js",
+        "content/common.js",
+        "content/report-geolocation.js",
+        "content/video-player.js",
+        "content/Module.js",
+        "content/Break.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://www.dailymotion.com/embed/video/*",
+        "*://www.dailymotion.com/video/*"
+      ],
+      "js": [
+        "content/Options.js",
+        "content/common.js",
+        "content/report-geolocation.js",
+        "content/video-player.js",
+        "content/Module.js",
+        "content/Dailymotion.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://*.facebook.com/*/videos/*",
+        "*://*.facebook.com/video.php"
+      ],
+      "js": [
+        "content/Options.js",
+        "content/common.js",
+        "content/report-geolocation.js",
+        "content/video-player.js",
+        "content/Module.js",
+        "content/Facebook.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.lego.com/*/mediaplayer/video/*"
+      ],
+      "js": [
+        "content/Options.js",
+        "content/common.js",
+        "content/report-geolocation.js",
+        "content/video-player.js",
+        "content/Module.js",
+        "content/Lego.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://www.metacafe.com/watch/*",
+        "*://www.metacafe.com/*"
+      ],
+      "js": [
+        "content/Options.js",
+        "content/common.js",
+        "content/report-geolocation.js",
+        "content/video-player.js",
+        "content/Module.js",
+        "content/Metacafe.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://vimeo.com/*",
+        "*://player.vimeo.com/video*"
+      ],
+      "js": [
+        "content/Options.js",
+        "content/common.js",
+        "content/report-geolocation.js",
+        "content/video-player.js",
+        "content/Module.js",
+        "content/Vimeo.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://*.youtube.com/*",
+        "*://*.youtube-nocookie.com/*"
+      ],
+      "js": [
+        "content/Options.js",
+        "content/common.js",
+        "content/report-geolocation.js",
+        "content/video-player.js",
+        "content/Module.js",
+        "content/youtube-formats.js",
+        "content/iaextractor-youtube.js",
+        "content/YouTube.js"
+      ],
+      "css": [],
+      "all_frames": true,
+      "run_at": "document_start"
+    }
+  ],
   "background": {
-      "persistent": true,
-    "scripts": ["background.js"]
+    "persistent": true,
+    "scripts": [
+      "background.js"
+    ]
   },
   "options_ui": {
     "page": "options/options.html",
@@ -138,6 +152,8 @@
     "webRequest",
     "webRequestBlocking",
     "activeTab",
+    "*://www.youtube.com/*",
+    "*://*.googlevideo.com/*",
     "*://player.vimeo.com/video/*/config"
   ],
   "page_action": {
