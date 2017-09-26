@@ -9,23 +9,47 @@ class YouTube extends Module {
 
   onInteractive(resolve, reject) {
     this.log("onInteractive()");
-    this.changePlayer();
-    window.addEventListener("spfrequest", function() {
+    window.addEventListener("yt-navigate-start", function() {
+      this.log("yt-navigate-start");
       if (vp) vp.stop();
     });
-    window.addEventListener("spfdone", function() {
+    window.addEventListener("yt-navigate-finish", function() {
+      this - log("yt-navigate-stop");
       this.changePlayer();
     });
+    this.bindedChangePlayer = this.changePlayer.bind(this);
+    window.addEventListener('yt-visibility-refresh', this.bindedChangePlayer);
   }
 
   changePlayer() {
+    window.removeEventListener('yt-visibility-refresh', this.bindedChangePlayer);
+    for (const el of [
+        "#player", "player", "#player-container", "ytd-player", "#ytd-player",
+        "#video_player",
+      ]) {
+      this.log(el, document.querySelectorAll(el));
+    }
     this.getConfig()
       .then((conf) => this.getVideoInfo(conf))
       .then((conf) => {
+        if (this.vp) this.vp.end();
         try {
-          if (this.vp) this.vp.end();
           var player_container = this.getPlayerContainer(conf);
-          if (!player_container) return;
+          if (!player_container) {
+            this.log("Container not found", conf);
+            return;
+          }
+          let new_container = document.createElement("div");
+          [...player_container.getElementsByTagName("video")].forEach(e => {
+            this.log("diable video element", e);
+            e.srcObject = null;
+            e.pause();
+            e.volume = 0;
+            e.currentTime = 0;
+          });
+          player_container.replaceWith(new_container);
+          player_container = new_container;
+          player_container.id = "player-container"
           let scripts = player_container.getElementsByTagName("script");
           for (let script of scripts)
             player_container.parentElement.appendChild(script);
@@ -97,7 +121,7 @@ class YouTube extends Module {
     this.vp.srcs(conf.fmts, FMT_WRAPPER);
     if (conf && conf.isWatch)
       this.vp.containerProps({
-        className: " player-height player-width player-api"
+        className: " player-height player-width player-api html5-video-player"
       });
     if (conf && conf.isChannel)
       this.vp.containerProps({
@@ -139,7 +163,7 @@ class YouTube extends Module {
         conf.className = "c4-player-container"; //+ " html5-main-video"
       } else {
         conf.id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
-        conf.className = "player-width player-height player-api";
+        conf.className = "player-width player-height player-api html5-video-player";
       }
       if (!conf.id)
         reject({
