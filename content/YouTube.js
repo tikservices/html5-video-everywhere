@@ -158,7 +158,7 @@ class YouTube extends Module {
       });
     if (conf && conf.isChannel)
       this.vp.containerProps({
-        className: " c4-player-container"
+        className: " html5-video-player"
       }); //" html5-main-video";
     if (conf && conf.isEmbed) {
       this.vp.containerProps({
@@ -174,7 +174,7 @@ class YouTube extends Module {
   getPlayerContainer(conf) {
     if (conf.isWatch) return document.getElementById("player-container");
     if (conf.isEmbed) return document.body;
-    if (conf.isChannel) return document.getElementsByClassName("c4-player-container")[0];
+    if (conf.isChannel) return document.getElementsByClassName("c4-player")[0];
   }
 
   getConfig() {
@@ -190,10 +190,11 @@ class YouTube extends Module {
         conf.id = location.pathname.match(/^\/embed\/([^?#/]*)/)[1];
         conf.className = "html5-video-player";
       } else if (conf.isChannel) {
-        var upsell = document.getElementById("upsell-video");
-        if (!upsell) reject();
-        conf.id = upsell.dataset["videoId"];
-        conf.className = "c4-player-container"; //+ " html5-main-video"
+        const url = document.querySelector("#metadata-container a[href^='/watch?v=']");
+        if (!url) reject();
+        conf.id = new URL(url).searchParams.get("v");
+        if (!conf.id) reject();
+        conf.className = "html5-video-player"; //+ " html5-main-video"
       } else {
         conf.id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
         conf.className = "player-width player-height player-api html5-video-player";
