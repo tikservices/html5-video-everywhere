@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "HTML5 Video Everywhere",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Replace video player with Firefox native video player",
   "homepage_url": "https://github.com/lejenome/html5-video-everywhere",
   "author": "Moez Bouhlel",
@@ -126,8 +126,7 @@
         "content/report-geolocation.js",
         "content/video-player.js",
         "content/Module.js",
-        "content/youtube-formats.js",
-        "content/iaextractor-youtube.js",
+        "vendor/iaextractor/youtube.js",
         "content/YouTube.js"
       ],
       "css": [],
@@ -146,7 +145,7 @@
     "browser_style": true,
     "chrome_style": true
   },
-  "content_security_policy": "default-src 'none'; script-src 'self' https://www.google-analytics.com; style-src 'self'; img-src *; media-src *; connect-src 'self' https://player.vimeo.com; report-uri https://api.admin.tik.tn/repor/csp",
+  "content_security_policy": "default-src 'none'; script-src 'self' https://www.google-analytics.com; style-src 'self'; img-src *; media-src *; connect-src 'self' https://player.vimeo.com; report-uri https://api.admin.tik.tn/report/csp",
   "permissions": [
     "storage",
     "webRequest",

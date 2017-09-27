@@ -1,5 +1,12 @@
 "use strict";
 
+/* Map YouTube videos codes to the extension quality/format representation */
+const FMT_WRAPPER = {
+  "high/mp4": "22",
+  "medium/mp4": "18",
+  "medium/webm": "43"
+};
+
 class YouTube extends Module {
   constructor() {
     super("youtube");

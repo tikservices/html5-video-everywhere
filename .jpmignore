@@ -19,3 +19,4 @@ dumps
 lib
 package.json
 index.js
+yarn.lock
