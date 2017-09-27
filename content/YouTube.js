@@ -20,13 +20,34 @@ class YouTube extends Module {
     if (location.pathname.startsWith("/embed/")) {
       this.changePlayer();
     }
-    // this.bindedChangePlayer = this.changePlayer.bind(this);
-    // window.addEventListener('yt-visibility-refresh', this.bindedChangePlayer);
+    /*
+    this.bindedChangePlayer = () => {
+      console.log("yt-visibility-refresh");
+      this.changePlayer.bind();
+    }
+    window.addEventListener('yt-visibility-refresh', this.bindedChangePlayer);
+    */
+    for (const video of [...document.getElementsByTagName("video")]) {
+      /* pause yt video player asap */
+      console.log("interactive", video);
+      video.pause();
+      video.onplaying = () => video.pause();
+    }
   }
 
   changePlayer() {
     // window.removeEventListener('yt-visibility-refresh', this.bindedChangePlayer);
     this.getConfig()
+      .then(conf => {
+        /* pause yt video player asap */
+        const player_container = this.getPlayerContainer(conf);
+        if (player_container) {
+          for (const video of [...player_container.getElementsByTagName("video")]) {
+            video.pause();
+          }
+        }
+        return conf;
+      })
       .then((conf) => this.getVideoInfo(conf))
       .then((conf) => {
         if (this.vp) {
