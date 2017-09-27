@@ -9,13 +9,21 @@ const elements = Array.from(form.elements).filter((e) => {
 function onClick(evt) {
   switch (evt.target.name) {
     case "donate":
+      browser.tabs.create({
+        active: true,
+        url: "https://www.paypal.me/lejenome"
+      });
       break;
     case "report":
+      browser.tabs.create({
+        active: true,
+        url: "https://github.com/lejenome/html5-video-everywhere/issues/"
+      });
       break;
     case "about":
       browser.tabs.create({
         active: true,
-        url: "https://addons.mozilla.org/en-US/firefox/addon/html5-video-everywhere/"
+        url: "https://h5vew.tik.tn/"
       });
       break;
     case "options":
