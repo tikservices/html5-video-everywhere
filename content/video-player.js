@@ -156,10 +156,14 @@ class VP {
     for (let i = 0; i < vds.length; i++) {
       if (this.player === vds[i]) continue;
       vds[i].pause();
-      vds[i].src = "";
+      vds[i].volume = 0;
+      vds[i].currentTime = 0;
+      vds[i].srcObject = null;
       vds[i].addEventListener("playing", (e) => {
         e.currentTarget.pause();
-        e.currentTarget.src = "";
+        e.currentTarget.volume = 0;
+        e.currentTarget.currentTime = 0;
+        e.currentTarget.srcObject = null;
       });
     }
     rmChildren(this.container);

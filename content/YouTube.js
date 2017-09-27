@@ -36,17 +36,27 @@ class YouTube extends Module {
             this.log("Container not found", conf);
             return;
           }
-          let new_container = document.createElement("div");
-          if (!this.original_videos) {
-            this.original_videos = player_container.getElementsByTagName("video");
-          }
-          [...this.original_videos].forEach(e => {
-            e.srcObject = null;
-            e.pause();
-            e.volume = 0;
-            e.currentTime = 0;
+          /* find youtube created video player(s) and always kill their src */
+          const youtube_videos = player_container.getElementsByTagName("video");
+          (function(killVideo) {
+            for (const video of [...youtube_videos]) {
+              killVideo(video);
+              video.onplaying = _ => killVideo(video);
+              // video.onloadstart = _ => killVideo(video);
+            }
+          })(function(video) {
+            dump("KILLING VIDEO");
+            console.log("KILLING VIDEO");
+            video.pause();
+            video.volume = 0;
+            video.currentTime = 0;
+            video.srcObject = null;
           });
-          player_container.replaceWith(new_container);
+          /* append our container beside YT video container, so we does not
+           * lose control of yt video player on video change */
+          let new_container = document.createElement("div");
+          player_container.parentElement.appendChild(new_container);
+          player_container.hidden = true;
           player_container = new_container;
           player_container.id = "player-container"
           let scripts = player_container.getElementsByTagName("script");
