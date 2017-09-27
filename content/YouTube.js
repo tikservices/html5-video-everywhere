@@ -9,39 +9,38 @@ class YouTube extends Module {
 
   onInteractive(resolve, reject) {
     this.log("onInteractive()");
-    window.addEventListener("yt-navigate-start", function() {
+    window.addEventListener("yt-navigate-start", () => {
       this.log("yt-navigate-start");
-      if (vp) vp.stop();
+      if (this.vp) this.vp.stop();
     });
-    window.addEventListener("yt-navigate-finish", function() {
-      this - log("yt-navigate-stop");
+    window.addEventListener("yt-navigate-finish", () => {
+      this.log("yt-navigate-finish");
       this.changePlayer();
     });
-    this.bindedChangePlayer = this.changePlayer.bind(this);
-    window.addEventListener('yt-visibility-refresh', this.bindedChangePlayer);
+    // this.bindedChangePlayer = this.changePlayer.bind(this);
+    // window.addEventListener('yt-visibility-refresh', this.bindedChangePlayer);
   }
 
   changePlayer() {
-    window.removeEventListener('yt-visibility-refresh', this.bindedChangePlayer);
-    for (const el of [
-        "#player", "player", "#player-container", "ytd-player", "#ytd-player",
-        "#video_player",
-      ]) {
-      this.log(el, document.querySelectorAll(el));
-    }
+    // window.removeEventListener('yt-visibility-refresh', this.bindedChangePlayer);
     this.getConfig()
       .then((conf) => this.getVideoInfo(conf))
       .then((conf) => {
-        if (this.vp) this.vp.end();
+        if (this.vp) {
+          this.log("vp.end");
+          this.vp.end();
+        }
         try {
-          var player_container = this.getPlayerContainer(conf);
+          let player_container = this.getPlayerContainer(conf);
           if (!player_container) {
             this.log("Container not found", conf);
             return;
           }
           let new_container = document.createElement("div");
-          [...player_container.getElementsByTagName("video")].forEach(e => {
-            this.log("diable video element", e);
+          if (!this.original_videos) {
+            this.original_videos = player_container.getElementsByTagName("video");
+          }
+          [...this.original_videos].forEach(e => {
             e.srcObject = null;
             e.pause();
             e.volume = 0;
@@ -71,7 +70,7 @@ class YouTube extends Module {
             poster: conf.poster || "",
             volume: this.options.getVolume(),
           });
-          // vp.style({
+          // this.vp.style({
           //    position: "relative"
           //});
           /* FIXME
@@ -177,77 +176,38 @@ class YouTube extends Module {
 
   getVideoInfo(conf) {
     return new Promise((resolve, reject) => {
-        var INFO_URL =
-          "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
+      chrome.storage.local.get({
+        ccode: ['r', 'r'],
+        player: null,
+      }, prefs => {
+        youtube.getInfo(conf.id)
+          .then(info => youtube.extractFormats(info, prefs.ccode))
+          .then(info => youtube.verify(info, prefs))
+          .then(info => {
+            Object.assign(conf, info);
+            if (conf.iurlhq) conf.poster = data.iurlhq;
+            if (conf.caption_tracks) conf.tracks = this.parse(data.caption_tracks, true);
+            const player = document.createElement("video");
+            conf.fmts = {};
+            conf.formats
+              .map(f => Object.assign(f, {
+                "type": f.type.replace(/\+/g, ' ')
+              }))
+              .filter(f => player.canPlayType(f.type) === "probably")
+              .forEach(fmt => conf.fmts[fmt.itag] = fmt);
+            return conf;
+          })
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+
+    /* TODO: youtube-nocookie support */
+    /*
         if (conf.withoutCookies)
           INFO_URL =
           "https://www.youtube-nocookie.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
-        const ytplayer = window.wrappedJSObject.ytplayer;
-        if (ytplayer && ytplayer.config) {
-          conf.url_encoded_fmt_stream_map = ytplayer.config.args.url_encoded_fmt_stream_map;
-          conf.adaptive_fmts = ytplayer.config.args.adaptive_fmts;
-          conf.info = ytplayer.config.args.url_encoded_fmt_stream_map;
-          conf.poster = ytplayer.config.args.iurlsd ||
-            ytplayer.config.args.iurl ||
-            ytplayer.config.args.iurlhq ||
-            ytplayer.config.args.iurlmaxres ||
-            ytplayer.config.args.iurlmq;
-          if (ytplayer.config.args.caption_tracks)
-            conf.tracks = this.parse(ytplayer.config.args.caption_tracks, true);
-          conf.player = ytplayer.config.assets.js;
-          this.swf_url = ytplayer.config.url;
-          resolve(conf);
-        } else {
-          asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
-            if (data.endsWith("=")) try {
-              data = atob(data);
-            } catch (_) {}
-            data = this.parse(data);
-            if (data.status === "fail") {
-              return reject({
-                error: "VIDEO_URL_UNACCESSIBLE",
-                data: data,
-                conf: conf
-              });
-            }
-            // get the poster url
-            if (data.iurlhq) conf.poster = data.iurlhq;
-            // extract avalable formats to fmts object
-            conf.info = data.url_encoded_fmt_stream_map;
-            if (data.caption_tracks) conf.tracks = this.parse(data.caption_tracks, true);
-            resolve(conf);
-          });
-        }
-      })
-      .then((conf) => {
-        conf.dashmpd = '';
-        return youtube.extractFormats(conf, ['r', 'r'])
-          .then(conf => youtube.verify(conf, {
-            ccode: ['r', 'r']
-          }))
-          .then(conf => {
-            var player = document.createElement("video");
-            conf.fmts = {};
-            conf.formats
-              .filter(it5 => player.canPlayType(it5.type.replace(/\+/g, ' ')) === "probably")
-              .forEach(fmt => conf.fmts[fmt.itag] = fmt);
-            return conf;
-          });
-      });
-  }
-
-  fixSignature(conf) {
-    return new Promise((resolve, reject) => {
-      self.port.emit("fix_signature", {
-        fmts: conf.fmts,
-        swf_url: this.swf_url
-      });
-      self.port.on("fixed_signature", (fmts) => {
-        conf.fmts = fmts;
-        this.log("fixed Signature");
-        resolve(conf);
-      });
-    });
+    */
   }
 
   playNextOnFinish() {
