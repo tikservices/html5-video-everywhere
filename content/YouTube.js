@@ -17,6 +17,9 @@ class YouTube extends Module {
       this.log("yt-navigate-finish");
       this.changePlayer();
     });
+    if (location.pathname.startsWith("/embed/")) {
+      this.changePlayer();
+    }
     // this.bindedChangePlayer = this.changePlayer.bind(this);
     // window.addEventListener('yt-visibility-refresh', this.bindedChangePlayer);
   }
@@ -52,22 +55,21 @@ class YouTube extends Module {
             video.currentTime = 0;
             video.srcObject = null;
           });
-          /* append our container beside YT video container, so we does not
-           * lose control of yt video player on video change */
-          let new_container = document.createElement("div");
-          player_container.parentElement.appendChild(new_container);
-          player_container.hidden = true;
-          player_container = new_container;
-          player_container.id = "player-container"
+          if (!conf.isEmbed) {
+            /* append our container beside YT video container, so we does not
+             * lose control of yt video player on video change */
+            let new_container = document.createElement("div");
+            player_container.parentElement.appendChild(new_container);
+            player_container.hidden = true;
+            player_container = new_container;
+            player_container.id = "player-container";
+          }
           let scripts = player_container.getElementsByTagName("script");
           for (let script of scripts)
             player_container.parentElement.appendChild(script);
           var seek = this.getSeek();
           this.vp = new VP(player_container, this.options);
           this.vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url + seek);
-          // vp.containerProps({
-          //    className: conf.className || ""
-          //});
           this.vp.props({
             id: "video_player",
             className: conf.className || "",
@@ -80,9 +82,10 @@ class YouTube extends Module {
             poster: conf.poster || "",
             volume: this.options.getVolume(),
           });
-          // this.vp.style({
-          //    position: "relative"
-          //});
+          this.vp.containerStyle({
+            height: "100%",
+            width: "100%",
+          });
           /* FIXME
           this.vp.tracksList((conf.tracks || []).map(i => i.lc), (lang, resolve, reject) => {
             var o = conf.tracks.find((i) => i.lc === lang);
@@ -138,7 +141,7 @@ class YouTube extends Module {
       }); //" html5-main-video";
     if (conf && conf.isEmbed) {
       this.vp.containerProps({
-        className: " full-frame"
+        className: " html5-video-player"
       });
     }
     this.vp.containerStyle({
@@ -164,7 +167,7 @@ class YouTube extends Module {
       if (!conf.isEmbed && !conf.isWatch && !conf.isChannel) reject();
       if (conf.isEmbed) {
         conf.id = location.pathname.match(/^\/embed\/([^?#/]*)/)[1];
-        conf.className = "full-frame";
+        conf.className = "html5-video-player";
       } else if (conf.isChannel) {
         var upsell = document.getElementById("upsell-video");
         if (!upsell) reject();

@@ -29,3 +29,16 @@ browser.runtime.onConnect.addListener((port) => {
   port.onDisconnect.addListener(onDisconnect);
   browser.pageAction.show(port.sender.tab.id);
 });
+
+
+/*
+function update(details) {
+  if (details.reason === 'install' || details.reason === 'update') {
+    browser.tabs.create({
+      url: 'https://h5vew.tik.tn/'
+    });
+  }
+}
+
+browser.runtime.onInstalled.addListener(update);
+*/

@@ -167,6 +167,8 @@ class VP {
       });
     }
     rmChildren(this.container);
+    this.container.style.cssText = "";
+    this.container.className = "";
     this.attached = false;
   }
 
@@ -390,6 +392,6 @@ class VP {
 
   log(...args) {
     args.unshift("[DRIVER::VP]");
-    dump(args.join(" ") + "\n");
+    console.log(args.join(" ") + "\n");
   }
 }
