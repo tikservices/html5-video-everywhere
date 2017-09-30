@@ -1,39 +1,43 @@
 # HTML5 Video EveryWhere
 
-Not just an other HTML5 player extension.
-This extension, unlike other extensions, will replace some video streaming sites
-video player by Firefox native player. Not just replacing Flash player by the
-site HTML5 player version, but both the site HTML5 and Flash player with Firefox
-native player.
+Higher performance and stable sideo watching experience on the web.
+
+Some streaming sites video players suck. This add-on will replace them with
+browser built-in video player for higher performance and more stable
+experience. Currently, it supports YouTube, Facebook, Vimeo, Dailymotion,
+Break, Metacafe, Lego and even more sites are coming.
 
 **NOTE:**
 This extension will change the page content of the supported video streaming
-sites. As a result, many extensions that depends on this content will no longer
-work as expected.
+sites. As a result, many extensions that depends on this content may not work
+as expected.
+
+## Install
+
+Visit the extension website [h5vew.tik.tn](https://h5vew.tik.tn/) for latest
+version.
 
 ## Build
 
-`jpm` is required to build the addon. To install `jpm`, run:
+`web-ext` is required to build the addon. To install `web-ext`, run:
 ```shell
-npm install -g jpm
+npm install -g web-ext
 ```
 
 To build the addon:
 ```shell
-jpm xpi
+make build
 ```
 
 ## Credit
 
-YouTube signature decoder code (data/flashgot-YouTubeSwf.js,
-lib/flashgot-YouTube.js) was copied from the [GPL](
-http://www.gnu.org/copyleft/gpl.html) licenced
-[flashgot](https://flashgot.net/) extension with some code removed and
-other added code under the same license.
+HTML5 Video EveryWhere contains codes from
+[iaextractor](https://github.com/inbasic/iaextractor/) project licensed under
+MPL 1.1.
 
 ## Licence
 
 This extension is free software; it is distributed under the MPL 2.0 License.
 
-Copyright (c) 2014-2015, Moez Bouhlel (bmoez.j@gmail.com) & [The
+Copyright (c) 2014-2017, Moez Bouhlel (bmoez.j@gmail.com) & [The
 Contributors](https://github.com/lejenome/html5-video-everywhere/graphs/contributors)
