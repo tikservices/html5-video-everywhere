@@ -41,8 +41,11 @@ class Module {
           }
         })
         .catch((err) => this.log("Error start():", err));
-    } else {
+    } else if (!this.options) {
       this.addMessageListener("options", (msg) => this.start());
+    } else { // this.options.isDisabled()
+      this.log("Module disabled. Exitings.");
+      return;
     }
   }
 
