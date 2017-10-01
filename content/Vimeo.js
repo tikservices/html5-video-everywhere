@@ -16,7 +16,8 @@ class Vimeo extends Module {
 
   injectPlayer(conf) {
     try {
-      let player_container, player, stl;
+      let player_container;
+      let stl;
       if (conf.isEmbed) {
         player_container = document.body;
       } else if (conf.isWatch) {
@@ -43,12 +44,13 @@ class Vimeo extends Module {
         poster: conf.poster,
         volume: this.options.getVolume(),
       });
-      vp.tracksList(conf.tracks.map(l => l.lang), (lang, resolve, reject) => {
-        let l = conf.tracks.find(l => l.lang === lang);
-        if (l === undefined)
+      vp.tracksList(conf.tracks.map((l) => l.lang), (lang, resolve, reject) => {
+        let l = conf.tracks.find((l) => l.lang === lang);
+        if (l === undefined) {
           reject();
-        else
+        } else {
           resolve(l.direct_url || l.url);
+        }
       });
       if (stl) vp.addCSSRule(stl);
       vp.setup();
@@ -66,7 +68,8 @@ class Vimeo extends Module {
       let isChannel = !isWatch && (/https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href) ||
         this.ogType().match(/channel|profile/) !== null);
       if (!isWatch && !isChannel && !isEmbed) reject();
-      let player_id, player_class;
+      let player_id;
+      let player_class;
       if (isWatch) {
         player_id = location.pathname.match(/\/([\d]+)/)[1];
         player_class = "player";
@@ -82,7 +85,7 @@ class Vimeo extends Module {
         isEmbed: isEmbed,
         isChannel: isChannel,
         id: player_id,
-        className: player_class
+        className: player_class,
       });
     });
   }
@@ -92,8 +95,9 @@ class Vimeo extends Module {
     if (conf.isChannel) {
       return Array.map(document.getElementsByClassName("player_container"), (el) => {
         let _conf = {};
-        for (let va in conf)
-          _conf[va] = conf[va];
+        for (const k of Object.keys(conf)) {
+          _conf[k] = conf[k];
+        }
         _conf.id = el.id.replace("clip_", "");
         return asyncGet(INFO_URL + _conf.id + "/config")
           .then(this.processData(_conf))
@@ -134,20 +138,23 @@ class Vimeo extends Module {
   brozarEvents() {
     // change Vimeo default click events of items on brozar element
     let clips = document.getElementById("clips");
-    if (clips)
+    if (clips) {
       clips.onclick = function(e) {
         if (e.target === e.currentTarget) return;
         let li = e.target;
-        while (li.tagName !== "LI")
+        while (li.tagName !== "LI") {
           li = li.parentElement;
+        }
         window.location = "/" + li.id.replace("clip_", "");
       };
+    }
     let promos = document.getElementsByClassName("js-promo_link");
     let promoClick = function(e) {
       window.location = "/" + e.currentTarget.dataset.clipId;
     };
-    for (let i = 0; promos && i < promos.length; i++)
+    for (let i = 0; promos && i < promos.length; i++) {
       promos[i].onclick = promoClick;
+    }
   }
 
   ogType() {

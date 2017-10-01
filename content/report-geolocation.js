@@ -15,8 +15,9 @@
 function reportGeolocation(options) {
 
   // If Do Not Tract is activated (or an ad block is installed), skip report
-  if (navigator.doNotTrack === "1")
+  if (navigator.doNotTrack === "1") {
     return;
+  }
 
   let data = "";
   let manifest = browser.runtime.getManifest();

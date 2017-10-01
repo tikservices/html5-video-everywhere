@@ -4,12 +4,6 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
-/* global createNode:true */
-/* global rmChildren:true */
-/* global setClipboard:true */
-// the following jshint global rule is only because jshint support for ES6 arrow
-// functions is limited
-/* global wrapper:true, args:true, auto:true, lp:true */
 "use strict";
 
 // set it to false if the module uses custom listener
@@ -32,9 +26,9 @@
 const setClipboard = (text) => self.port.emit("setClipboard", text);
 const createNode = (type, prprt, style, data) => {
   let node = document.createElement(type);
-  if (prprt) Object.keys(prprt).forEach(p => node[p] = prprt[p]);
-  if (style) Object.keys(style).forEach(s => node.style[s] = style[s]);
-  if (data) Object.keys(data).forEach(d => node.dataset[d] = data[d]);
+  if (prprt) Object.keys(prprt).forEach((p) => node[p] = prprt[p]);
+  if (style) Object.keys(style).forEach((s) => node.style[s] = style[s]);
+  if (data) Object.keys(data).forEach((d) => node.dataset[d] = data[d]);
   return node;
 };
 
@@ -48,6 +42,7 @@ const asyncGet = (url, headers = {}, mimetype = null) => {
 };
 
 const rmChildren = (prnt) => {
-  while (prnt && prnt.firstChild)
+  while (prnt && prnt.firstChild) {
     prnt.removeChild(prnt.firstChild);
+  }
 };

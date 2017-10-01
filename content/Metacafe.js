@@ -12,16 +12,17 @@ class Metacafe extends Module {
   }
 
   onInteractive() {
-    if (window.location.pathname.startsWith("/watch/"))
+    if (window.location.pathname.startsWith("/watch/")) {
       this.watchPage();
-    else if (/[^\/]+\/?$/.test(location.pathname))
+    } else if (/[^\/]+\/?$/.test(location.pathname)) {
       this.channelPage();
+    }
   }
 
   watchPage() {
     let data;
     if (document.getElementById("json_video_data")) {
-      data = JSON.parse(document.getElementById("json_video_data").textContent)
+      data = JSON.parse(document.getElementById("json_video_data").textContent);
     }
     if (!data) return;
     let url = data.sources[0].src;
@@ -34,10 +35,10 @@ class Metacafe extends Module {
       autoplay: this.options.isAutoPlay(true),
       preload: this.options.getPreload(),
       loop: this.options.isLoop(),
-      controls: true
+      controls: true,
     });
     vp.style({
-      width: "100%"
+      width: "100%",
     });
     vp.setup();
   }
@@ -58,10 +59,10 @@ class Metacafe extends Module {
         autoplay: this.options.isAutoPlay(false),
         preload: this.options.getPreload(),
         loop: this.options.isLoop(),
-        controls: true
+        controls: true,
       });
       vp.style({
-        width: "100%"
+        width: "100%",
       });
       vp.setup();
     });

@@ -25,15 +25,15 @@ class Break extends Module {
     });
     vp.style({
       width: "100%",
-      height: "100%"
+      height: "100%",
     });
     vp.setup();
   }
 
   fallback() {
     // Just fallback method if the first one didn't work
-    let url_r = /"videoUri":\s*"([^"]*)"/;
-    let url = (document.head.innerHTML.match(url_r) || ["", ""])[1];
+    let urlRegex = /"videoUri":\s*"([^"]*)"/;
+    let url = (document.head.innerHTML.match(urlRegex) || ["", ""])[1];
     return url;
   }
 

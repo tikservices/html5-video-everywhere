@@ -37,7 +37,7 @@ class Lego extends Module {
           [1536, "high"],
           [1024, "medium"],
           // [512, "low"],
-          [256, "low"]
+          [256, "low"],
         ]) {
         vp.addSrc(url + "_" + quality + "." + type, qualityLevel, type);
       }

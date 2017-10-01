@@ -20,17 +20,19 @@ class Module {
    *
    * @param {!string} name - Module unique name.
    */
-  constructor(name, redirect = [], block = []) {
+  constructor(name /* , redirect = [], block = []*/ ) {
     this.name = name;
+    /*
     this.redirect = redirect;
     this.block = block;
+    */
 
     this.port = browser.runtime.connect({
-      "name": "h5vew"
+      "name": "h5vew",
     });
     this.port.postMessage({
       "type": "inject",
-      "module": this.name
+      "module": this.name,
     });
     this.port.onMessage.addListener((msg) => this.onMessage(msg));
     this.messageListeners = {};
@@ -123,8 +125,9 @@ class Module {
       default:
         break;
     }
-    for (const fn of (this.messageListeners[msg.type] || []))
+    for (const fn of (this.messageListeners[msg.type] || [])) {
       fn(msg);
+    }
   }
 
   /**

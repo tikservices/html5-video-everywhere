@@ -4,12 +4,13 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
-"use static";
+"use strict";
 
 
-// Define browser to chrome on Google Chrome/Opera browsers.
-if (typeof browser === "undefined")
+if (typeof browser === "undefined") {
+  // Define browser to chrome on Google Chrome/Opera browsers.
   var browser = chrome;
+}
 
 /** Video supported formats */
 const Cdc = ["webm", "mp4"];
@@ -20,7 +21,7 @@ const Qlt = ["higher", "high", "medium", "low"];
 /** Video track languages */
 const LANGS = [
   "af", "ar", "bn", "de", "en", "es", "fi", "fr", "hi", "id", "is", "it", "ja", "ko", "pt", "ru",
-  "tu", "zh"
+  "tu", "zh",
 ];
 
 
@@ -67,6 +68,8 @@ class Options {
    * @public
    *
    * @param {!string} opt - Option name.
+   *
+   * @return {any} Option value.
    */
   get(opt) {
     if (this.opts[opt] !== undefined) {
@@ -82,7 +85,7 @@ class Options {
    * @public
    *
    * @param {!string} opt - Option name.
-   * @param {} val - Option value.
+   * @param {any} val - Option value.
    */
   set(opt, val) {
     switch (this.defaults[opt][0]) {
@@ -111,12 +114,13 @@ class Options {
    * Get all available options values.
    * @public
    *
-   * @return {Object.<string, >} Options object.
+   * @return {Object.<string, any>} Options object.
    */
   getAll() {
     let opts = {};
-    for (const opt of Object.keys(this.opts))
+    for (const opt of Object.keys(this.opts)) {
       opts[opt] = this.get(opt);
+    }
     return opts;
   }
 
@@ -208,9 +212,10 @@ class Options {
    */
   getLang() {
     let lang = this.get("lang");
-    if (lang > 0)
+    if (lang > 0) {
       return LANGS[lang];
-    else
+    } else {
       return undefined;
+    }
   }
 }

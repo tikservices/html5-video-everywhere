@@ -16,7 +16,7 @@ class Dailymotion extends Module {
     // asyncGet
     // http://www.dailymotion.com/json/video/<VIDEO_ID>?fields=stream_audio_url,stream_h264_hd1080_url,stream_h264_hd_url,stream_h264_hq_url,stream_h264_ld_url,stream_h264_url,stream_hls_url,stream_live_hls_url,thumbnail_120_url,thumbnail_240_url,thumbnail_url
     // returns a json
-    let urls = {}
+    let urls = {};
     let poster;
     if (window.wrappedJSObject.config) {
       urls = window.wrappedJSObject.config.metadata.qualities;
@@ -58,11 +58,11 @@ class Dailymotion extends Module {
       autoplay: this.options.isAutoPlay(),
       preload: this.options.getPreload(),
       loop: this.options.isLoop(),
-      poster: poster
+      poster: poster,
     });
     vp.style({
       width: "100%",
-      height: "100%"
+      height: "100%",
     });
     vp.setup();
   }
@@ -70,7 +70,7 @@ class Dailymotion extends Module {
   getSrcs(qualities) {
     let fmts = {};
     for (const [id,
-        fmt
+        fmt,
       ] of [
         ["144", "low/mp4"], // 176x144; 144 is fallback low quality if no 240
         ["240", "low/mp4"], // 320x240
