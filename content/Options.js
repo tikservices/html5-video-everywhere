@@ -1,16 +1,43 @@
+/**
+ * @file Options handling and helpers class.
+ * @author Moez Bouhlel <bmoez.j@gmail.com>
+ * @license MPL-2.0
+ * @copyright 2014-2017 Moez Bouhlel
+ */
 "use static";
 
+
+// Define browser to chrome on Google Chrome/Opera browsers.
 if (typeof browser === "undefined")
   var browser = chrome;
 
+/** Video supported formats */
 const Cdc = ["webm", "mp4"];
+
+/** Videos qualities levels defined for the extension */
 const Qlt = ["higher", "high", "medium", "low"];
+
+/** Video track languages */
 const LANGS = [
   "af", "ar", "bn", "de", "en", "es", "fi", "fr", "hi", "id", "is", "it", "ja", "ko", "pt", "ru",
   "tu", "zh"
 ];
 
+
+/**
+ * Options handling class allowing getting and settings extension global and
+ * module special options and provides options depended helpers functions.
+ */
 class Options {
+
+  /**
+   * Create Options instance using the background sent options for global
+   * extension and for the specified module.
+   * @public
+   *
+   * @param opts [Object] - Options object recived from the background script.
+   * @param moduleName [String] - Module unique name.
+   */
   constructor(opts, moduleName) {
     this.opts = opts;
     this.moduleName = moduleName;
@@ -35,21 +62,28 @@ class Options {
     };
   }
 
+  /**
+   * Get the option value.
+   * @public
+   *
+   * @param opt [string] - Option name.
+   */
   get(opt) {
-    const val = this.opts[opt] !== undefined ? this.opts[opt] : this.defaults[opt][1];
-    /* // Already converted on set()
-    switch (this.defaults[opt][0]) {
-    case "boolean":
-      return Boolean(val);
-    case "integer":
-      return parseInt(val);
-    case "float":
-      return parseFloat(val);
-    case "string":
-      return String(val);
-    }*/
-    return val;
+    if (this.opts[opt] !== undefined) {
+      return this.opts[opt];
+    } else {
+      return this.defaults[opt][1];
+    }
   }
+
+  /**
+   * Set option value. It sets local value and notify the background script of
+   * the new value.
+   * @public
+   *
+   * @param opt [string] - Option name.
+   * @param val [any] - Option value.
+   */
   set(opt, val) {
     switch (this.defaults[opt][0]) {
       case "boolean":
@@ -68,9 +102,17 @@ class Options {
     this.opts[opt] = val;
     this.postSet(opt, val);
   }
+
   postSet(opt, val) {
     // TODO: override
   }
+
+  /**
+   * Get all available options values.
+   * @public
+   *
+   * @return [Object<string, Object>] - Options object.
+   */
   getAll() {
     let opts = {};
     for (const opt of Object.keys(this.opts))
@@ -78,27 +120,92 @@ class Options {
     return opts;
   }
 
+  /**
+   * Get volume value.
+   * @public
+   *
+   * @return [float] - Volume value.
+   */
   getVolume() {
     return this.get("volume") / 100;
   }
+
+  /**
+   * Get video autoplay property value. It returns user selected option value
+   * else module default value (passed as argument) if the user selected
+   * "default" option value.
+   * @public
+   *
+   * @param auto [boolean] - Module default autoplay value.
+   *
+   * @return [boolean] - Video autoplay property value.
+   */
   isAutoPlay(auto = false) {
     return (this.get("autoplay") === 1 || auto === true) && this.get("autoplay") !== 0;
   }
+
+  /**
+   * Get video preload property value. It return user selected option value
+   * else module default value (passed as argument) if the user seleced
+   * "default" option value.
+   *
+   * @param auto [boolean] - Module default preload value.
+   *
+   * @return [string] - Video preload property value.
+   */
   getPreload(auto = false) {
     return ((this.get("preload") === 1 || auto === true) && this.get("preload") !== 0) ? "auto" : "metadata";
   }
+
+  /**
+   * Get video loop property value. It returns user selected option value
+   * else module default value (passed as argument) if the user selected
+   * "default" option value.
+   * @public
+   *
+   * @param auto [boolean] - Module default loop value.
+   *
+   * @return [boolean] - Video loop property value.
+   */
   isLoop(lp = false) {
     return (this.get("loop") === "1" || lp) && this.get("loop") !== 0;
   }
+
+  /**
+   * Check if the current module is disabled (by user on options page).
+   * @public
+   *
+   * @return [boolean] - Is the module disabled.
+   */
   isDisabled() {
     return this.get("disable" + this.moduleName);
   }
+
+  /**
+   * Get installed extension version.
+   * @public
+   *
+   * @return [strin] - Extension current version.
+   */
   getVersion() {
     return browser.runtime.getManifest()["version"];
   }
+
+  /**
+   * Get installed extension id string defined on manifest.json file.
+   * @public
+   *
+   * @return [string] - Extension id string.
+   */
   getId() {
     return browser.runtime.id;
   }
+
+  /**
+   * Get user selected track language to download and show.
+   *
+   * @return [string] - Track language if any selected by user else undefined.
+   */
   getLang() {
     let lang = this.get("lang");
     if (lang > 0)

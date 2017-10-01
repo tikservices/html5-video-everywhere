@@ -1,3 +1,9 @@
+/**
+ * @file Dailymotion.com website support module.
+ * @author Moez Bouhlel <bmoez.j@gmail.com>
+ * @license MPL-2.0
+ * @copyright 2014-2017 Moez Bouhlel
+ */
 "use strict";
 class Dailymotion extends Module {
   constructor() {
