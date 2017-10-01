@@ -23,8 +23,8 @@
 //         });
 //     onPrefChange.forEach(f => f(pref.name));
 // });
-const setClipboard = (text) => self.port.emit("setClipboard", text);
-const createNode = (type, prprt, style, data) => {
+export const setClipboard = (text) => self.port.emit("setClipboard", text);
+export const createNode = (type, prprt, style, data) => {
   let node = document.createElement(type);
   if (prprt) Object.keys(prprt).forEach((p) => node[p] = prprt[p]);
   if (style) Object.keys(style).forEach((s) => node.style[s] = style[s]);
@@ -32,7 +32,7 @@ const createNode = (type, prprt, style, data) => {
   return node;
 };
 
-const asyncGet = (url, headers = {}, mimetype = null) => {
+export const asyncGet = (url, headers = {}, mimetype = null) => {
   return fetch(url, {
     headers: headers,
   }).then((res) => {
@@ -41,7 +41,7 @@ const asyncGet = (url, headers = {}, mimetype = null) => {
   });
 };
 
-const rmChildren = (prnt) => {
+export const rmChildren = (prnt) => {
   while (prnt && prnt.firstChild) {
     prnt.removeChild(prnt.firstChild);
   }

@@ -5,8 +5,18 @@
  * @copyright 2014-2017 Moez Bouhlel
  */
 /* global VP:true, LBP */
-"use strict";
-class VP {
+
+import {
+  setClipboard,
+  createNode,
+  rmChildren,
+} from './common.js';
+import {
+  Qlt,
+  Cdc,
+} from './Options.js';
+
+export default class VP {
   constructor(container, options) {
     this.attached = false;
     this.player = undefined;

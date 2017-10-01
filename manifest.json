@@ -26,11 +26,6 @@
         "*://www.break.com/embed/*"
       ],
       "js": [
-        "content/Options.js",
-        "content/common.js",
-        "content/report-geolocation.js",
-        "content/video-player.js",
-        "content/Module.js",
         "content/Break.js"
       ],
       "all_frames": true,
@@ -42,11 +37,6 @@
         "*://www.dailymotion.com/video/*"
       ],
       "js": [
-        "content/Options.js",
-        "content/common.js",
-        "content/report-geolocation.js",
-        "content/video-player.js",
-        "content/Module.js",
         "content/Dailymotion.js"
       ],
       "all_frames": true,
@@ -58,11 +48,6 @@
         "*://*.facebook.com/video.php"
       ],
       "js": [
-        "content/Options.js",
-        "content/common.js",
-        "content/report-geolocation.js",
-        "content/video-player.js",
-        "content/Module.js",
         "content/Facebook.js"
       ],
       "all_frames": true,
@@ -73,11 +58,6 @@
         "https://www.lego.com/*/mediaplayer/video/*"
       ],
       "js": [
-        "content/Options.js",
-        "content/common.js",
-        "content/report-geolocation.js",
-        "content/video-player.js",
-        "content/Module.js",
         "content/Lego.js"
       ],
       "all_frames": true,
@@ -89,11 +69,6 @@
         "*://www.metacafe.com/*"
       ],
       "js": [
-        "content/Options.js",
-        "content/common.js",
-        "content/report-geolocation.js",
-        "content/video-player.js",
-        "content/Module.js",
         "content/Metacafe.js"
       ],
       "all_frames": true,
@@ -105,11 +80,6 @@
         "*://player.vimeo.com/video*"
       ],
       "js": [
-        "content/Options.js",
-        "content/common.js",
-        "content/report-geolocation.js",
-        "content/video-player.js",
-        "content/Module.js",
         "content/Vimeo.js"
       ],
       "all_frames": true,
@@ -121,12 +91,6 @@
         "*://*.youtube-nocookie.com/*"
       ],
       "js": [
-        "content/Options.js",
-        "content/common.js",
-        "content/report-geolocation.js",
-        "content/video-player.js",
-        "content/Module.js",
-        "vendor/iaextractor/youtube.js",
         "content/YouTube.js"
       ],
       "css": [],

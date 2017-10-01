@@ -4,7 +4,10 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
-"use strict";
+import Options from './Options.js';
+import {
+  reportGeolocation
+} from './report-geolocation.js';
 
 /**
  * Base class for all modules used to support websites.
@@ -12,7 +15,7 @@
  * video player with the browser native HTML5 video player. This class abstract
  * module/backgroun-script messages/options handling.
  */
-class Module {
+export default class Module {
 
   /**
    * Define module unique name.

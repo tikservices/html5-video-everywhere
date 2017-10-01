@@ -13,13 +13,13 @@ if (typeof browser === "undefined") {
 }
 
 /** Video supported formats */
-const Cdc = ["webm", "mp4"];
+export const Cdc = ["webm", "mp4"];
 
 /** Videos qualities levels defined for the extension */
-const Qlt = ["higher", "high", "medium", "low"];
+export const Qlt = ["higher", "high", "medium", "low"];
 
 /** Video track languages */
-const LANGS = [
+export const LANGS = [
   "af", "ar", "bn", "de", "en", "es", "fi", "fr", "hi", "id", "is", "it", "ja", "ko", "pt", "ru",
   "tu", "zh",
 ];
@@ -29,7 +29,7 @@ const LANGS = [
  * Options handling class allowing getting and settings extension global and
  * module special options and provides options depended helpers functions.
  */
-class Options {
+export default class Options {
 
   /**
    * Create Options instance using the background sent options for global

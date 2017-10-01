@@ -4,13 +4,21 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
-"use strict";
+
+import Module from './Module.js';
+import VP from './video-player.js';
+import {
+  asyncGet,
+} from './common.js';
+import {
+  youtube
+} from '../vendor/iaextractor/youtube.js';
 
 /* Map YouTube videos codes to the extension quality/format representation */
 const FMT_WRAPPER = {
   "high/mp4": "22",
   "medium/mp4": "18",
-  "medium/webm": "43"
+  "medium/webm": "43",
 };
 
 class YouTube extends Module {

@@ -4,7 +4,8 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
-"use strict";
+import Module from './Module.js';
+import VP from './video-player.js';
 
 class Break extends Module {
   constructor() {

@@ -3,3 +3,6 @@
 /node_modules/
 /web-ext-artifacts/
 /dumps/
+/dist/
+/yarn.lock
+/docs/api/

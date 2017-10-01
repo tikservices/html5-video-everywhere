@@ -566,3 +566,5 @@ youtube.perform = (videoID) => {
     });
   });
 };
+
+export {youtube};
