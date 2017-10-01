@@ -35,8 +35,8 @@ class Options {
    * extension and for the specified module.
    * @public
    *
-   * @param opts [Object] - Options object recived from the background script.
-   * @param moduleName [String] - Module unique name.
+   * @param {!Object} opts - Options object recived from the background script.
+   * @param {!string} moduleName - Module unique name.
    */
   constructor(opts, moduleName) {
     this.opts = opts;
@@ -66,7 +66,7 @@ class Options {
    * Get the option value.
    * @public
    *
-   * @param opt [string] - Option name.
+   * @param {!string} opt - Option name.
    */
   get(opt) {
     if (this.opts[opt] !== undefined) {
@@ -81,8 +81,8 @@ class Options {
    * the new value.
    * @public
    *
-   * @param opt [string] - Option name.
-   * @param val [any] - Option value.
+   * @param {!string} opt - Option name.
+   * @param {} val - Option value.
    */
   set(opt, val) {
     switch (this.defaults[opt][0]) {
@@ -111,7 +111,7 @@ class Options {
    * Get all available options values.
    * @public
    *
-   * @return [Object<string, Object>] - Options object.
+   * @return {Object.<string, >} Options object.
    */
   getAll() {
     let opts = {};
@@ -124,7 +124,7 @@ class Options {
    * Get volume value.
    * @public
    *
-   * @return [float] - Volume value.
+   * @return {float} Volume value.
    */
   getVolume() {
     return this.get("volume") / 100;
@@ -136,9 +136,9 @@ class Options {
    * "default" option value.
    * @public
    *
-   * @param auto [boolean] - Module default autoplay value.
+   * @param {?boolean} auto - Module default autoplay value.
    *
-   * @return [boolean] - Video autoplay property value.
+   * @return {boolean} Video autoplay property value.
    */
   isAutoPlay(auto = false) {
     return (this.get("autoplay") === 1 || auto === true) && this.get("autoplay") !== 0;
@@ -149,9 +149,9 @@ class Options {
    * else module default value (passed as argument) if the user seleced
    * "default" option value.
    *
-   * @param auto [boolean] - Module default preload value.
+   * @param {?boolean} auto - Module default preload value.
    *
-   * @return [string] - Video preload property value.
+   * @return {string} Video preload property value.
    */
   getPreload(auto = false) {
     return ((this.get("preload") === 1 || auto === true) && this.get("preload") !== 0) ? "auto" : "metadata";
@@ -163,9 +163,9 @@ class Options {
    * "default" option value.
    * @public
    *
-   * @param auto [boolean] - Module default loop value.
+   * @param {?boolean} lp - Module default loop value.
    *
-   * @return [boolean] - Video loop property value.
+   * @return {boolean} Video loop property value.
    */
   isLoop(lp = false) {
     return (this.get("loop") === "1" || lp) && this.get("loop") !== 0;
@@ -175,7 +175,7 @@ class Options {
    * Check if the current module is disabled (by user on options page).
    * @public
    *
-   * @return [boolean] - Is the module disabled.
+   * @return {boolean} Is the module disabled.
    */
   isDisabled() {
     return this.get("disable" + this.moduleName);
@@ -185,7 +185,7 @@ class Options {
    * Get installed extension version.
    * @public
    *
-   * @return [strin] - Extension current version.
+   * @return {string} Extension current version.
    */
   getVersion() {
     return browser.runtime.getManifest()["version"];
@@ -195,7 +195,7 @@ class Options {
    * Get installed extension id string defined on manifest.json file.
    * @public
    *
-   * @return [string] - Extension id string.
+   * @return {string} Extension id string.
    */
   getId() {
     return browser.runtime.id;
@@ -204,7 +204,7 @@ class Options {
   /**
    * Get user selected track language to download and show.
    *
-   * @return [string] - Track language if any selected by user else undefined.
+   * @return {string} Track language if any selected by user else undefined.
    */
   getLang() {
     let lang = this.get("lang");

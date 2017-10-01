@@ -2,6 +2,18 @@
   "private": true,
   "license": "MPL-2.0",
   "dependencies": {
-    "html-beautify": "latest"
+    "bootstrap": "~4.0.0-beta.1",
+    "font-awesome": "~4.7.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-stylelint": "^5.0.0",
+    "gulp-watch": "^4.3.6",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-html": "^3.2.1",
+    "eslint-plugin-json": "^1.2.0",
+    "gulp-jsbeautifier": "^2.1.1"
   }
 }

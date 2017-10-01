@@ -18,7 +18,7 @@ class Module {
    * Define module unique name.
    * @public
    *
-   * @param name [string] - Module unique name.
+   * @param {!string} name - Module unique name.
    */
   constructor(name, redirect = [], block = []) {
     this.name = name;
@@ -111,8 +111,8 @@ class Module {
    * execute registered event handlers for the message type.
    * @private
    *
-   * @param msg [Object] - Message send from the background script containing
-   *                       at least the 'type' field.
+   * @param {!Object} msg - Message send from the background script containing
+   *                        at least the 'type' field.
    */
   onMessage(msg) {
     this.log("Message", msg);
@@ -132,9 +132,9 @@ class Module {
    * has been recived from the background script.
    * @public
    *
-   * @param type [string] - The type of message to handle.
-   * @param fn [function] - The callback function to execute when a message
-   *                        with provided type is recived.
+   * @param {!string} type - The type of message to handle.
+   * @param {!function} fn - The callback function to execute when a message
+   *                         with provided type is recived.
    */
   addMessageListener(type, fn) {
     this.log("Add msg listener:", type);
@@ -153,7 +153,7 @@ class Module {
    * Log a message to the console if debug mode is enabled.
    * @public
    *
-   * @param args [...string] - Strings to print on the debug message.
+   * @param {...string} args - Strings to print on the debug message.
    */
   log(...args) {
     console.log("[h5vew:" + this.name + "]", ...args);

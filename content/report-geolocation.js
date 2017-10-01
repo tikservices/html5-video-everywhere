@@ -9,6 +9,8 @@
 /**
  * Report user geolocation to Google Analytics.
  * @public
+ *
+ * @param {Options} options - Options instance for the current module.
  */
 function reportGeolocation(options) {
 
