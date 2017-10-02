@@ -22,7 +22,7 @@ export const LANGS = [
  * Options handling class allowing getting and settings extension global and
  * module special options and provides options depended helpers functions.
  */
-export default class Options {
+class Options {
   /**
    * Create Options instance using the background sent options for global
    * extension and for the specified module.
@@ -211,3 +211,5 @@ export default class Options {
     }
   }
 }
+
+export default Options;

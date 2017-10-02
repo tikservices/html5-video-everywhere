@@ -19,14 +19,32 @@ version.
 
 ## Build
 
-`web-ext` is required to build the addon. To install `web-ext`, run:
+Before building the extension, you need to install `gulp-cli` and all
+dependencies:
+
 ```shell
-npm install -g web-ext
+npm install -g gulp-cli  # or: yarn global add gulp-cli
+npm install  # or: yarn
 ```
 
-To build the addon:
+To build the addon for Firefox:
+
 ```shell
-make build
+gulp ext:build:firefox
+```
+
+To build the addon for Google Chrome:
+
+```shell
+gulp ext:build:chrome
+```
+
+## Documentation
+
+Documentation for the code can be generated with this command:
+
+```shell
+gulp doc:js
 ```
 
 ## Credit

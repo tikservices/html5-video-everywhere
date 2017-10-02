@@ -15,7 +15,7 @@ import {
   Cdc
 } from './Options.js';
 
-export default class VP {
+class VP {
   constructor(container, options) {
     this.attached = false;
     this.player = undefined;
@@ -420,3 +420,5 @@ export default class VP {
     console.log(args.join(" ") + "\n");
   }
 }
+
+export default VP;

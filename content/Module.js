@@ -16,7 +16,7 @@ import {
  * video player with the browser native HTML5 video player. This class abstract
  * module/backgroun-script messages/options handling.
  */
-export default class Module {
+class Module {
   /**
    * Define module unique name.
    * @public
@@ -72,9 +72,7 @@ export default class Module {
           } else {
             document.addEventListener("load", () => this.onComplete());
           }
-          if (typeof "reportGeolocation" === "function") {
-            reportGeolocation(this.options);
-          }
+          reportGeolocation(this.options);
         })
         .catch((err) => this.log("Error start():", err));
     } else if (!this.options) {
@@ -165,3 +163,5 @@ export default class Module {
     console.log("[h5vew:" + this.name + "]", ...args);
   }
 }
+
+export default Module;

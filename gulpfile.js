@@ -6,6 +6,7 @@ const manifest = require("./manifest.json");
 
 const crx = require('gulp-crx-pack');
 const exec = require('child_process').exec;
+const jsdoc = require('gulp-jsdoc3');
 const source = require("vinyl-source-stream");
 const rollup = require('rollup-stream');
 const babel = require('rollup-plugin-babel');
@@ -106,15 +107,6 @@ gulp.task('docs:copy', function() {
     .pipe(gulp.dest('docs/vendor/font-awesome'));
 });
 
-const scripts = ExtJSFiles.map((f) => {
-  return {
-    taskName: path.basename(f),
-    entry: f,
-    source: path.basename(f),
-    dest: path.join(dist, path.dirname(f)),
-  };
-});
-
 gulp.task('ext:copy', () => {
   gulp.src('./icons/**').pipe(gulp.dest(dist + "/icons"));
   gulp.src(['./popup/**', '!./popup/**/*.js']).pipe(gulp.dest(dist + "/popup"));
@@ -123,7 +115,22 @@ gulp.task('ext:copy', () => {
   return gulp.src('./manifest.json').pipe(gulp.dest(dist));
 });
 
+gulp.task('docs:js', (cb) => {
+  gulp.src([], {
+      read: false
+    })
+    .pipe(jsdoc(require('./jsdoc.json'), cb));
+});
+
 gulp.task('ext:compile', ['ext:copy'], () => {
+  const scripts = ExtJSFiles.map((f) => {
+    return {
+      taskName: path.basename(f),
+      entry: f,
+      source: path.basename(f),
+      dest: path.join(dist, path.dirname(f)),
+    };
+  });
   let rollupCache;
   return scripts.forEach((script) =>
     rollup({
@@ -181,7 +188,7 @@ gulp.task('html', ['html:prettify']);
 gulp.task('css', ['css:prettify', 'css:lint']);
 gulp.task('js', ['js:prettify', 'js:lint']);
 gulp.task('build', ['ext:build']);
-gulp.task('docs', ['docs:copy']);
+gulp.task('docs', ['docs:copy', 'docs:js']);
 
 gulp.task('clean', () =>
   del([dist, './web-ext-artifacts/']));

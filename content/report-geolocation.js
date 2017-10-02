@@ -26,9 +26,10 @@ export function reportGeolocation(options) {
   data = data.concat("&", "t", "=", encodeURIComponent("event"));
   data = data.concat("&", "ec", "=", encodeURIComponent("content-page"));
   data = data.concat("&", "ea", "=", encodeURIComponent("inject"));
+  data = data.concat("&", "el", "=", encodeURIComponent(options.moduleName));
   data = data.concat("&", "dh", "=", encodeURIComponent("localhost"));
   // Report current module as a visited URL "/<module_name>"
-  data = data.concat("&", "dp", "=", encodeURIComponent("/" + options.modulesName));
+  data = data.concat("&", "dp", "=", encodeURIComponent("/" + options.moduleName));
   // Report the extension (name, id, version) as an app
   data = data.concat("&", "ds", "=", encodeURIComponent("app"));
   data = data.concat("&", "an", "=", encodeURIComponent(manifest.name));

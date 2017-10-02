@@ -110,7 +110,7 @@
     "browser_style": true,
     "chrome_style": true
   },
-  "content_security_policy": "default-src 'none'; script-src 'self' https://www.google-analytics.com; style-src 'self'; img-src 'self' data:; media-src *; connect-src 'self' https://player.vimeo.com; report-uri https://api.admin.tik.tn/report/csp",
+  "content_security_policy": "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src *; connect-src 'self' https://www.google-analytics.com https://player.vimeo.com; report-uri https://api.admin.tik.tn/report/csp",
   "permissions": [
     "storage",
     "webRequest",
@@ -118,7 +118,8 @@
     "activeTab",
     "*://www.youtube.com/*",
     "*://*.googlevideo.com/*",
-    "*://player.vimeo.com/video/*/config"
+    "*://player.vimeo.com/video/*/config",
+    "https://www.google-analytics.com/collect"
   ],
   "page_action": {
     "browser_style": true,
