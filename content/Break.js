@@ -8,6 +8,31 @@
 import Module from './Module.js';
 import VP from './video-player.js';
 
+/**
+ * Break.com website support.
+ * Break does host its video player within an iframe. It also embeds videos
+ * from YouTube (and an other source?).
+ * In case video is self-hosted (in iframe), configurations are available on
+ * embedVars object.
+ * Videos url are avaialbe on:
+ *
+ * ```
+ * embedVars.media[{
+ *   url, // Absolute url to the video,
+ *   height, // height of video on pixels
+ *   width, // width of video on pixels
+ *   mediaPurpose, // equals to "play" in our case
+ * }]
+ * ```
+ *
+ * Video poster image is available on `embedVars.thumbUri`
+ *
+ * URLs support:
+ * - [x] `http[s]?://www.break.com/embed/<VIDEO_ID>`
+ *
+ * Other:
+ * - [Milestone](https://github.com/lejenome/html5-video-everywhere/milestones/Break%20Support)
+ */
 class Break extends Module {
   constructor() {
     super("break");

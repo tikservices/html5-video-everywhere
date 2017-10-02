@@ -11,6 +11,20 @@ import {
   asyncGet
 } from './common.js';
 
+/**
+ * Vimeo website support.
+ * Vimeo does embed its video player directly into the web page.
+ *
+ * URLs support:
+ * - [x] `http[s]?://vimeo.com/<VIDEO_ID>`
+ * - [x] `http[s]?://vimeo.com/<USER>`
+ * - [x] `http[s]?://vimeo.com/channels/<CHANNEL_NAME>`
+ * - [x] `http[s]?://player.vimeo.com/video/<VIDEO_ID>`
+ * - [ ] `http[s]?://vimeo.com/couchmode/user<USER_ID>/videos/sort:<SORT_TYPE>/<VIDEO_ID>`
+ *
+ * Other:
+ * - [Milestone](https://github.com/lejenome/html5-video-everywhere/milestones/Vimeo%20Support)
+ */
 class Vimeo extends Module {
   constructor() {
     super("vimeo");

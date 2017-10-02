@@ -38,7 +38,21 @@ export function reportGeolocation(options) {
   // Report browser current language
   data = data.concat("&", "ul", "=", encodeURIComponent(navigator.language));
 
-  fetch("https://www.google-analytics.com/collect", {
+  /*
+   * fetch on firefox WebExtension is executed on background-script. getFetch()
+   * returns document script fetch function in Firefox.
+   */
+  function getFetch() {
+    try {
+      // eslint-disable-next-line new-cap
+      return XPCNativeWrapper(window.wrappedJSObject.fetch);
+    } catch (evt) {
+      // We are running on Google Chrome, just return content-script fetch
+      return fetch;
+    }
+  };
+
+  getFetch()("https://www.google-analytics.com/collect", {
     method: "POST",
     body: data,
   });

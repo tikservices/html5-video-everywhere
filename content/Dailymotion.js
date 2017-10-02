@@ -8,6 +8,33 @@
 import Module from './Module.js';
 import VP from './video-player.js';
 
+/**
+ * Dailymotion website support.
+ * Dailymotion does embed it video player direct into its pages and offer an
+ * embed iFrame too.
+ *
+ * Videos url are avaialbe on:
+ *
+ * ```
+ * config.metadata.qualities{
+ *   quality: [{  // Video URLs for a given quality
+ *     type,  // type of URL. "video/mp4" is our case
+ *     url,  // absolute URL to the video
+ *   }]
+ * }
+ * ```
+ *
+ * Video poster image is available on `config.metadata.poster_url`
+ *
+ * URLs support:
+ * - [x] `http[s]?://www.dailymotion.com/embed/video/<VIDEO_ID>`
+ * - [x] `http[s]?://www.dailymotion.com/video/<VIDEO_ID>`
+ * - [ ] `http[s]?://www.dailymotion.com/playlist/<PLAY_LIST_ID>/1#video=<VIDEO_ID>`
+ * - [ ] `http[s]?://www.dailymotion.com/<USERNAME>`
+ *
+ * Other:
+ * - [Milestone](https://github.com/lejenome/html5-video-everywhere/milestones/Dailymotion%20Support)
+ */
 class Dailymotion extends Module {
   constructor() {
     super("dailymotion");

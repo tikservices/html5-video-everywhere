@@ -245,7 +245,7 @@ youtube.findOtherItags = (info, ccode) => {
     dashmpd = dashmpd.replace('/s/' + matchSig + '/', '/signature/' + youtube.decipher(ccode, matchSig, ccode) + '/');
   }
   if (dashmpd) {
-    youtube.fetch(dashmpd).then(function(response) {
+    return youtube.fetch(dashmpd).then(function(response) {
       function doTag(itag) {
         let regexp = new RegExp('\<baseurl[^\>]*\>(http[^<]+itag[\=\/]' + itag + '[^\<]+)\<\/baseurl\>', 'i');
         let res = regexp.exec(response);

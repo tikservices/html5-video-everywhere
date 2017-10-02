@@ -1,6 +1,7 @@
 /**
  * @file Lego.com website support website.
  * @author Moez Bouhlel <bmoez.j@gmail.com>
+ * @contributor DoomTay
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
@@ -8,9 +9,33 @@
 import Module from './Module.js';
 import VP from './video-player.js';
 
-// Based on DoomTay spinnet
-// URL: https://github.com/lejenome/html5-video-everywhere/issues/89
-
+/**
+ * Lego website support.
+ * Lego does host its video player within and iframe.
+ *
+ * Video informations are available as a json valid text on `video` attribute
+ * of a div tag. Let's called the parsed object `data` for the rest of the
+ * documentation.
+ *
+ * Videos url can be generated as follow:
+ * - `data-video-progressive-url` attribute of the document element
+ * - append `public/`
+ * - append 2 first chars from `data.ItemId` + `/` + the next 2 chars if
+ *   `data.NetStoragePath` is not set
+ * - append `data.NetStoragePath` if set.
+ * - append `/`
+ * - append `data.ItemId` + `_`
+ * - append `data.VideoId` + `_`
+ * - append `data.Locale` + `_`
+ * - append `data.VideoVersion` + `_`
+ * - append quality number (256, 512, 1024, 1536, 2560)
+ * - append type extension (.mp4 or .webm)
+ *
+ * Video poster image is available on `data.CoverImageUrl`.
+ *
+ * URLs support:
+ * - [x] `http[s]?://www.lego.com/<LANG_ISO_CODE>/mediaplayer/video/<VIDEO>`
+ */
 class Lego extends Module {
   constructor() {
     super("lego");

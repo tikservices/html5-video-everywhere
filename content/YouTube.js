@@ -21,6 +21,61 @@ const FMT_WRAPPER = {
   "medium/webm": "43",
 };
 
+/**
+ * YouTube website support.
+ *
+ * URLs support:
+ * - [x] `www.youtube.com/watch?v=<VIDEO_ID>`
+ * - [x] `www.youtube.com/embed/<VIDEO_ID>`
+ * - [x] `www.youtube.com/channel/<CHANNEL_ID>`
+ * - [x] `www.youtube.com/user/<USER_ID>`
+ * - [ ] `www.youtube.com/apiplayer?video_id=<VIDEO_ID>&version=3`
+ * - [ ] `www.youtube.com/embed?listType=playlist&list=PL<PLAYLIST_ID>`
+ * - [ ] `www.youtube.com/embed?listType=user_uploads&list=<USERNAME>`
+ * - [ ] `www.youtube.com/embed?listType=search&list=<QUERY>`
+ *
+ * Special URLs (or parent URLs):
+ *
+ * - [x] `https://www.youtube.com/video_masthead?video_id=<VIDEO_ID>`
+ *
+ *   YouTube Ads iframe that embed YouTube video. It causes a other background
+ *   sound and we shouldnot auto play the video (and no sound too). We ignore
+ *   the support for embed YouTube video inside this iframe for now.
+ *
+ * URL query params:
+ * - [x] autoplay: 1, 0
+ * - [ ] autohide: 0, 1, 2
+ * - [ ] color
+ * - [ ] controls: 0, 1, 2
+ * - [ ] enablejsapi: 0, 1
+ * - [ ] end
+ * - [ ] fs 0,1
+ * - [x] loop: 0, 1
+ * - [ ] playlist
+ * - [x] start: \d+
+ *
+ *   Seek n seconds before playing the video
+ *
+ * - [x] t: (\d+)h(\d+)m(\d+)s
+ *
+ *   Seeks n hours, n minutes and n secods before playing the video
+ *
+ * - [ ] wmode: opaque,
+ * - [ ] modestbranding: 1,
+ * - [ ] adformat: 1_8,
+ *
+ *   This query is used if video is embed inside YouTube Ads iframe. For now,
+ *   we ignore support for this videos loaded with this query param.
+ *
+ * - [ ] iv_load_policy: 3,
+ * - [ ] nologo: 1,
+ * - [ ] mute: 1,
+ * - [ ] rel: 0,
+ * - [ ] showinfo 0,
+ *
+ * Other:
+ * - [Milestone](https://github.com/lejenome/html5-video-everywhere/milestones/YouTube%20Support)
+ */
 class YouTube extends Module {
   constructor() {
     super("youtube");
@@ -205,23 +260,27 @@ class YouTube extends Module {
   getConfig() {
     return new Promise((resolve, reject) => {
       let conf = {};
-      conf.isEmbed = location.pathname.startsWith("/embed/");
-      conf.isWatch = location.pathname.startsWith("/watch");
+      conf.url = new URL(location);
+      conf.isEmbed = conf.url.pathname.startsWith("/embed/");
+      conf.isWatch = conf.url.pathname.startsWith("/watch");
       conf.isChannel =
-        location.pathname.startsWith("/channel/") || location.pathname.startsWith("/user/");
-      conf.withoutCookies = location.hostname.search("youtube-nocookie.com") > -1;
+        conf.url.pathname.startsWith("/channel/") || conf.url.pathname.startsWith("/user/");
+      conf.withoutCookies = conf.url.hostname.endsWith("youtube-nocookie.com");
       if (!conf.isEmbed && !conf.isWatch && !conf.isChannel) reject();
+      if (conf.isEmbed && conf.url.searchParams.has("adformat")) reject();
+      if (conf.isEmbed && window.parent && window.parent.location.pathname === "/video_masthead" &&
+        window.parent.location.hostname.endsWith("youtube.com")) reject();
       if (conf.isEmbed) {
-        conf.id = location.pathname.match(/^\/embed\/([^?#/]*)/)[1];
+        conf.id = conf.url.pathname.match(/^\/embed\/([^?#/]*)/)[1];
         conf.className = "html5-video-player";
       } else if (conf.isChannel) {
         const url = document.querySelector("#metadata-container a[href^='/watch?v=']");
         if (!url) reject();
-        conf.id = new URL(url).searchParams.get("v");
+        conf.id = conf.url.searchParams.get("v");
         if (!conf.id) reject();
         conf.className = "html5-video-player"; // + " html5-main-video"
       } else {
-        conf.id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
+        conf.id = conf.url.searchParams.get("v");
         conf.className = "player-width player-height player-api html5-video-player";
       }
       if (!conf.id) {
@@ -251,6 +310,7 @@ class YouTube extends Module {
             const player = document.createElement("video");
             conf.fmts = {};
             conf.formats
+              .filter((f) => f.type && !f.dash) // Only elements with type (not dash)
               .map((f) => Object.assign(f, {
                 "type": f.type.replace(/\+/g, ' '),
               }))
