@@ -5,6 +5,7 @@ const prettify = require('gulp-jsbeautifier');
 const manifest = require("./manifest.json");
 
 const crx = require('gulp-crx-pack');
+const exec = require('child_process').exec;
 const source = require("vinyl-source-stream");
 const rollup = require('rollup-stream');
 const babel = require('rollup-plugin-babel');
@@ -119,12 +120,12 @@ gulp.task('ext:copy', () => {
   gulp.src(['./popup/**', '!./popup/**/*.js']).pipe(gulp.dest(dist + "/popup"));
   gulp.src(['./options/**', '!./options/**/*.js']).pipe(gulp.dest(dist + "/options"));
   gulp.src('./LICENSE').pipe(gulp.dest(dist));
-  gulp.src('./manifest.json').pipe(gulp.dest(dist));
+  return gulp.src('./manifest.json').pipe(gulp.dest(dist));
 });
 
-let rollupCache;
-scripts.forEach((script) =>
-  gulp.task(script.taskName, () =>
+gulp.task('ext:compile', ['ext:copy'], () => {
+  let rollupCache;
+  return scripts.forEach((script) =>
     rollup({
       input: script.entry,
       format: 'es',
@@ -139,9 +140,8 @@ scripts.forEach((script) =>
     })
     .on('unifiedcache', (unifiedCache) => rollupCache = unifiedCache)
     .pipe(source(script.source))
-    .pipe(gulp.dest(script.dest))));
-
-gulp.task('ext:compile', ['ext:copy'].concat(scripts.map((script) => script.taskName)));
+    .pipe(gulp.dest(script.dest)));
+});
 
 gulp.task('ext:build:chrome', ['ext:compile'], () =>
   gulp.src(dist)
@@ -149,12 +149,33 @@ gulp.task('ext:build:chrome', ['ext:compile'], () =>
     privateKey: fs.readFileSync('./certs/chrome.pem', 'utf8'),
     filename: 'h5vew.crx',
     codebase: 'https://h5vew.tik.tn/h5vew.crx',
-    updateXmlFilename: builds + '/update.xml',
+    updateXmlFilename: 'update.xml',
   }))
-  .pipe(gulp.dest('./build'))
+  .pipe(gulp.dest(builds))
 );
 
-gulp.task('ext:build', ['ext:build:chrome']);
+gulp.task('ext:build:firefox', ['ext:compile'], (cb) =>
+  exec(`./node_modules/.bin/web-ext build -s ${dist} -a ${builds} -o`,
+    function(err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      cb(err);
+    })
+);
+
+gulp.task('ext:sign:firefox', ['ext:compile'], (cb) => {
+  const apiKey = fs.readFileSync('./certs/amo-key', 'utf8').trim();
+  const apiSecret = fs.readFileSync('./certs/amo-secret', 'utf8').trim();
+  return exec(
+    `./node_modules/.bin/web-ext sign -s ${dist} -a ${builds} --api-key=${apiKey} --api-secret=${apiSecret}`,
+    function(err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      cb(err);
+    });
+});
+
+gulp.task('ext:build', ['ext:build:chrome', 'ext:build:firefox']);
 
 gulp.task('html', ['html:prettify']);
 gulp.task('css', ['css:prettify', 'css:lint']);
