@@ -1,33 +1,40 @@
-"use strict";
+/**
+ * @file Extension page popup script.
+ * @author Moez Bouhlel <bmoez.j@gmail.com>
+ * @license MPL-2.0
+ * @copyright 2014-2017 Moez Bouhlel
+ */
+
+import Options from "../content/Options.js";
 
 let options;
 const form = document.getElementById("form");
-const elements = Array.from(form.elements).filter((e) => {
+const elements = Array.from(form.elements).filter((e) =>
   e.type !== "submit" && e.type !== "button"
-});
+);
 
 function onClick(evt) {
   switch (evt.target.name) {
     case "donate":
-      browser.tabs.create({
+      chrome.tabs.create({
         active: true,
-        url: "https://www.paypal.me/lejenome"
+        url: "https://www.paypal.me/lejenome",
       });
       break;
     case "report":
-      browser.tabs.create({
+      chrome.tabs.create({
         active: true,
-        url: "https://github.com/lejenome/html5-video-everywhere/issues/"
+        url: "https://github.com/lejenome/html5-video-everywhere/issues/",
       });
       break;
     case "about":
-      browser.tabs.create({
+      chrome.tabs.create({
         active: true,
-        url: "https://h5vew.tik.tn/"
+        url: "https://h5vew.tik.tn/",
       });
       break;
     case "options":
-      browser.runtime.openOptionsPage();
+      chrome.runtime.openOptionsPage();
       break;
     default:
       break;
@@ -35,13 +42,13 @@ function onClick(evt) {
 }
 
 function restoreOptions() {
-  browser.storage.sync.get().then((res) => {
+  chrome.storage.sync.get(null, (res) => {
     options = new Options(res);
   });
 }
 
 function main() {
-  let manifest = browser.runtime.getManifest();
+  let manifest = chrome.runtime.getManifest();
   document.getElementById("name").textContent = manifest.name;
   document.getElementById("version").textContent = manifest.version;
   document.addEventListener("click", onClick);

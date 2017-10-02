@@ -59,11 +59,11 @@ class YouTube extends Module {
   changePlayer() {
     // window.removeEventListener('yt-visibility-refresh', this.bindedChangePlayer);
     this.getConfig()
-      .then(conf => {
+      .then((conf) => {
         /* pause yt video player asap */
-        const player_container = this.getPlayerContainer(conf);
-        if (player_container) {
-          for (const video of [...player_container.getElementsByTagName("video")]) {
+        const playerContainer = this.getPlayerContainer(conf);
+        if (playerContainer) {
+          for (const video of [...playerContainer.getElementsByTagName("video")]) {
             video.pause();
           }
         }
@@ -76,21 +76,20 @@ class YouTube extends Module {
           this.vp.end();
         }
         try {
-          let player_container = this.getPlayerContainer(conf);
-          if (!player_container) {
+          let playerContainer = this.getPlayerContainer(conf);
+          if (!playerContainer) {
             this.log("Container not found", conf);
             return;
           }
           /* find youtube created video player(s) and always kill their src */
-          const youtube_videos = player_container.getElementsByTagName("video");
+          const ytVideos = playerContainer.getElementsByTagName("video");
           (function(killVideo) {
-            for (const video of [...youtube_videos]) {
+            for (const video of [...ytVideos]) {
               killVideo(video);
-              video.onplaying = _ => killVideo(video);
+              video.onplaying = () => killVideo(video);
               // video.onloadstart = _ => killVideo(video);
             }
           })(function(video) {
-            dump("KILLING VIDEO");
             console.log("KILLING VIDEO");
             video.pause();
             video.volume = 0;
@@ -100,17 +99,18 @@ class YouTube extends Module {
           if (!conf.isEmbed) {
             /* append our container beside YT video container, so we does not
              * lose control of yt video player on video change */
-            let new_container = document.createElement("div");
-            player_container.parentElement.appendChild(new_container);
-            player_container.hidden = true;
-            player_container = new_container;
-            player_container.id = "player-container";
+            let newContainer = document.createElement("div");
+            playerContainer.parentElement.appendChild(newContainer);
+            playerContainer.hidden = true;
+            playerContainer = newContainer;
+            playerContainer.id = "player-container";
           }
-          let scripts = player_container.getElementsByTagName("script");
-          for (let script of scripts)
-            player_container.parentElement.appendChild(script);
-          var seek = this.getSeek();
-          this.vp = new VP(player_container, this.options);
+          let scripts = playerContainer.getElementsByTagName("script");
+          for (let script of scripts) {
+            playerContainer.parentElement.appendChild(script);
+          }
+          const seek = this.getSeek();
+          this.vp = new VP(playerContainer, this.options);
           this.vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url + seek);
           this.vp.props({
             id: "video_player",
@@ -130,7 +130,7 @@ class YouTube extends Module {
           });
           /* FIXME
           this.vp.tracksList((conf.tracks || []).map(i => i.lc), (lang, resolve, reject) => {
-            var o = conf.tracks.find((i) => i.lc === lang);
+            let o = conf.tracks.find((i) => i.lc === lang);
             if (o === undefined) return reject();
             this.addWebVTT(lang, o.u, resolve, reject);
           });
@@ -146,10 +146,11 @@ class YouTube extends Module {
         if (rej === undefined) return;
         switch (rej.error) {
           case "VIDEO_URL_UNACCESSIBLE":
-            if (rej.data.reason)
+            if (rej.data.reason) {
               this.errorMessage("Failed to load video url with the following error message: " +
                 rej.data.reason,
                 rej.conf);
+            }
             break;
           case "NO_SUPPORTED_VIDEO_FOUND":
             this.errorMessage("Failed to find any playable video url." +
@@ -164,30 +165,33 @@ class YouTube extends Module {
   }
 
   errorMessage(msg, conf) {
-    var error_container;
+    let errContainer;
     if (this.vp) this.vp.end();
-    if (conf) error_container = this.getPlayerContainer(conf);
-    if (!error_container)
-      error_container =
-      document.getElementById("player-unavailable") || document.getElementById("player");
-    if (!error_container) return;
-    this.vp = new VP(error_container, this.options);
+    if (conf) errContainer = this.getPlayerContainer(conf);
+    if (!errContainer) {
+      errContainer =
+        document.getElementById("player-unavailable") || document.getElementById("player");
+    }
+    if (!errContainer) return;
+    this.vp = new VP(errContainer, this.options);
     this.vp.srcs(conf.fmts, FMT_WRAPPER);
-    if (conf && conf.isWatch)
+    if (conf && conf.isWatch) {
       this.vp.containerProps({
-        className: " player-height player-width player-api html5-video-player"
+        className: " player-height player-width player-api html5-video-player",
       });
-    if (conf && conf.isChannel)
+    }
+    if (conf && conf.isChannel) {
       this.vp.containerProps({
-        className: " html5-video-player"
-      }); //" html5-main-video";
+        className: " html5-video-player",
+      }); // " html5-main-video";
+    }
     if (conf && conf.isEmbed) {
       this.vp.containerProps({
-        className: " html5-video-player"
+        className: " html5-video-player",
       });
     }
     this.vp.containerStyle({
-      background: "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626"
+      background: "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626",
     });
     this.vp.error(msg);
   }
@@ -200,7 +204,7 @@ class YouTube extends Module {
 
   getConfig() {
     return new Promise((resolve, reject) => {
-      var conf = {};
+      let conf = {};
       conf.isEmbed = location.pathname.startsWith("/embed/");
       conf.isWatch = location.pathname.startsWith("/watch");
       conf.isChannel =
@@ -215,18 +219,19 @@ class YouTube extends Module {
         if (!url) reject();
         conf.id = new URL(url).searchParams.get("v");
         if (!conf.id) reject();
-        conf.className = "html5-video-player"; //+ " html5-main-video"
+        conf.className = "html5-video-player"; // + " html5-main-video"
       } else {
         conf.id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
         conf.className = "player-width player-height player-api html5-video-player";
       }
-      if (!conf.id)
+      if (!conf.id) {
         reject({
           error: "PLAYER_ID_NOT_FOUND",
-          conf: conf
+          conf: conf,
         });
-      else
+      } else {
         resolve(conf);
+      }
     });
   }
 
@@ -235,22 +240,22 @@ class YouTube extends Module {
       chrome.storage.local.get({
         ccode: ['r', 'r'],
         player: null,
-      }, prefs => {
+      }, (prefs) => {
         youtube.getInfo(conf.id)
-          .then(info => youtube.extractFormats(info, prefs.ccode))
-          .then(info => youtube.verify(info, prefs))
-          .then(info => {
+          .then((info) => youtube.extractFormats(info, prefs.ccode))
+          .then((info) => youtube.verify(info, prefs))
+          .then((info) => {
             Object.assign(conf, info);
             if (conf.iurlhq) conf.poster = data.iurlhq;
             if (conf.caption_tracks) conf.tracks = this.parse(data.caption_tracks, true);
             const player = document.createElement("video");
             conf.fmts = {};
             conf.formats
-              .map(f => Object.assign(f, {
-                "type": f.type.replace(/\+/g, ' ')
+              .map((f) => Object.assign(f, {
+                "type": f.type.replace(/\+/g, ' '),
               }))
-              .filter(f => player.canPlayType(f.type) === "probably")
-              .forEach(fmt => conf.fmts[fmt.itag] = fmt);
+              .filter((f) => player.canPlayType(f.type) === "probably")
+              .forEach((fmt) => conf.fmts[fmt.itag] = fmt);
             return conf;
           })
           .then(resolve)
@@ -269,11 +274,13 @@ class YouTube extends Module {
   playNextOnFinish() {
     // Credits to @durazell github.com/lejenome/youtube-html5-player/issues/9
     if (document.getElementsByClassName("playlist-header").length > 0) {
-      this.vp.on("ended", function(e) {
-        if (this.currentTime !== this.duration || this.options.get("autoNext") === false) return;
-        var cur = 0,
-          len = 0;
-        var current, playlist;
+      this.vp.on("ended", (e) => {
+        let el = e.target;
+        if (el.currentTime !== el.duration || this.options.get("autoNext") === false) return;
+        let cur = 0;
+        let len = 0;
+        let current;
+        let playlist;
         if ((current = document.getElementsByClassName("currently-playing")).length > 0) {
           cur = parseInt(current[0].dataset["index"]) + 1;
         } else if ((current = document.getElementById("playlist-current-index"))) {
@@ -301,10 +308,10 @@ class YouTube extends Module {
 
   parse(data, splitComma) {
     if (splitComma) {
-      return data.split(",").map(i => this.parse(i));
+      return data.split(",").map((i) => this.parse(i));
     } else {
-      var res = {};
-      var nv;
+      let res = {};
+      let nv;
       data.split("&").forEach((p) => {
         try {
           nv = p.split("=").map(function(v) {
@@ -319,23 +326,23 @@ class YouTube extends Module {
 
   addWebVTT(lang, url, resolve, reject) {
     asyncGet(url).then((data) => {
-      var webvtt = "WEBVTT\n\n";
-      var XMLParser = new DOMParser();
-      var xml = XMLParser.parseFromString(data, "text/xml");
+      let webvtt = "WEBVTT\n\n";
+      let XMLParser = new DOMParser();
+      let xml = XMLParser.parseFromString(data, "text/xml");
       if (xml.documentElement.nodeName !== "transcript") reject();
-      var els = xml.documentElement.childNodes;
-      for (var i = 0; i < els.length; i++) {
-        var start = els[i].attributes.getNamedItem("start");
-        var dur = els[i].attributes.getNamedItem("dur");
+      let els = xml.documentElement.childNodes;
+      for (let i = 0; i < els.length; i++) {
+        let start = els[i].attributes.getNamedItem("start");
+        let dur = els[i].attributes.getNamedItem("dur");
         if (start === null || dur === null) continue;
         start = parseFloat(start.value);
         dur = parseFloat(dur.value);
-        var s = start % 60;
-        var m = (start - s) / 60;
-        var tl1 = "" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s.toFixed(3);
+        let s = start % 60;
+        let m = (start - s) / 60;
+        let tl1 = "" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s.toFixed(3);
         s = (start + dur) % 60;
         m = (start + dur - s) / 60;
-        var tl2 = "" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s.toFixed(3);
+        let tl2 = "" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s.toFixed(3);
 
         webvtt += (i + 1) + "\n" + tl1 + " --> " + tl2 + "\n" + els[i].textContent + "\n\n";
       }
@@ -345,15 +352,15 @@ class YouTube extends Module {
   }
 
   getSeek() {
-    var seek = 0;
+    let seek = 0;
     if (location.search.search("start=") > -1) {
       seek = location.search.match(/start=(\d+)/);
       seek = seek ? parseInt(seek[1]) : 0;
     } else if (location.search.search(/[&?]t=\d/) > -1) {
       seek = location.search.match(/[&?]t=([^&]*)/)[1];
-      var h = seek.match(/(\d+)h/);
-      var m = seek.match(/(\d+)m/);
-      var s = seek.match(/(\d+)s/);
+      let h = seek.match(/(\d+)h/);
+      let m = seek.match(/(\d+)m/);
+      let s = seek.match(/(\d+)s/);
       seek = (h ? parseInt(h[1]) : 0) * 3600 + (m ? parseInt(m[1]) : 0) * 60 +
         (s ? parseInt(s[1]) : 0);
     }

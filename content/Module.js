@@ -4,6 +4,7 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
+
 import Options from './Options.js';
 import {
   reportGeolocation
@@ -16,7 +17,6 @@ import {
  * module/backgroun-script messages/options handling.
  */
 export default class Module {
-
   /**
    * Define module unique name.
    * @public
@@ -30,7 +30,7 @@ export default class Module {
     this.block = block;
     */
 
-    this.port = browser.runtime.connect({
+    this.port = chrome.runtime.connect({
       "name": "h5vew",
     });
     this.port.postMessage({

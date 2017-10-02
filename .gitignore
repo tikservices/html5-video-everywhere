@@ -6,3 +6,5 @@
 /dist/
 /yarn.lock
 /docs/api/
+/builds/
+/certs/

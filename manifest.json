@@ -16,10 +16,11 @@
   },
   "applications": {
     "gecko": {
-      "id": "html5-video-everywhere@lejenome.me"
+      "id": "html5-video-everywhere@lejenome.me",
+      "strict_min_version": "52.0"
     }
   },
-  "minimum_chrome_version": "60",
+  "minimum_chrome_version": "61",
   "content_scripts": [
     {
       "matches": [
@@ -109,7 +110,7 @@
     "browser_style": true,
     "chrome_style": true
   },
-  "content_security_policy": "default-src 'none'; script-src 'self' https://www.google-analytics.com; style-src 'self'; img-src *; media-src *; connect-src 'self' https://player.vimeo.com; report-uri https://api.admin.tik.tn/report/csp",
+  "content_security_policy": "default-src 'none'; script-src 'self' https://www.google-analytics.com; style-src 'self'; img-src 'self' data:; media-src *; connect-src 'self' https://player.vimeo.com; report-uri https://api.admin.tik.tn/report/csp",
   "permissions": [
     "storage",
     "webRequest",

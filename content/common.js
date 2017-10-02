@@ -4,27 +4,20 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
-"use strict";
 
-// set it to false if the module uses custom listener
-// const HANDLE_VOL_PREF_CHANGE = true;
-// self.port.on("preferences", function(prefs) {
-//     OPTIONS = prefs;
-//     if (init)
-//         init();
-//     onPrefChange.forEach(f => f());
-// });
-//
-// self.port.on("prefChanged", function(pref) {
-//     OPTIONS[pref.name] = pref.value;
-//     if (pref.name === "volume" && HANDLE_VOL_PREF_CHANGE === true)
-//         Array.forEach(document.getElementsByTagName("video"), el => {
-//             el.volume = OPTIONS.volume / 100;
-//         });
-//     onPrefChange.forEach(f => f(pref.name));
-// });
-export const setClipboard = (text) => self.port.emit("setClipboard", text);
-export const createNode = (type, prprt, style, data) => {
+/**
+ * Send setClipboard message to thebackground script with text to add to
+ * clipboard.
+ *
+ * @param {string} text - Text to add to clipboard.
+ *
+ * @deprecated
+ */
+export function setClipboard(text) {
+  self.port.emit("setClipboard", text);
+}
+
+export function createNode(type, prprt, style, data) {
   let node = document.createElement(type);
   if (prprt) Object.keys(prprt).forEach((p) => node[p] = prprt[p]);
   if (style) Object.keys(style).forEach((s) => node.style[s] = style[s]);
@@ -32,7 +25,7 @@ export const createNode = (type, prprt, style, data) => {
   return node;
 };
 
-export const asyncGet = (url, headers = {}, mimetype = null) => {
+export function asyncGet(url, headers = {}, mimetype = null) {
   return fetch(url, {
     headers: headers,
   }).then((res) => {
@@ -41,7 +34,7 @@ export const asyncGet = (url, headers = {}, mimetype = null) => {
   });
 };
 
-export const rmChildren = (prnt) => {
+export function rmChildren(prnt) {
   while (prnt && prnt.firstChild) {
     prnt.removeChild(prnt.firstChild);
   }

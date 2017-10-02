@@ -4,16 +4,15 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
-/* global VP:true, LBP */
 
 import {
   setClipboard,
   createNode,
-  rmChildren,
+  rmChildren
 } from './common.js';
 import {
   Qlt,
-  Cdc,
+  Cdc
 } from './Options.js';
 
 export default class VP {
@@ -38,9 +37,11 @@ export default class VP {
   }
 
   srcs(fmts, wrapper, get) {
-    let slct, i, j;
+    let slct;
+    let i;
+    let j;
     if (!wrapper) {
-      for (slct in fmts) {
+      for (const slct of Object.keys(fmts)) {
         i = Qlt.indexOf(slct.split("/")[0]);
         j = Cdc.indexOf(slct.split("/")[1]);
         this._srcs[i * 2 + j] = fmts[slct];
@@ -58,21 +59,22 @@ export default class VP {
   }
 
   mainSrcIndex() {
-    let i, j, slct;
+    let i;
     const prefCdc = this.options.get("prefCdc");
     const prefQlt = this.options.get("prefQlt");
     i = prefQlt;
     while (i > -1) {
-      if (this._srcs[i * 2 + prefCdc])
+      if (this._srcs[i * 2 + prefCdc]) {
         return {
           qlt: i,
-          cdc: prefCdc
+          cdc: prefCdc,
         };
-      else if (this._srcs[i * 2 + (prefCdc + 1 % 2)])
+      } else if (this._srcs[i * 2 + (prefCdc + 1 % 2)]) {
         return {
           qlt: i,
-          cdc: prefCdc + 1 % 2
+          cdc: prefCdc + 1 % 2,
         };
+      }
       i = (i >= prefQlt) ? i + 1 : i - 1;
       if (i > 3) i = prefQlt - 1;
     }
@@ -94,21 +96,22 @@ export default class VP {
     this.player.appendChild(createNode(
       "source", {
         src: this._srcs[idx.qlt * 2 + idx.cdc],
-        type: "video/" + Cdc[idx.cdc]
+        type: "video/" + Cdc[idx.cdc],
       }));
     this._srcs.forEach((url, i) => {
-      if (i !== idx.qlt * 2 + idx.cdc)
+      if (i !== idx.qlt * 2 + idx.cdc) {
         this.player.appendChild(createNode("source", {
           src: url,
-          type: "video/" + Cdc[i % 2]
+          type: "video/" + Cdc[i % 2],
         }));
+      }
     });
     this.container.appendChild(this.player);
     this.container.appendChild(this.styleEl);
     this.attached = true;
     this.slctLang();
-    this._CSSRules.forEach(
-      s => this.styleEl.sheet.insertRule(s, this.styleEl.sheet.cssRules.length));
+    this._CSSRules.forEach((s) =>
+      this.styleEl.sheet.insertRule(s, this.styleEl.sheet.cssRules.length));
     this.patch(this.container, this._containerProps);
     this.patch(this.container, this._containerStyle, "style");
     this.log("setup");
@@ -140,7 +143,7 @@ export default class VP {
             id: lang,
             src: url,
             label: lang,
-            srclang: lang
+            srclang: lang,
           });
         this.player.appendChild(track);
         track.track.mode = "showing";
@@ -228,19 +231,19 @@ export default class VP {
     if (!this.styleEl) this.styleEl = createNode("style");
     this.container.appendChild(
       createNode("p", {
-        textContent: "Ooops! :("
+        textContent: "Ooops! :(",
       }, {
         padding: "15px",
-        fontSize: "20px"
+        fontSize: "20px",
       }));
     this.container.appendChild(createNode("p", {
-      textContent: msg
+      textContent: msg,
     }, {
-      fontSize: "20px"
+      fontSize: "20px",
     }));
     this.container.appendChild(this.styleEl);
-    this._CSSRules.forEach(
-      s => this.styleEl.sheet.insertRule(s, this.styleEl.sheet.cssRules.length));
+    this._CSSRules.forEach((s) =>
+      this.styleEl.sheet.insertRule(s, this.styleEl.sheet.cssRules.length));
     this.patch(this.container, this._containerProps);
     this.patch(this.container, this._containerStyle, "style");
   }
@@ -258,14 +261,14 @@ export default class VP {
   setupContextMenu(idx) {
     /* jshint maxstatements:false */
     this._contextMenu = createNode("menu", {
-      type: "context", //"popup",
-      id: "h5vew-contextmenu"
+      type: "context", // "popup",
+      id: "h5vew-contextmenu",
     });
     let qltMenu = createNode("menu", {
       id: "h5vew-menu-qlt",
-      label: "Video Quality"
+      label: "Video Quality",
     });
-    for (let i = 0; i < Qlt.length; i++)
+    for (let i = 0; i < Qlt.length; i++) {
       qltMenu.appendChild(createNode("menuitem", {
         type: "radio",
         label: Qlt[i],
@@ -282,23 +285,25 @@ export default class VP {
             if (!paused) this.player.play();
             this.player.oncanplay = undefined;
           };
-        }
+        },
       }));
+    }
     let cdcMenu = createNode("menu", {
       id: "h5vew-menu-cdc",
-      label: "Preferred Video Format"
+      label: "Preferred Video Format",
     });
-    for (let i = 0; i < Cdc.length; i++)
+    for (let i = 0; i < Cdc.length; i++) {
       cdcMenu.appendChild(createNode("menuitem", {
         type: "radio",
         label: Cdc[i],
         radiogroup: "menu-cdc",
         checked: (this.options.get("prefCdc") === i),
-        onclick: (e) => chgPref("prefCdc", Cdc.indexOf(e.target.label))
+        onclick: (e) => chgPref("prefCdc", Cdc.indexOf(e.target.label)),
       }));
+    }
     let langMenu = createNode("menu", {
       id: "h5vew-menu-lang",
-      label: "Subtitles"
+      label: "Subtitles",
     });
     langMenu.appendChild(createNode("menuitem", {
       type: "radio",
@@ -310,19 +315,20 @@ export default class VP {
         if (this._lang === undefined) return;
         this.player.textTracks.getTrackById(this._lang).mode = "disabled";
         this._lang = undefined;
-      }
+      },
     }));
-    for (let i = 0; i < this._langs.length; i++)
+    for (let i = 0; i < this._langs.length; i++) {
       langMenu.appendChild(createNode("menuitem", {
         type: "radio",
         label: this._langs[i],
         radiogroup: "menu-lang",
         checked: this._langs[i] === this.options.getLang(),
-        onclick: (e) => this.slctLang(e.target.label)
+        onclick: (e) => this.slctLang(e.target.label),
       }));
+    }
     let loopMenu = createNode("menu", {
       id: "h5vew-menu-loop",
-      label: "Loop Video"
+      label: "Loop Video",
     });
     ["Never", "Always", "Default"].forEach((n, i) => {
       loopMenu.appendChild(createNode("menuitem", {
@@ -330,7 +336,7 @@ export default class VP {
         label: n,
         radiogroup: "menu-loop",
         checked: (this.options.get("loop") === i),
-        onclick: (e) => chgPref("loop", i)
+        onclick: (e) => chgPref("loop", i),
       }));
     });
     let autoNextMenu = createNode("menuitem", {
@@ -338,16 +344,16 @@ export default class VP {
       type: "checkbox",
       label: "Auto Play Next Video",
       checked: this.options.get("autoNext"),
-      onclick: (e) => chgPref("autoNext", e.target.checked)
+      onclick: (e) => chgPref("autoNext", e.target.checked),
     });
     let moreMenu = createNode("menu", {
       id: "h5vew-menu-more",
-      label: "More options"
+      label: "More options",
     });
     let copyMenu = createNode("menuitem", {
       id: "h5vew-menu-copy",
       label: "Copy Page URL",
-      onclick: () => setClipboard(location.href) // TODO
+      onclick: () => setClipboard(location.href), // TODO
     });
     let disableMenu = createNode("menuitem", {
       id: "h5vew-menu-disable",
@@ -356,7 +362,7 @@ export default class VP {
       onclick: () => {
         self.port.emit("disable");
         this._contextMenu.removeChild(disableMenu);
-      }
+      },
     });
     let aboutMenu = createNode("menuitem", {
       id: "h5vew-menu-about",
@@ -365,16 +371,17 @@ export default class VP {
         "http://lejenome.github.io/html5-video-everywhere#v=" + this.options.getVersion() +
         "&id=" + this.options.getId(),
         "h5vew-about",
-        "width=550,height=300,menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on")
+        "width=550,height=300,menubar=no,toolbar=no,location=no,status=no,chrome=on,modal=on"
+      ),
     });
     moreMenu.appendChild(copyMenu);
     moreMenu.appendChild(disableMenu);
     moreMenu.appendChild(createNode("hr"));
     moreMenu.appendChild(aboutMenu);
 
-    const prefChanged = (name) => {
-      if (name === "autoNext") autoNextMenu.checked = this.options.get("autoNext");
-    };
+    // const prefChanged = (name) => {
+    //   if (name === "autoNext") autoNextMenu.checked = this.options.get("autoNext");
+    // };
     // onPrefChange.push(prefChanged);
     this._contextMenu.appendChild(qltMenu);
     this._contextMenu.appendChild(cdcMenu);
@@ -390,19 +397,21 @@ export default class VP {
   apply(props, el, obj, sub) {
     for (let prop of Object.keys(props)) {
       this[obj][prop] = props[prop];
-      if (this.attached && sub)
+      if (this.attached && sub) {
         el[sub][prop] = props[prop];
-      else if (this.attached && !sub)
+      } else if (this.attached && !sub) {
         el[prop] = props[prop];
+      }
     }
   }
 
   patch(el, props, sub) {
     for (let prop of Object.keys(props)) {
-      if (sub)
+      if (sub) {
         el[sub][prop] = props[prop];
-      else
+      } else {
         el[prop] = props[prop];
+      }
     }
   }
 

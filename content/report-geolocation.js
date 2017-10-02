@@ -4,7 +4,6 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
-"use strict";
 
 /**
  * Report user geolocation to Google Analytics.
@@ -13,14 +12,13 @@
  * @param {Options} options - Options instance for the current module.
  */
 export function reportGeolocation(options) {
-
   // If Do Not Tract is activated (or an ad block is installed), skip report
   if (navigator.doNotTrack === "1") {
     return;
   }
 
   let data = "";
-  let manifest = browser.runtime.getManifest();
+  let manifest = chrome.runtime.getManifest();
   data = data.concat("v", "=", encodeURIComponent(1));
   // Google Analytics id.
   data = data.concat("&", "tid", "=", encodeURIComponent("UA-28759938-4"));

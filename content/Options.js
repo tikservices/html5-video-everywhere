@@ -4,13 +4,6 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
-"use strict";
-
-
-if (typeof browser === "undefined") {
-  // Define browser to chrome on Google Chrome/Opera browsers.
-  var browser = chrome;
-}
 
 /** Video supported formats */
 export const Cdc = ["webm", "mp4"];
@@ -30,7 +23,6 @@ export const LANGS = [
  * module special options and provides options depended helpers functions.
  */
 export default class Options {
-
   /**
    * Create Options instance using the background sent options for global
    * extension and for the specified module.
@@ -192,7 +184,7 @@ export default class Options {
    * @return {string} Extension current version.
    */
   getVersion() {
-    return browser.runtime.getManifest()["version"];
+    return chrome.runtime.getManifest()["version"];
   }
 
   /**
@@ -202,7 +194,7 @@ export default class Options {
    * @return {string} Extension id string.
    */
   getId() {
-    return browser.runtime.id;
+    return chrome.runtime.id;
   }
 
   /**

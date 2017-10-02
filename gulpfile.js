@@ -1,22 +1,22 @@
-"use strict";
-
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const gulpStylelint = require('gulp-stylelint');
 const prettify = require('gulp-jsbeautifier');
 const manifest = require("./manifest.json");
 
+const crx = require('gulp-crx-pack');
 const source = require("vinyl-source-stream");
 const rollup = require('rollup-stream');
-const resolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
-const htmlEntry = require('rollup-plugin-html-entry');
-const sourcemaps = require('rollup-plugin-sourcemaps');
+const babel = require('rollup-plugin-babel');
 const del = require('del');
 const path = require('path');
+const fs = require('fs');
+
+const dist = './dist';
+const builds = './builds';
 
 const ExtJSFiles = manifest.background.scripts.concat(
-  ...manifest.content_scripts.map((cs) => cs.js),
+  ...manifest.content_scripts.map((cs) => cs.js), [manifest.options_ui.page.replace('.html', '.js')], [manifest.page_action.default_popup.replace('.html', '.js')],
 );
 
 const JSFiles = ExtJSFiles.concat([
@@ -105,21 +105,6 @@ gulp.task('docs:copy', function() {
     .pipe(gulp.dest('docs/vendor/font-awesome'));
 });
 
-gulp.task('html', ['html:prettify']);
-gulp.task('css', ['css:prettify', 'css:lint']);
-gulp.task('js', ['js:prettify', 'js:lint']);
-
-// Default task
-gulp.task('default', [
-  'html',
-  'js',
-  'css',
-  'copy',
-]);
-
-
-const dist = './dist';
-
 const scripts = ExtJSFiles.map((f) => {
   return {
     taskName: path.basename(f),
@@ -129,19 +114,15 @@ const scripts = ExtJSFiles.map((f) => {
   };
 });
 
-gulp.task('clean', () =>
-  del([`${dist}/**/*`, `${dist}/.*`, './web-ext-artifacts/']));
-
-gulp.task('copy', () => {
+gulp.task('ext:copy', () => {
   gulp.src('./icons/**').pipe(gulp.dest(dist + "/icons"));
-  gulp.src('./popup/**').pipe(gulp.dest(dist + "/popup"));
-  gulp.src('./options/**').pipe(gulp.dest(dist + "/options"));
+  gulp.src(['./popup/**', '!./popup/**/*.js']).pipe(gulp.dest(dist + "/popup"));
+  gulp.src(['./options/**', '!./options/**/*.js']).pipe(gulp.dest(dist + "/options"));
   gulp.src('./LICENSE').pipe(gulp.dest(dist));
   gulp.src('./manifest.json').pipe(gulp.dest(dist));
 });
 
 let rollupCache;
-
 scripts.forEach((script) =>
   gulp.task(script.taskName, () =>
     rollup({
@@ -149,11 +130,46 @@ scripts.forEach((script) =>
       format: 'es',
       exports: 'none',
       sourcemap: true,
-      plugins: [ /* htmlEntry(), */ resolve(), commonjs(), sourcemaps()],
+      plugins: [
+        babel({
+          babelrc: true,
+        }),
+      ],
       cache: rollupCache,
     })
     .on('unifiedcache', (unifiedCache) => rollupCache = unifiedCache)
     .pipe(source(script.source))
     .pipe(gulp.dest(script.dest))));
 
-gulp.task('build', ['copy'].concat(scripts.map((script) => script.taskName)));
+gulp.task('ext:compile', ['ext:copy'].concat(scripts.map((script) => script.taskName)));
+
+gulp.task('ext:build:chrome', ['ext:compile'], () =>
+  gulp.src(dist)
+  .pipe(crx({
+    privateKey: fs.readFileSync('./certs/chrome.pem', 'utf8'),
+    filename: 'h5vew.crx',
+    codebase: 'https://h5vew.tik.tn/h5vew.crx',
+    updateXmlFilename: builds + '/update.xml',
+  }))
+  .pipe(gulp.dest('./build'))
+);
+
+gulp.task('ext:build', ['ext:build:chrome']);
+
+gulp.task('html', ['html:prettify']);
+gulp.task('css', ['css:prettify', 'css:lint']);
+gulp.task('js', ['js:prettify', 'js:lint']);
+gulp.task('build', ['ext:build']);
+gulp.task('docs', ['docs:copy']);
+
+gulp.task('clean', () =>
+  del([dist, './web-ext-artifacts/']));
+
+// Default task
+gulp.task('default', [
+  'html',
+  'js',
+  'css',
+  'docs',
+  'build',
+]);

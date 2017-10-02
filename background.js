@@ -1,7 +1,9 @@
-"use strict";
-
-if (typeof browser === "undefined")
-  var browser = chrome;
+/**
+ * @file Extension backgroun script.
+ * @author Moez Bouhlel <bmoez.j@gmail.com>
+ * @license MPL-2.0
+ * @copyright 2014-2017 Moez Bouhlel
+ */
 
 const ports = [];
 
@@ -9,10 +11,10 @@ function onMessage(msg, port) {
   console.log("New message:", msg);
   switch (msg.type) {
     case "inject":
-      browser.storage.sync.get().then((opts) =>
+      chrome.storage.sync.get(null, (opts) =>
         port.postMessage({
           "type": "options",
-          "options": opts
+          "options": opts,
         }));
       break;
     default:
@@ -22,23 +24,23 @@ function onMessage(msg, port) {
 
 function onDisconnect(port) {}
 
-browser.runtime.onConnect.addListener((port) => {
+chrome.runtime.onConnect.addListener((port) => {
   console.log("[h5vew] New connection:", port.name);
   ports.push(port);
   port.onMessage.addListener(onMessage);
   port.onDisconnect.addListener(onDisconnect);
-  browser.pageAction.show(port.sender.tab.id);
+  chrome.pageAction.show(port.sender.tab.id);
 });
 
 
 /*
 function update(details) {
   if (details.reason === 'install' || details.reason === 'update') {
-    browser.tabs.create({
+    chrome.tabs.create({
       url: 'https://h5vew.tik.tn/'
     });
   }
 }
 
-browser.runtime.onInstalled.addListener(update);
+chrome.runtime.onInstalled.addListener(update);
 */

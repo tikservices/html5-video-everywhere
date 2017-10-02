@@ -4,6 +4,7 @@
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */
+
 import Module from './Module.js';
 import VP from './video-player.js';
 import {
@@ -21,24 +22,24 @@ class Vimeo extends Module {
 
   injectPlayer(conf) {
     try {
-      let player_container;
+      let playerContainer;
       let stl;
       if (conf.isEmbed) {
-        player_container = document.body;
+        playerContainer = document.body;
       } else if (conf.isWatch) {
-        player_container =
+        playerContainer =
           document.getElementsByClassName("player_area")[0];
         /*
-        if ((stl = player_container.children[0]) && (stl = stl.sheet) &&
+        if ((stl = playerContainer.children[0]) && (stl = stl.sheet) &&
           (stl.cssRules.length > 0)) {
           stl = stl.cssRules[0].cssText;
         }
         */
       } else {
-        player_container = document.getElementById("clip_" + conf.id);
+        playerContainer = document.getElementById("clip_" + conf.id);
       }
-      if (!player_container) return;
-      let vp = new VP(player_container, this.options);
+      if (!playerContainer) return;
+      let vp = new VP(playerContainer, this.options);
       vp.srcs(conf.fmts);
       vp.props({
         className: conf.className,
@@ -73,24 +74,24 @@ class Vimeo extends Module {
       let isChannel = !isWatch && (/https?:\/\/vimeo.com\/(channels\/|)\w+/.test(location.href) ||
         this.ogType().match(/channel|profile/) !== null);
       if (!isWatch && !isChannel && !isEmbed) reject();
-      let player_id;
-      let player_class;
+      let playerId;
+      let playerClass;
       if (isWatch) {
-        player_id = location.pathname.match(/\/([\d]+)/)[1];
-        player_class = "player";
+        playerId = location.pathname.match(/\/([\d]+)/)[1];
+        playerClass = "player";
       } else if (isEmbed) {
-        player_id = location.pathname.match(/video\/([\d]+)/)[1];
-        player_class = "fallback";
+        playerId = location.pathname.match(/video\/([\d]+)/)[1];
+        playerClass = "fallback";
       } else if (isChannel) {
-        player_class = "player";
+        playerClass = "player";
       }
-      if (!player_id && !isChannel) reject();
+      if (!playerId && !isChannel) reject();
       resolve({
         isWatch: isWatch,
         isEmbed: isEmbed,
         isChannel: isChannel,
-        id: player_id,
-        className: player_class,
+        id: playerId,
+        className: playerClass,
       });
     });
   }
