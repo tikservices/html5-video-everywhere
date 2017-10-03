@@ -8,9 +8,10 @@
 import Module from './Module.js';
 import VP from './video-player.js';
 import {
-  asyncGet
+  asyncGet,
 } from './common.js';
 
+// eslint-disable-next-line no-unused-vars
 class Metacafe extends Module {
   constructor() {
     super("metacafe");

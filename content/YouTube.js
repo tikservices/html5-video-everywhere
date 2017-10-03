@@ -11,7 +11,7 @@ import {
   asyncGet,
 } from './common.js';
 import {
-  youtube
+  youtube,
 } from '../vendor/iaextractor/youtube.js';
 
 /* Map YouTube videos codes to the extension quality/format representation */
@@ -75,6 +75,8 @@ const FMT_WRAPPER = {
  *
  * Other:
  * - [Milestone](https://github.com/lejenome/html5-video-everywhere/milestones/YouTube%20Support)
+ *
+ * @external
  */
 class YouTube extends Module {
   constructor() {

@@ -32,6 +32,8 @@ import VP from './video-player.js';
  *
  * Other:
  * - [Milestone](https://github.com/lejenome/html5-video-everywhere/milestones/Break%20Support)
+ *
+ * @external
  */
 class Break extends Module {
   constructor() {

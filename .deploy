@@ -8,10 +8,8 @@ set -x
 # TODO:  dev, production
 ENV=${1:-dev}
 
-npm install -g gulp
-
 if [ -e "package.json" ]; then
 	npm install
 fi
 
-gulp docs
+./node_modules/.bin/gulp docs

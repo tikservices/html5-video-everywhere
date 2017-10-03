@@ -3,15 +3,17 @@
  * @author Moez Bouhlel <bmoez.j@gmail.com>
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
+ * @module
  */
 
 import Options from './Options.js';
 import {
-  reportGeolocation
+  reportGeolocation,
 } from './report-geolocation.js';
 
 /**
  * Base class for all modules used to support websites.
+ *
  * A module is a content-script executed on a website to replace its custom
  * video player with the browser native HTML5 video player. This class abstract
  * module/backgroun-script messages/options handling.
@@ -24,12 +26,20 @@ class Module {
    * @param {!string} name - Module unique name.
    */
   constructor(name /* , redirect = [], block = []*/ ) {
+    /**
+     * The unique name of module.
+     * @member {string}
+     */
     this.name = name;
     /*
     this.redirect = redirect;
     this.block = block;
     */
 
+    /**
+     * The webExtension port to communicate with the background script.
+     * @member {chrome.runtime.Port}
+     */
     this.port = chrome.runtime.connect({
       "name": "h5vew",
     });
@@ -37,8 +47,13 @@ class Module {
       "type": "inject",
       "module": this.name,
     });
-    this.port.onMessage.addListener((msg) => this.onMessage(msg));
+    /**
+     * Mapping of event and its handlers.
+     * @member {Object.<string, Array.<Function>>}
+     * @see {@link addMessageListener} for how to add event listener.
+     */
     this.messageListeners = {};
+    this.port.onMessage.addListener((msg) => this.onMessage(msg));
   }
 
   /**
@@ -47,9 +62,8 @@ class Module {
    * (onLoading, onInteractive, onComplete).
    * Ensure to call this function at the end of module file the following way:
    *
-   * ```
+   * @example <caption>A example of starting a website module.</caption>
    * new ChildModuleX().start();
-   * ```
    *
    * @public
    */
@@ -121,6 +135,11 @@ class Module {
     this.log("Message", msg);
     switch (msg.type) {
       case "options":
+        /**
+         * Options instance of this module to get/set extension general options
+         * and module special options.
+         * @member {Options}
+         */
         this.options = new Options(msg.options, this.name);
         break;
       default:

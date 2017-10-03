@@ -5,6 +5,8 @@
  * @copyright 2014-2017 Moez Bouhlel
  */
 
+
+/* TODO: Show module special options on popup
 import Options from "../content/Options.js";
 
 let options;
@@ -12,6 +14,7 @@ const form = document.getElementById("form");
 const elements = Array.from(form.elements).filter((e) =>
   e.type !== "submit" && e.type !== "button"
 );
+*/
 
 function onClick(evt) {
   switch (evt.target.name) {
@@ -43,7 +46,7 @@ function onClick(evt) {
 
 function restoreOptions() {
   chrome.storage.sync.get(null, (res) => {
-    options = new Options(res);
+    // options = new Options(res);
   });
 }
 

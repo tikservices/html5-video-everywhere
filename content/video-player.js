@@ -8,11 +8,11 @@
 import {
   setClipboard,
   createNode,
-  rmChildren
+  rmChildren,
 } from './common.js';
 import {
   Qlt,
-  Cdc
+  Cdc,
 } from './Options.js';
 
 class VP {

@@ -7,7 +7,7 @@
 
 /**
  * Report user geolocation to Google Analytics.
- * @public
+ * @private
  *
  * @param {Options} options - Options instance for the current module.
  */

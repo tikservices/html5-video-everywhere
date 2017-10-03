@@ -127,7 +127,7 @@ gulp.task('ext:copy', () => {
 
 gulp.task('docs:js', (cb) => {
   gulp.src([], {
-      read: false
+      read: false,
     })
     .pipe(jsdoc(require('./jsdoc.json'), cb));
 });

@@ -35,6 +35,8 @@ import VP from './video-player.js';
  *
  * URLs support:
  * - [x] `http[s]?://www.lego.com/<LANG_ISO_CODE>/mediaplayer/video/<VIDEO>`
+ *
+ * @external
  */
 class Lego extends Module {
   constructor() {

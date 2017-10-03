@@ -34,6 +34,8 @@ import VP from './video-player.js';
  *
  * Other:
  * - [Milestone](https://github.com/lejenome/html5-video-everywhere/milestones/Dailymotion%20Support)
+ *
+ * @external
  */
 class Dailymotion extends Module {
   constructor() {

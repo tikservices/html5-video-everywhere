@@ -8,7 +8,7 @@
 import Module from './Module.js';
 import VP from './video-player.js';
 import {
-  asyncGet
+  asyncGet,
 } from './common.js';
 
 /**
@@ -24,6 +24,8 @@ import {
  *
  * Other:
  * - [Milestone](https://github.com/lejenome/html5-video-everywhere/milestones/Vimeo%20Support)
+ *
+ * @external
  */
 class Vimeo extends Module {
   constructor() {
