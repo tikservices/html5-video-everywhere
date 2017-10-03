@@ -1,7 +1,7 @@
 /**
- * @file Lego.com website support website.
+ * Lego.com website support website.
  * @author Moez Bouhlel <bmoez.j@gmail.com>
- * @contributor DoomTay
+ * @author DoomTay
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
  */

@@ -1,5 +1,5 @@
 /**
- * @file Common functions and helpers.
+ * Common functions and helpers.
  * @author Moez Bouhlel <bmoez.j@gmail.com>
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel

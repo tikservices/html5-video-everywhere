@@ -1,5 +1,5 @@
 /**
- * @file Options handling and helpers class.
+ * Options handling and helpers class.
  * @author Moez Bouhlel <bmoez.j@gmail.com>
  * @license MPL-2.0
  * @copyright 2014-2017 Moez Bouhlel
