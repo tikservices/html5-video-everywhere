@@ -2,8 +2,6 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const gulpStylelint = require('gulp-stylelint');
 const prettify = require('gulp-jsbeautifier');
-const manifest = require("./manifest.json");
-
 const crx = require('gulp-crx-pack');
 const exec = require('child_process').exec;
 const jsdoc = require('gulp-jsdoc3');
@@ -13,6 +11,8 @@ const babel = require('rollup-plugin-babel');
 const del = require('del');
 const path = require('path');
 const fs = require('fs');
+
+const manifest = require("./manifest.json");
 
 const dist = './dist';
 const builds = './builds';
@@ -26,11 +26,19 @@ const JSFiles = ExtJSFiles.concat([
   'options/**/*.js',
   'popup/**/*.js',
   'test/**/*.js',
-  'dist/**/*.js',
   'background.js',
   'gulpfile.js',
   '.eslintc.js',
 ]);
+
+const watchFiles = [
+  'content/**/*',
+  'options/**/*',
+  'popup/**/*',
+  'background.js',
+  '.babelrc',
+  'manifest.json',
+];
 
 const JSONFiles = [
   '.babelrc',
@@ -201,8 +209,12 @@ gulp.task('build', ['ext:build']);
 gulp.task('docs', ['docs:copy', 'docs:js']);
 
 gulp.task('clean', () =>
-  del([dist, './web-ext-artifacts/']));
+  del([dist, builds, './web-ext-artifacts/']));
 
+gulp.task('dev', () => {
+  gulp.watch(watchFiles, ['ext:compile']);
+  exec(`./node_modules/.bin/web-ext run -s ${dist}`);
+});
 // Default task
 gulp.task('default', [
   'html',
