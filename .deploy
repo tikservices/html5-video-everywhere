@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -x
+
+# This script is used by h5vew.tik.tn to generate the static website content on
+# every new git commit push to the extension Github repository.
+# It generates docs/ content which is the root of h5vew.tik.tn
+
+# TODO:  dev, production
+ENV=${1:-dev}
+
+npm install -g gulp
+
+if [ -e "package.json" ]; then
+	npm install
+fi
+
+gulp docs

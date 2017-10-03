@@ -13,6 +13,7 @@
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
+  "sourceType": "module",
   "plugins": [
     "plugins/markdown"
   ],
@@ -21,11 +22,11 @@
     "monospaceLinks": false
   },
   "opts": {
-    "template": "templates/default",
+    "template": "node_modules/minami",
     "encoding": "utf8",
     "destination": "docs/api",
     "recurse": true,
-    "package": "manifest.json",
+    "tutorials": "docs/tutorials",
     "readme": "README.md"
   }
 }

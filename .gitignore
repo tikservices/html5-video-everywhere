@@ -8,3 +8,5 @@
 /docs/api/
 /builds/
 /certs/
+/yarn.lock
+/package-lock.json

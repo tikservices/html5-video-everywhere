@@ -21,6 +21,7 @@
     "gulp-stylelint": "^5.0.0",
     "gulp-watch": "^4.3.11",
     "jsdoc": "^3.5.5",
+    "minami": "^1.2.3",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-stream": "^1.24.1",
     "vinyl-source-stream": "^1.1.0",

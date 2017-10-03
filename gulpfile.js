@@ -29,7 +29,17 @@ const JSFiles = ExtJSFiles.concat([
   'dist/**/*.js',
   'background.js',
   'gulpfile.js',
+  '.eslintc.js',
 ]);
+
+const JSONFiles = [
+  '.babelrc',
+  'jsdoc.json',
+  'manifest.json',
+  'package.json',
+  '.jsbeautifyrc',
+  '.stylelintrc',
+];
 
 const CSSFiles = [
   'popup/**/*.css',
@@ -49,10 +59,10 @@ gulp.task('js:lint', () =>
   .pipe(eslint.failAfterError()));
 
 gulp.task('js:prettify', () =>
-  gulp.src(JSFiles.concat(['.jsbeautifyrc', '.stylelintrc']))
+  gulp.src(JSFiles.concat(JSONFiles))
   .pipe(prettify({
     js: {
-      file_types: ['.js', '.json', '.jsbeautifyrc', '.stylelintrc'],
+      file_types: ['.js', '.json'].concat(JSONFiles),
       config: './.jsbeautifyrc',
     },
   })).pipe(gulp.dest((_) => _.base)));

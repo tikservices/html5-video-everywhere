@@ -21,8 +21,7 @@
     }
   },
   "minimum_chrome_version": "61",
-  "content_scripts": [
-    {
+  "content_scripts": [{
       "matches": [
         "*://www.break.com/embed/*"
       ],
