@@ -209,7 +209,7 @@ gulp.task('build', ['ext:build']);
 gulp.task('docs', ['docs:copy', 'docs:js']);
 
 gulp.task('clean', () =>
-  del([dist, builds, './web-ext-artifacts/']));
+  del([dist, builds, 'docs/api']));
 
 gulp.task('dev', () => {
   gulp.watch(watchFiles, ['ext:compile']);
