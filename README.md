@@ -56,6 +56,7 @@ gulp ext:build:chrome
 
 - [API documentation](https://h5vew.tik.tn/api)
 - [Implementations documentation](https://h5vew.tik.tn/api)
+- [Tutorial](https://h5vew.tik.tn/api/tutorial-h5vew-adding-new-website-support.html)
 
 You can also generate the documentation from the source code under `docs/api`
 folder with this command:

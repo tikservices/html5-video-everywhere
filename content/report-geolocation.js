@@ -52,6 +52,7 @@ export function reportGeolocation(options) {
     }
   };
 
+  // FIXME
   getFetch()("https://www.google-analytics.com/collect", {
     method: "POST",
     body: data,

@@ -6,13 +6,22 @@
  * @module
  */
 
-/** Video supported formats */
+/**
+ * Video supported formats.
+ * @const {String[]}
+ */
 export const Cdc = ["webm", "mp4"];
 
-/** Videos qualities levels defined for the extension */
+/**
+ * Videos qualities levels defined for the extension.
+ * @const {String[]}
+ * */
 export const Qlt = ["higher", "high", "medium", "low"];
 
-/** Video track languages */
+/**
+ * Video track languages.
+ * @const {String[]}
+ */
 export const LANGS = [
   "af", "ar", "bn", "de", "en", "es", "fi", "fr", "hi", "id", "is", "it", "ja", "ko", "pt", "ru",
   "tu", "zh",

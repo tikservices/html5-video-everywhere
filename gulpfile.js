@@ -47,6 +47,7 @@ const JSONFiles = [
   'package.json',
   '.jsbeautifyrc',
   '.stylelintrc',
+  'docs/tutorials/tutorials.json',
 ];
 
 const CSSFiles = [

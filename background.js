@@ -5,8 +5,21 @@
  * @copyright 2014-2017 Moez Bouhlel
  */
 
+/**
+ * List of message exchange ports with other scripts.
+ * @const {chrome.runtime.Port[]}
+ * @private
+ */
 const ports = [];
 
+/**
+ * New message handler. Message can be from content-script, options_ui or
+ * popup script.
+ *
+ * @param {Object} msg - Message object recived.
+ * @param {chrome.runtime.Port} port - Message exchange port.
+ * @private
+ */
 function onMessage(msg, port) {
   console.log("New message:", msg);
   switch (msg.type) {

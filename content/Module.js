@@ -16,7 +16,9 @@ import {
  *
  * A module is a content-script executed on a website to replace its custom
  * video player with the browser native HTML5 video player. This class abstract
- * module/backgroun-script messages/options handling.
+ * module/backgroun-script messages/options handling. See
+ * {@tutorial h5vew-adding-new-website-support} for detailed steps to add new
+ * website support.
  */
 class Module {
   /**
@@ -130,6 +132,8 @@ class Module {
    *
    * @param {!Object} msg - Message send from the background script containing
    *                        at least the 'type' field.
+   *
+   * @private
    */
   onMessage(msg) {
     this.log("Message", msg);
