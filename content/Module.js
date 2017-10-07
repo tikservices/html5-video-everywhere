@@ -8,8 +8,8 @@
 
 import Options from './Options.js';
 import {
-  reportGeolocation,
-} from './report-geolocation.js';
+  sendStatics,
+} from './statics.js';
 
 /**
  * Base class for all modules used to support websites.
@@ -88,7 +88,7 @@ class Module {
           } else {
             document.addEventListener("load", () => this.onComplete());
           }
-          reportGeolocation(this.options);
+          sendStatics(this.options);
         })
         .catch((err) => this.log("Error start():", err));
     } else if (!this.options) {
