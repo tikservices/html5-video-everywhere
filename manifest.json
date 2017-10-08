@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "HTML5 Video Everywhere",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Replace video player with Firefox native video player",
   "homepage_url": "https://github.com/lejenome/html5-video-everywhere",
   "author": "Moez Bouhlel",
