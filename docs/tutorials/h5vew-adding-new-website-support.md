@@ -69,7 +69,6 @@ we add the following object into `content_scripts` field:
 }
 ```
 
-
 First thing we notice is that besides `content/Leog.js`, we inject other
 files that are needed for the module to execute. These files are:
 
@@ -79,8 +78,8 @@ files that are needed for the module to execute. These files are:
 - `content/video-player.js`: Defines `VP` class which creates the video
   player widget and add to it custom styles, properties based on the extension
   settings and also it adds a context menu to the video player.
-- `content/report-geolocation.js`: Tracks how much offen this module is used
-  and the user base geolocation.
+- `content/statics.js`: Tracks how often this module is used, browser/extension
+  version and the browser default language.
 - `content/common.js`: Contains common functions used by more than when
   script.
 - `content/Options.js`: Defines `Options` class that contains all logic

@@ -270,8 +270,13 @@ class YouTube extends Module {
       conf.withoutCookies = conf.url.hostname.endsWith("youtube-nocookie.com");
       if (!conf.isEmbed && !conf.isWatch && !conf.isChannel) reject();
       if (conf.isEmbed && conf.url.searchParams.has("adformat")) reject();
-      if (conf.isEmbed && window.parent && window.parent.location.pathname === "/video_masthead" &&
-        window.parent.location.hostname.endsWith("youtube.com")) reject();
+      try {
+        if (conf.isEmbed && window.parent &&
+          window.parent.location.pathname === "/video_masthead" &&
+          window.parent.location.hostname.endsWith("youtube.com")) {
+          reject();
+        }
+      } catch (e) { /* Cross-origin permission denied error */ }
       if (conf.isEmbed) {
         conf.id = conf.url.pathname.match(/^\/embed\/([^?#/]*)/)[1];
         conf.className = "html5-video-player";
