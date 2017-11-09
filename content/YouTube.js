@@ -312,8 +312,8 @@ class YouTube extends Module {
           .then((info) => youtube.verify(info, prefs))
           .then((info) => {
             Object.assign(conf, info);
-            if (conf.iurlhq) conf.poster = data.iurlhq;
-            if (conf.caption_tracks) conf.tracks = this.parse(data.caption_tracks, true);
+            if (conf.iurlhq) conf.poster = conf.iurlhq;
+            if (conf.caption_tracks) conf.tracks = this.parse(conf.caption_tracks, true);
             const player = document.createElement("video");
             conf.fmts = {};
             conf.formats
