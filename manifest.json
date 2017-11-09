@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "HTML5 Video Everywhere",
+  "name": "__MSG_title__",
   "version": "0.4.7",
-  "description": "Replace video player with Firefox native video player",
+  "description": "__MSG_description__",
   "homepage_url": "https://github.com/lejenome/html5-video-everywhere",
   "author": "Moez Bouhlel",
   "developer": {
@@ -21,6 +21,7 @@
     }
   },
   "minimum_chrome_version": "61",
+  "default_locale": "en",
   "content_scripts": [{
       "matches": [
         "*://www.break.com/embed/*"

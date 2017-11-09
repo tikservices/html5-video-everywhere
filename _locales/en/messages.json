@@ -1,0 +1,146 @@
+{
+  "title": {
+    "message": "HTML5 Video Everywhere!"
+  },
+  "description": {
+    "message": "Replace video player with Firefox native video player"
+  },
+  "autoNext_title": {
+    "message": "Auto play next"
+  },
+  "autoNext_description": {
+    "message": "Auto play the next Video on playlist"
+  },
+  "genYTSign_title": {
+    "message": "Decode YouTube Signature"
+  },
+  "genYTSign_description": {
+    "message": "Extract YouTube signature decoder from their video player, and use it to decode signatures"
+  },
+  "lang_title": {
+    "message": "Subtitles"
+  },
+  "lang_description": {
+    "message": "Select Subtitles language if available"
+  },
+  "lan_options_0": {
+    "message": "None"
+  },
+  "prefCdc_title": {
+    "message": "Preferred Codec"
+  },
+  "prefQlt_title": {
+    "message": "Preferred Quality"
+  },
+  "prefQlt_options_0": {
+    "message": "Higher"
+  },
+  "prefQlt_options_1": {
+    "message": "High"
+  },
+  "prefQlt_options_2": {
+    "message": "Medium"
+  },
+  "prefQlt_options_3": {
+    "message": "Low"
+  },
+  "autoplay_title": {
+    "message": "Auto Play Video"
+  },
+  "autoplay_description": {
+    "message": "Change default behaviour of the video player of the website"
+  },
+  "autoplay_options_2": {
+    "message": "Default"
+  },
+  "autoplay_options_1": {
+    "message": "Enabled"
+  },
+  "autoplay_options_0": {
+    "message": "Disabled"
+  },
+  "preload_title": {
+    "message": "Preload Video"
+  },
+  "preload_description": {
+    "message": "Change default behaviour of the video player of the website in case it does not auto play the video"
+  },
+  "preload_options_2": {
+    "message": "Default"
+  },
+  "preload_options_1": {
+    "message": "Enabled"
+  },
+  "preload_options_0": {
+    "message": "Disabled"
+  },
+  "loop_title": {
+    "message": "Auto Loop Video"
+  },
+  "loop_options_2": {
+    "message": "Default"
+  },
+  "loop_options_1": {
+    "message": "Always"
+  },
+  "loop_options_0": {
+    "message": "Never"
+  },
+  "volume_title": {
+    "message": "Volume"
+  },
+  "player_title": {
+    "message": "Video Player"
+  },
+  "player_description": {
+    "message": "Set video player to use"
+  },
+  "player_options_0": {
+    "message": "Firefox Video Player"
+  },
+  "player_options_1": {
+    "message": "Lean Back Player"
+  },
+  "disableEmbed_title": {
+    "message": "Disable for Embed Youtube"
+  },
+  "disableEmbed_description": {
+    "message": "Use default video player for embed videos"
+  },
+  "disablebreak_title": {
+    "message": "Disable on Break"
+  },
+  "disablebreak_description": {
+    "message": "Use default video player on Break"
+  },
+  "disabledailymotion_title": {
+    "message": "Disable on Dailymotion"
+  },
+  "disabledailymotion_description": {
+    "message": "Use default video player on Dailymotion"
+  },
+  "disablefacebook_title": {
+    "message": "Disable on Facebook"
+  },
+  "disablefacebook_description": {
+    "message": "Use default video player on Facebook"
+  },
+  "disablemetacafe_title": {
+    "message": "Disable on Metacafe"
+  },
+  "disablemetacafe_description": {
+    "message": "Use default video player on Metacafe"
+  },
+  "disablevimeo_title": {
+    "message": "Disable on Vimeo"
+  },
+  "disablevimeo_description": {
+    "message": "Use default video player on Vimeo"
+  },
+  "disableyoutube_title": {
+    "message": "Disable on Youtube"
+  },
+  "disableyoutube_description": {
+    "message": "Use default video player on Youtube"
+  }
+}

@@ -38,6 +38,7 @@ const watchFiles = [
   'background.js',
   '.babelrc',
   'manifest.json',
+  '_locales/**/*.json',
 ];
 
 const JSONFiles = [
@@ -48,6 +49,7 @@ const JSONFiles = [
   '.jsbeautifyrc',
   '.stylelintrc',
   'docs/tutorials/tutorials.json',
+  '_locales/**/*.json',
 ];
 
 const CSSFiles = [
@@ -130,6 +132,7 @@ gulp.task('ext:copy', () => {
   gulp.src('./icons/**').pipe(gulp.dest(dist + "/icons"));
   gulp.src(['./popup/**', '!./popup/**/*.js']).pipe(gulp.dest(dist + "/popup"));
   gulp.src(['./options/**', '!./options/**/*.js']).pipe(gulp.dest(dist + "/options"));
+  gulp.src('./_locales/**').pipe(gulp.dest(dist + "/_locales"));
   gulp.src('./LICENSE').pipe(gulp.dest(dist));
   return gulp.src('./manifest.json').pipe(gulp.dest(dist));
 });

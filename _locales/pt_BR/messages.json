@@ -1,0 +1,146 @@
+{
+  "title": {
+    "message": "Vídeo HTML5 em todo lugar!"
+  },
+  "description": {
+    "message": "Substitui o reprodutor de vídeo com o reprodutor de vídeo nativo do navegador"
+  },
+  "autoNext_title": {
+    "message": "Reproduzir automaticamente o próximo"
+  },
+  "autoNext_description": {
+    "message": "Reproduzir automaticamente o próximo vídeo na lista de reprodução"
+  },
+  "genYTSign_title": {
+    "message": "Decodificar assinatura do YouTube"
+  },
+  "genYTSign_description": {
+    "message": "Extrair decodificador de assinatura do YouTube do reprodutor de vídeo deles, e use-o para decodificar assinaturas"
+  },
+  "lang_title": {
+    "message": "Legendas"
+  },
+  "lang_description": {
+    "message": "Selecionar linguagem de legendas se disponível"
+  },
+  "lan_options_0": {
+    "message": "Nenhuma"
+  },
+  "prefCdc_title": {
+    "message": "Codec preferido"
+  },
+  "prefQlt_title": {
+    "message": "Qualidade preferida"
+  },
+  "prefQlt_options_0": {
+    "message": "Mais alto"
+  },
+  "prefQlt_options_1": {
+    "message": "Alto"
+  },
+  "prefQlt_options_2": {
+    "message": "Médio"
+  },
+  "prefQlt_options_3": {
+    "message": "Baixo"
+  },
+  "autoplay_title": {
+    "message": "Reproduzir vídeo automaticamente"
+  },
+  "autoplay_description": {
+    "message": "Mudar comportamento padrão do reprodutor de vídeo no site"
+  },
+  "autoplay_options_2": {
+    "message": "Padrão"
+  },
+  "autoplay_options_1": {
+    "message": "Ativado"
+  },
+  "autoplay_options_0": {
+    "message": "Desativado"
+  },
+  "preload_title": {
+    "message": "Carregar vídeo proativamente"
+  },
+  "preload_description": {
+    "message": "Mudar comportamento padrão do reprodutor de vídeo no site caso ele não reproduza o vídeo automaticamente"
+  },
+  "preload_options_2": {
+    "message": "Padrão"
+  },
+  "preload_options_1": {
+    "message": "Ativado"
+  },
+  "preload_options_0": {
+    "message": "Desativado"
+  },
+  "loop_title": {
+    "message": "Repetir vídeo automaticamente"
+  },
+  "loop_options_2": {
+    "message": "Padrão"
+  },
+  "loop_options_1": {
+    "message": "Sempre"
+  },
+  "loop_options_0": {
+    "message": "Nunca"
+  },
+  "volume_title": {
+    "message": "Volume"
+  },
+  "player_title": {
+    "message": "Reprodutor de vídeo"
+  },
+  "player_description": {
+    "message": "Selecionar reprodutor de vídeo"
+  },
+  "player_options_0": {
+    "message": "Reprodutor de vídeo do Firefox"
+  },
+  "player_options_1": {
+    "message": "Reprodutor Lean Back"
+  },
+  "disableEmbed_title": {
+    "message": "Desativar para vídeos Youtube incorporados"
+  },
+  "disableEmbed_description": {
+    "message": "Usar reprodutor de vídeo padrão para vídeos YouTube incorporados na página"
+  },
+  "disablebreak_title": {
+    "message": "Desativar no Break"
+  },
+  "disablebreak_description": {
+    "message": "Usar reprodutor de vídeo padrão no Break"
+  },
+  "disabledailymotion_title": {
+    "message": "Desativar no Dailymotion"
+  },
+  "disabledailymotion_description": {
+    "message": "Usar reprodutor de vídeo padrão no Dailymotion"
+  },
+  "disablefacebook_title": {
+    "message": "Desativar no Facebook"
+  },
+  "disablefacebook_description": {
+    "message": "Usar reprodutor de vídeo padrão no Facebook"
+  },
+  "disablemetacafe_title": {
+    "message": "Desativar no Metacafe"
+  },
+  "disablemetacafe_description": {
+    "message": "Usar reprodutor de vídeo padrão no Metacafe"
+  },
+  "disablevimeo_title": {
+    "message": "Desativar no Vimeo"
+  },
+  "disablevimeo_description": {
+    "message": "Usar reprodutor de vídeo padrão no Vimeo"
+  },
+  "disableyoutube_title": {
+    "message": "Desativar no Youtube"
+  },
+  "disableyoutube_description": {
+    "message": "Usar reprodutor de vídeo padrão no YouTube"
+  }
+}
