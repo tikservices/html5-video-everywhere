@@ -3,6 +3,7 @@
 [![amo version](https://img.shields.io/amo/v/html5-video-everywhere.svg?label=Version&link=https://h5vew.tik.tn)]()
 [![amo users](https://img.shields.io/amo/users/html5-video-everywhere.svg?link=https://h5vew.tik.tn)]()
 [![amo stars](https://img.shields.io/amo/stars/html5-video-everywhere.svg?link=https://h5vew.tik.tn)]()
+[![donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/pools/c/801V34eBNq)
 
 Higher performance and stable sideo watching experience on the web.
 
@@ -75,10 +76,23 @@ HTML5 Video EveryWhere contains codes from
 [iaextractor](https://github.com/inbasic/iaextractor/) project licensed under
 MPL 1.1.
 
+## Donate
+
+If you find this project useful, you can give me a cup of coffee :)
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/pools/c/801V34eBNq)
+
+## Self Promotion
+
+This software is developed by [Moez Bouhlel](https://lejenome.github.io/),
+co-founder of [Tik.tn](https://tik.tn/), a skilled software development
+and consulting agency. For a list of its services, visit its website
+[tik.tn](https://tik.tn) or contact it at <contact@tik.tn>.
+
 ## Licence
 
 This extension is free software; it is distributed under the MPL 2.0 License.
 
-Copyright © 2014-2017, [Moez Bouhlel](https://lejenome.github.io/)
+Copyright © 2014-2018, [Moez Bouhlel](https://lejenome.github.io/)
 (<bmoez.j@gmail.com>) &
 [The Contributors](https://github.com/lejenome/html5-video-everywhere/graphs/contributors)
