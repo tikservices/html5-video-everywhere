@@ -1,5 +1,9 @@
 # HTML5 Video EveryWhere
 
+[![amo version](https://img.shields.io/amo/v/html5-video-everywhere.svg?label=Version&link=https://h5vew.tik.tn)]()
+[![amo users](https://img.shields.io/amo/users/html5-video-everywhere.svg?link=https://h5vew.tik.tn)]()
+[![amo stars](https://img.shields.io/amo/stars/html5-video-everywhere.svg?link=https://h5vew.tik.tn)]()
+
 Higher performance and stable sideo watching experience on the web.
 
 Some streaming sites video players suck. This add-on will replace them with
