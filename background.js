@@ -44,16 +44,3 @@ chrome.runtime.onConnect.addListener((port) => {
   port.onDisconnect.addListener(onDisconnect);
   chrome.pageAction.show(port.sender.tab.id);
 });
-
-
-/*
-function update(details) {
-  if (details.reason === 'install' || details.reason === 'update') {
-    chrome.tabs.create({
-      url: 'https://h5vew.tik.tn/'
-    });
-  }
-}
-
-chrome.runtime.onInstalled.addListener(update);
-*/

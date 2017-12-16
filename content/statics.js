@@ -1,11 +1,5 @@
 /**
  * Statics collection.
- * @author Moez Bouhlel <bmoez.j@gmail.com>
- * @license MPL-2.0
- * @copyright 2014-2017 Moez Bouhlel
- */
-
-/**
  * Report modules usage statics to a self-hosted piwik only if user has
  * deactivated doNotTrack preference of Firefox browser.
  *
@@ -23,30 +17,112 @@
  * If you are concerned about your privacy or for more details, please visit
  * https://github.com/lejenome/html5-video-everywhere/issues/85
  *
- * @private
- * @param {Options} options - Options instance for the current module.
+ * @author Moez Bouhlel <bmoez.j@gmail.com>
+ * @license MPL-2.0
+ * @copyright 2014-2017 Moez Bouhlel
  */
-export function sendStatics(options) {
+
+/**
+ * Log module injection (usage).
+ *
+ * @private
+ * @param {String} moduleName - The name of module injected.
+ */
+export function logInject(moduleName) {
+  const extVer = chrome.runtime.getManifest()["version"];
+  chrome.storage.local.get("statics", function(data) {
+    const statics = data["statics"] || {};
+    if (!statics["ext:version"]) {
+      // The ext was installed/excuted for the first time, log the install.
+      statics["ext:version"] = extVer;
+      logInstall(extVer);
+    } else if (statics["ext:version"] != extVer) {
+      // The ext was updated, sync statics for old version and log the update.
+      syncInjects(statics, statics["ext:version"]);
+      logUpdate(statics["ext:version"], extVer);
+      statics["ext:version"] = extVer;
+    }
+    const counterName = "inject:" + moduleName;
+    statics[counterName] = (statics[counterName] || 0) + 1;
+    chrome.storage.local.set({
+      "statics": statics,
+    });
+  });
+}
+
+/**
+ * Send collected statics to the server.
+ *
+ * @private
+ * @param {Object} statics - Statics matrix.
+ * @param {String} extVer - The extension version for collected statics.
+ */
+function syncInjects(statics, extVer) {
   // If Do Not Tract is activated (or an ad block is installed), skip report
   if (navigator.doNotTrack === "1") {
     return;
   }
+  const injectCounters = Object.keys(statics)
+    .filter((s) => s.startsWith("inject:") && s.length > 7);
+  for (const counterName of injectCounters) {
+    const moduleName = counterName.substring(7);
+    const cnt = statics[counterName];
+    if (cnt > 0) {
+      syncModuleInject(moduleName, cnt, extVer);
+      statics[counterName] = 0;
+    }
+  }
+}
 
-  const manifest = chrome.runtime.getManifest();
+function syncModuleInject(moduleName, cnt, extVer) {
   const url = new URL("https://api.admin.tik.tn/h5vew/r");
   const params = url.searchParams;
   params.set("idsite", 8);
   params.set("rec", 1);
-  params.set("url", "moz-extension://" + options.getId() + "/content/" + options.moduleName + ".js");
-  params.set("action_name", "inject / " + options.moduleName);
+  params.set("url", "moz-extension://" + chrome.runtime.id + "/content/" + moduleName + ".js");
+  params.set("action_name", "inject / " + moduleName);
   params.set("send_image", 0);
-  // params.set("_idvc", Number of Visits ++);  // TODO
-  // params.set("new_visit", 1);
+  params.set("_idvc", cnt);
+  params.set("new_visit", 1);
   params.set("e_c", "content-page");
   params.set("e_a", "inject");
-  params.set("e_n", options.moduleName);
+  params.set("e_n", moduleName);
   params.set("_cvar", JSON.stringify({
-    "1": ["version", manifest.version],
+    "1": ["version", extVer],
+  }));
+
+  fetch(url);
+}
+
+function logUpdate(oldVersion, extVer) {
+  const url = new URL("https://api.admin.tik.tn/h5vew/r");
+  const params = url.searchParams;
+  params.set("idsite", 8);
+  params.set("rec", 1);
+  params.set("action_name", "update / " + extVer);
+  params.set("send_image", 0);
+  params.set("e_c", "extension");
+  params.set("e_a", "update");
+  params.set("e_n", extVer);
+  params.set("_cvar", JSON.stringify({
+    "1": ["version", extVer],
+  }));
+
+  fetch(url);
+}
+
+function logInstall(extVer) {
+  const url = new URL("https://api.admin.tik.tn/h5vew/r");
+  const params = url.searchParams;
+  params.set("idsite", 8);
+  params.set("rec", 1);
+  params.set("action_name", "install / " + extVer);
+  params.set("send_image", 0);
+  params.set("e_c", "extension");
+  params.set("e_a", "install");
+  params.set("e_n", extVer);
+  params.set("_cvar", JSON.stringify({
+    "1": ["version", extVer],
   }));
 
   fetch(url);

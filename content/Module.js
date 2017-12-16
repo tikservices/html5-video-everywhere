@@ -8,7 +8,7 @@
 
 import Options from './Options.js';
 import {
-  sendStatics,
+  logInject,
 } from './statics.js';
 
 /**
@@ -88,7 +88,7 @@ class Module {
           } else {
             document.addEventListener("load", () => this.onComplete());
           }
-          sendStatics(this.options);
+          logInject(this.name);
         })
         .catch((err) => this.log("Error start():", err));
     } else if (!this.options) {

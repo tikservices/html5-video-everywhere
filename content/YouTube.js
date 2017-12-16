@@ -276,7 +276,9 @@ class YouTube extends Module {
           window.parent.location.hostname.endsWith("youtube.com")) {
           reject();
         }
-      } catch (e) { /* Cross-origin permission denied error */ }
+      } catch (e) {
+        // Cross-origin permission denied error */
+      }
       if (conf.isEmbed) {
         conf.id = conf.url.pathname.match(/^\/embed\/([^?#/]*)/)[1];
         conf.className = "html5-video-player";
