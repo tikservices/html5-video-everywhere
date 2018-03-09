@@ -5,7 +5,7 @@
 [![amo stars](https://img.shields.io/amo/stars/html5-video-everywhere.svg?link=https://h5vew.tik.tn)]()
 [![donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/pools/c/801V34eBNq)
 
-Higher performance and stable sideo watching experience on the web.
+Higher performance and stable video watching experience on the web.
 
 Some streaming sites video players suck. This add-on will replace them with
 browser built-in video player for higher performance and more stable
