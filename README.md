@@ -3,7 +3,7 @@
 [![amo version](https://img.shields.io/amo/v/html5-video-everywhere.svg?label=Version&link=https://h5vew.tik.tn)]()
 [![amo users](https://img.shields.io/amo/users/html5-video-everywhere.svg?link=https://h5vew.tik.tn)]()
 [![amo stars](https://img.shields.io/amo/stars/html5-video-everywhere.svg?link=https://h5vew.tik.tn)]()
-[![donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/pools/c/801V34eBNq)
+[![donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/lejenome)
 
 Higher performance and stable video watching experience on the web.
 
@@ -80,7 +80,7 @@ MPL 1.1.
 
 If you find this project useful, you can give me a cup of coffee :)
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/pools/c/801V34eBNq)
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/lejenome)
 
 ## Self Promotion
 
