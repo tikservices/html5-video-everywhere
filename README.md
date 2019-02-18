@@ -1,8 +1,8 @@
 # HTML5 Video EveryWhere
 
-[![amo version](https://img.shields.io/amo/v/html5-video-everywhere.svg?label=Version&link=https://h5vew.tik.tn)]()
-[![amo users](https://img.shields.io/amo/users/html5-video-everywhere.svg?link=https://h5vew.tik.tn)]()
-[![amo stars](https://img.shields.io/amo/stars/html5-video-everywhere.svg?link=https://h5vew.tik.tn)]()
+[![amo version](https://img.shields.io/amo/v/html5-video-everywhere-next.svg?label=Version&link=https://h5vew.tik.tn)]()
+[![amo users](https://img.shields.io/amo/users/html5-video-everywhere-next.svg?link=https://h5vew.tik.tn)]()
+[![amo stars](https://img.shields.io/amo/stars/html5-video-everywhere-next.svg?link=https://h5vew.tik.tn)]()
 [![donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/lejenome)
 
 Higher performance and stable video watching experience on the web.
