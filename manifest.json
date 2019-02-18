@@ -17,7 +17,7 @@
   "applications": {
     "gecko": {
       "id": "h5vew@tik.tn",
-      "strict_min_version": "52.0"
+      "strict_min_version": "57.0"
     }
   },
   "minimum_chrome_version": "61",
