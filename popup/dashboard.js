@@ -5,7 +5,6 @@
  * @copyright 2014-2017 Moez Bouhlel
  */
 
-
 /* TODO: Show module special options on popup
 import Options from "../content/Options.js";
 

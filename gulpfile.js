@@ -6,7 +6,9 @@ const crx = require('gulp-crx-pack');
 const exec = require('child_process').exec;
 const jsdoc = require('gulp-jsdoc3');
 const source = require("vinyl-source-stream");
-const rollup = require('rollup-stream');
+// const rollup = require('rollup-stream');
+const sourcemaps = require('gulp-sourcemaps');
+const rollup = require('gulp-better-rollup');
 const babel = require('rollup-plugin-babel');
 const del = require('del');
 const path = require('path');
@@ -18,7 +20,9 @@ const dist = './dist';
 const builds = './builds';
 
 const ExtJSFiles = manifest.background.scripts.concat(
-  ...manifest.content_scripts.map((cs) => cs.js), [manifest.options_ui.page.replace('.html', '.js')], [manifest.page_action.default_popup.replace('.html', '.js')],
+  ...manifest.content_scripts.map((cs) => cs.js),
+  [manifest.options_ui.page.replace('.html', '.js')],
+  [manifest.page_action.default_popup.replace('.html', '.js')],
 );
 
 const JSFiles = ExtJSFiles.concat([
@@ -28,7 +32,7 @@ const JSFiles = ExtJSFiles.concat([
   'test/**/*.js',
   'background.js',
   'gulpfile.js',
-  '.eslintc.js',
+  '.eslintrc.js',
 ]);
 
 const watchFiles = [
@@ -63,54 +67,55 @@ const HTMLFiles = [
   'test/**/*.html',
 ];
 
-gulp.task('js:lint', () =>
+const jsLint = () =>
   gulp.src(JSFiles)
   .pipe(eslint())
   .pipe(eslint.format())
-  .pipe(eslint.failAfterError()));
+  .pipe(eslint.failAfterError());
 
-gulp.task('js:prettify', () =>
+const jsPrettify = () =>
   gulp.src(JSFiles.concat(JSONFiles))
   .pipe(prettify({
     js: {
       file_types: ['.js', '.json'].concat(JSONFiles),
       config: './.jsbeautifyrc',
     },
-  })).pipe(gulp.dest((_) => _.base)));
+  })).pipe(gulp.dest((_) => _.base));
 
-gulp.task('css:lint', () =>
+const cssLint = () =>
   gulp.src(CSSFiles)
   .pipe(gulpStylelint({
     reporters: [{
       formatter: 'string',
       console: true,
     }],
-  })));
+  }));
 
-gulp.task('css:prettify', () =>
+const cssPrettify = () =>
   gulp.src(CSSFiles)
   .pipe(prettify({
     css: {
       file_types: ['.css', '.less', '.sass', '.scss'],
       config: './.jsbeautifyrc',
     },
-  })).pipe(gulp.dest((_) => _.base)));
+  })).pipe(gulp.dest((_) => _.base));
 
-gulp.task('html:prettify', () =>
+const htmlPrettify = () =>
   gulp.src(HTMLFiles)
   .pipe(prettify({
     html: {
       file_types: ['.html'],
       config: './.jsbeautifyrc',
     },
-  })).pipe(gulp.dest((_) => _.base)));
+  })).pipe(gulp.dest((_) => _.base));
 
 // Copy vendor files from /node_modules into /docs/vendor
-gulp.task('docs:copy', function() {
+const docsCopy = (cb) => {
   gulp.src([
       'node_modules/bootstrap/dist/**/*',
       '!**/npm.js',
       '!**/bootstrap-theme.*',
+      '!**/bootstrap.bundle.*',
       '!**/*.map',
     ])
     .pipe(gulp.dest('docs/vendor/bootstrap'));
@@ -126,25 +131,24 @@ gulp.task('docs:copy', function() {
       '!node_modules/font-awesome/scss/*',
     ])
     .pipe(gulp.dest('docs/vendor/font-awesome'));
-});
+  cb();
+};
 
-gulp.task('ext:copy', () => {
+const extCopy = () => {
   gulp.src('./icons/**').pipe(gulp.dest(dist + "/icons"));
   gulp.src(['./popup/**', '!./popup/**/*.js']).pipe(gulp.dest(dist + "/popup"));
   gulp.src(['./options/**', '!./options/**/*.js']).pipe(gulp.dest(dist + "/options"));
   gulp.src('./_locales/**').pipe(gulp.dest(dist + "/_locales"));
   gulp.src('./LICENSE').pipe(gulp.dest(dist));
   return gulp.src('./manifest.json').pipe(gulp.dest(dist));
-});
+};
 
-gulp.task('docs:js', (cb) => {
-  gulp.src([], {
-      read: false,
-    })
-    .pipe(jsdoc(require('./jsdoc.json'), cb));
-});
+const docsJs = (cb) => {
+  jsdoc(require('./jsdoc.json'));
+  cb();
+};
 
-gulp.task('ext:compile', ['ext:copy'], () => {
+const extCompile = (cb) => {
   const scripts = ExtJSFiles.map((f) => {
     return {
       taskName: path.basename(f),
@@ -154,25 +158,29 @@ gulp.task('ext:compile', ['ext:copy'], () => {
     };
   });
   let rollupCache;
-  return scripts.forEach((script) =>
-    rollup({
-      input: script.entry,
+  scripts.forEach((script) =>
+    gulp.src(script.entry)
+    .pipe(sourcemaps.init())
+    .pipe(rollup({
+      // input: script.entry,
       format: 'es',
-      exports: 'none',
-      sourcemap: true,
+      // exports: 'none',
+      // sourcemap: true,
       plugins: [
         babel({
           babelrc: true,
         }),
       ],
-      cache: rollupCache,
-    })
-    .on('unifiedcache', (unifiedCache) => rollupCache = unifiedCache)
-    .pipe(source(script.source))
+      // cache: rollupCache,
+    }))
+    // .on('unifiedcache', (unifiedCache) => rollupCache = unifiedCache)
+    // .pipe(source(script.source))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(script.dest)));
-});
+  cb();
+};
 
-gulp.task('ext:build:chrome', ['ext:compile'], () =>
+const extBuildChrome = () =>
   gulp.src(dist)
   .pipe(crx({
     privateKey: fs.readFileSync('./certs/chrome.pem', 'utf8'),
@@ -180,19 +188,17 @@ gulp.task('ext:build:chrome', ['ext:compile'], () =>
     codebase: 'https://h5vew.tik.tn/h5vew.crx',
     updateXmlFilename: 'update.xml',
   }))
-  .pipe(gulp.dest(builds))
-);
+  .pipe(gulp.dest(builds));
 
-gulp.task('ext:build:firefox', ['ext:compile'], (cb) =>
+const extBuildFirefox = (cb) =>
   exec(`./node_modules/.bin/web-ext build -s ${dist} -a ${builds} -o`,
     function(err, stdout, stderr) {
       console.log(stdout);
       console.log(stderr);
       cb(err);
-    })
-);
+    });
 
-gulp.task('ext:sign:firefox', ['ext:compile'], (cb) => {
+const extSignFirefox = (cb) => {
   const apiKey = fs.readFileSync('./certs/amo-key', 'utf8').trim();
   const apiSecret = fs.readFileSync('./certs/amo-secret', 'utf8').trim();
   return exec(
@@ -202,28 +208,32 @@ gulp.task('ext:sign:firefox', ['ext:compile'], (cb) => {
       console.log(stderr);
       cb(err);
     });
-});
+};
 
-gulp.task('ext:build', ['ext:build:chrome', 'ext:build:firefox']);
+const extBuild = gulp.series(extCopy, extCompile, extBuildChrome, extBuildFirefox);
 
-gulp.task('html', ['html:prettify']);
-gulp.task('css', ['css:prettify', 'css:lint']);
-gulp.task('js', ['js:prettify', 'js:lint']);
-gulp.task('build', ['ext:build']);
-gulp.task('docs', ['docs:copy', 'docs:js']);
+const html = gulp.series(htmlPrettify);
+const css = gulp.series(cssPrettify, cssLint);
+const js = gulp.series(jsPrettify, jsLint);
+const build = gulp.series(extBuild);
+const docs = gulp.series(docsCopy, docsJs);
 
-gulp.task('clean', () =>
-  del([dist, builds, 'docs/api']));
+exports.clean = () =>
+  del([dist, builds, 'docs/api']);
 
-gulp.task('dev', () => {
+exports.dev = () => {
   gulp.watch(watchFiles, ['ext:compile']);
   exec(`./node_modules/.bin/web-ext run -s ${dist}`);
-});
-// Default task
-gulp.task('default', [
-  'html',
-  'js',
-  'css',
-  'docs',
-  'build',
-]);
+};
+exports.build = build;
+exports.docs = docs;
+exports.extBuildFirefox = gulp.series(extCopy, extCompile, extBuildFirefox);
+exports.extBuildChrome = gulp.series(extCopy, extCompile, extBuildChrome);
+exports.extSignFirefox = gulp.series(extCopy, extCompile, extBuildFirefox, extSignFirefox);
+exports.default = gulp.series(
+  html,
+  js,
+  css,
+  // docs,
+  build,
+);

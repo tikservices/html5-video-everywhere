@@ -48,13 +48,13 @@ npm install  # or: yarn
 To build the addon for Firefox:
 
 ```shell
-gulp ext:build:firefox
+gulp extBuildFirefox
 ```
 
 To build the addon for Google Chrome:
 
 ```shell
-gulp ext:build:chrome
+gulp extBuildChrome
 ```
 
 ## Documentation
@@ -67,7 +67,7 @@ You can also generate the documentation from the source code under `docs/api`
 folder with this command:
 
 ```shell
-gulp doc:js
+gulp docs
 ```
 
 ## Credit

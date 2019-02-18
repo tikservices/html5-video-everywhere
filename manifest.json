@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_title__",
-  "version": "0.4.8",
+  "version": "0.5.0",
   "description": "__MSG_description__",
   "homepage_url": "https://github.com/lejenome/html5-video-everywhere",
   "author": "Moez Bouhlel",
@@ -16,7 +16,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "html5-video-everywhere@lejenome.me",
+      "id": "h5vew@tik.tn",
       "strict_min_version": "52.0"
     }
   },

@@ -51,9 +51,12 @@ class Lego extends Module {
     let url = "";
 
     if (!data.NetStoragePath) {
-      url = BASE_URL + data.ItemId.substr(0, 2) + "/" + data.ItemId.substr(2, 2) + "/" + [data.ItemId, data.VideoId, data.Locale, data.VideoVersion].join("_");
+      url = BASE_URL + data.ItemId.substr(0, 2) + "/" + data.ItemId.substr(2, 2) + "/" + [data.ItemId, data.VideoId,
+        data.Locale, data.VideoVersion,
+      ].join("_");
     } else {
-      url = BASE_URL + data.NetStoragePath + "/" + [data.ItemId, data.VideoId, data.Locale, data.VideoVersion].join("_");
+      url = BASE_URL + data.NetStoragePath + "/" + [data.ItemId, data.VideoId, data.Locale, data.VideoVersion].join(
+        "_");
     }
 
     let container = document.querySelector("div.video-wrapper");

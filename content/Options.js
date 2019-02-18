@@ -27,7 +27,6 @@ export const LANGS = [
   "tu", "zh",
 ];
 
-
 /**
  * Options handling class allowing getting and settings extension global and
  * module special options and provides options depended helpers functions.
