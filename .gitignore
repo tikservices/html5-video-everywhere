@@ -4,9 +4,7 @@
 /web-ext-artifacts/
 /dumps/
 /dist/
-/yarn.lock
 /docs/api/
 /builds/
 /certs/
-/yarn.lock
 /package-lock.json

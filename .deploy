@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -x
+export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # This script is used by h5vew.tik.tn to generate the static website content on
 # every new git commit push to the extension Github repository.
@@ -9,7 +10,7 @@ set -x
 ENV=${1:-dev}
 
 if [ -e "package.json" ]; then
-	npm install
-fi
+	yarn --production --link-duplicates --non-interactive --no-audit --ignore-engines install
 
-./node_modules/.bin/gulp docs
+	npx gulp docs
+fi

@@ -3,7 +3,7 @@ const eslint = require('gulp-eslint');
 const gulpStylelint = require('gulp-stylelint');
 const prettify = require('gulp-jsbeautifier');
 const crx = require('gulp-crx-pack');
-const exec = require('child_process').exec;
+// const exec = require('child_process').exec;
 const jsdoc = require('gulp-jsdoc3');
 const source = require("vinyl-source-stream");
 // const rollup = require('rollup-stream');
@@ -13,6 +13,7 @@ const babel = require('rollup-plugin-babel');
 const del = require('del');
 const path = require('path');
 const fs = require('fs');
+const webExt = require('web-ext').default;
 
 const manifest = require("./manifest.json");
 
@@ -191,16 +192,31 @@ const extBuildChrome = () =>
   .pipe(gulp.dest(builds));
 
 const extBuildFirefox = (cb) =>
+  webExt.cmd.build({
+    overwriteDest: true,
+    noInput: true,
+    sourceDir: dist,
+    artifactsDir: builds,
+  }, {
+    shouldExitProgram: false,
+  }).then(() => {
+    cb();
+  });
+
+/*
+const extBuildFirefox = (cb) =>
   exec(`./node_modules/.bin/web-ext build -s ${dist} -a ${builds} -o`,
     function(err, stdout, stderr) {
       console.log(stdout);
       console.log(stderr);
       cb(err);
     });
+*/
 
 const extSignFirefox = (cb) => {
   const apiKey = fs.readFileSync('./certs/amo-key', 'utf8').trim();
   const apiSecret = fs.readFileSync('./certs/amo-secret', 'utf8').trim();
+  /*
   return exec(
     `./node_modules/.bin/web-ext sign -s ${dist} -a ${builds} --api-key=${apiKey} --api-secret=${apiSecret}`,
     function(err, stdout, stderr) {
@@ -208,6 +224,18 @@ const extSignFirefox = (cb) => {
       console.log(stderr);
       cb(err);
     });
+  */
+  return webExt.cmd.sign({
+    sourceDir: dist,
+    artifactsDir: builds,
+    noInput: true,
+    apiKey: apiKey,
+    apiSecret: apiSecret,
+  }, {
+    shouldExitProgram: false,
+  }).then(() => {
+    cb();
+  });
 };
 
 const extBuild = gulp.series(extCopy, extCompile, extBuildChrome, extBuildFirefox);
@@ -223,7 +251,14 @@ exports.clean = () =>
 
 exports.dev = () => {
   gulp.watch(watchFiles, ['ext:compile']);
-  exec(`./node_modules/.bin/web-ext run -s ${dist}`);
+  // exec(`./node_modules/.bin/web-ext run -s ${dist}`);
+  return webExt.cmd.sign({
+    sourceDir: dist,
+  }, {
+    shouldExitProgram: false,
+  }).then(() => {
+    cb();
+  });
 };
 exports.build = build;
 exports.docs = docs;

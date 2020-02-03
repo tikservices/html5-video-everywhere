@@ -2,7 +2,7 @@
   "private": true,
   "license": "MPL-2.0",
   "dependencies": {
-    "bootstrap": "~4.3",
+    "bootstrap": "~4.4",
     "font-awesome": "~4.7.0"
   },
   "devDependencies": {
@@ -27,8 +27,8 @@
     "rollup": "^1.2",
     "rollup-plugin-babel": "^4.0.0",
     "rollup-stream": "^1.24.1",
-    "stylelint": "^9.10.1",
+    "stylelint": "^13.0.0",
     "vinyl-source-stream": "^2.0",
-    "web-ext": "^2.0.0"
+    "web-ext": "^4.0.0"
   }
 }

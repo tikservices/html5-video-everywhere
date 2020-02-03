@@ -27,11 +27,6 @@ version.
 You'll need:
 
 - [Node.js](https://nodejs.org/), v8.x or higher
-- [npm](https://www.npmjs.com/)
-
-Optionally, you may like:
-
-- [nvm](https://github.com/creationix/nvm), which helps manage node versions
 - [yarn](https://yarnpkg.com/) a better package manager instead of npm
 
 Before building the extension, you need to install `gulp-cli` and all
@@ -41,20 +36,20 @@ Change into the source and install `gulp-cli` and all dependencies:
 ```shell
 git clone https://github.com/lejenome/html5-video-everywhere/
 cd html5-video-everywhere
-npm install -g gulp-cli  # or: yarn global add gulp-cli
-npm install  # or: yarn
+yarn global add gulp-cli
+yarn
 ```
 
 To build the addon for Firefox:
 
 ```shell
-gulp extBuildFirefox
+npx gulp extBuildFirefox
 ```
 
 To build the addon for Google Chrome:
 
 ```shell
-gulp extBuildChrome
+npx gulp extBuildChrome
 ```
 
 ## Documentation
@@ -67,7 +62,7 @@ You can also generate the documentation from the source code under `docs/api`
 folder with this command:
 
 ```shell
-gulp docs
+npx gulp docs
 ```
 
 ## Credit
@@ -85,7 +80,7 @@ If you find this project useful, you can give me a cup of coffee :)
 ## Self Promotion
 
 This software is developed by [Moez Bouhlel](https://lejenome.github.io/),
-co-founder of [Tik.tn](https://tik.tn/), a skilled software development
+founder of [Tik](https://tik.tn/), a skilled software development
 and consulting agency. For a list of its services, visit its website
 [tik.tn](https://tik.tn) or contact it at <contact@tik.tn>.
 
@@ -93,6 +88,6 @@ and consulting agency. For a list of its services, visit its website
 
 This extension is free software; it is distributed under the MPL 2.0 License.
 
-Copyright © 2014-2018, [Moez Bouhlel](https://lejenome.github.io/)
+Copyright © 2014-2020, [Moez Bouhlel](https://lejenome.github.io/)
 (<bmoez.j@gmail.com>) &
 [The Contributors](https://github.com/lejenome/html5-video-everywhere/graphs/contributors)
