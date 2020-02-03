@@ -144,10 +144,9 @@ const extCopy = () => {
   return gulp.src('./manifest.json').pipe(gulp.dest(dist));
 };
 
-const docsJs = (cb) => {
-  jsdoc(require('./jsdoc.json'));
-  cb();
-};
+const docsJs = (cb) =>
+  gulp.src(['./content/**/*.js'], {read: false})
+    .pipe(jsdoc(require('./jsdoc.json'), cb));
 
 const extCompile = (cb) => {
   const scripts = ExtJSFiles.map((f) => {
