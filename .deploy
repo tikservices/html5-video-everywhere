@@ -10,7 +10,7 @@ export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 ENV=${1:-dev}
 
 if [ -e "package.json" ]; then
-	yarn --production --link-duplicates --non-interactive --no-audit --ignore-engines install
+	yarn --link-duplicates --non-interactive --no-audit --ignore-engines install
 
 	npx gulp docs
 fi
